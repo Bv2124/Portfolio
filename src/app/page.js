@@ -161,8 +161,8 @@ export default function Home() {
         <div className="max-w-6xl mx-auto text-center">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Hi, I&apos;m 
-              <span className="gradient-text">Vigneshwaran</span>
+              Hi, I&apos;m  
+              <span className="gradient-text"> Vigneshwaran</span>
               <br />
               <span className="text-3xl sm:text-4xl lg:text-5xl">Software Developer</span>
             </h1>
