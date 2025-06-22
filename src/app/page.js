@@ -161,7 +161,8 @@ export default function Home() {
         <div className="max-w-6xl mx-auto text-center">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Hi, I'm <span className="gradient-text">Vigneshwaran</span>
+              Hi,<p>I&apos;m </p> ✅
+              <span className="gradient-text">Vigneshwaran</span>
               <br />
               <span className="text-3xl sm:text-4xl lg:text-5xl">Software Developer</span>
             </h1>
@@ -216,18 +217,18 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                I'm a passionate React & React Native Developer based in <strong>Coimbatore, India</strong>,
+              <p>I&apos;m a </p>passionate React & React Native Developer based in <strong>Coimbatore, India</strong>,
                 with over <strong>2 years of experience</strong> specializing in building offline-first,
                 high-performance mobile applications.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                Currently at <strong>Nanosoft Engineers Pvt Ltd</strong>, I've led the development of mobile apps
+                Currently at <strong>Nanosoft Engineers Pvt Ltd</strong>, <p>I&apos;ve</p> led the development of mobile apps
                 that serve <strong>2000+ field technicians globally</strong>. My expertise lies in creating
                 scalable architecture, implementing secure data solutions, and delivering blazing-fast UI
                 experiences across Android and iOS platforms.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                I'm proficient in <strong>Redux</strong>, <strong>Context API</strong>, and
+              <p>I&apos;m</p>              proficient in <strong>Redux</strong>, <strong>Context API</strong>, and
                 <strong> Next.js basics</strong>, enabling me to build robust apps and sleek user experiences
                 for both mobile and web platforms.
               </p>
@@ -393,12 +394,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Let's Build Something Powerful
+            <p>Let&apos;s</p> Build Something Powerful
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6"></div>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Ready to create code that works <strong>offline</strong>, performs <strong>reliably</strong>,
-              and <strong>scales with confidence</strong>? Let's connect!
+              and <strong>scales with confidence</strong>? <p>Let&apos;s</p> connect!
             </p>
           </div>
 
@@ -495,7 +496,7 @@ export default function Home() {
             <h3 className="text-2xl font-bold gradient-text mb-4">Vigneshwaran B</h3>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Passionate about building mobile apps that work offline, perform reliably, and scale with confidence.
-              Let's create something amazing together!
+              <p>Let&apos;s</p> create something amazing together!
             </p>
           </div>
 
