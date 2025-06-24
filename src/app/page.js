@@ -33,7 +33,44 @@ import {
 import ScrollProgressBar from './components/Scrollable'
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false)
+  const roles = [
+    "Hybrid Mobile App Developer",
+    "React Web Developer", 
+    "Next.js Developer"
+  ];
+  
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [charIndex, setCharIndex] = useState(0);
+  useEffect(() => {
+    const currentRole = roles[currentRoleIndex];
+    
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        // Typing
+        if (charIndex < currentRole.length) {
+          setDisplayText(currentRole.substring(0, charIndex + 1));
+          setCharIndex(charIndex + 1);
+        } else {
+          // Pause before deleting
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        // Deleting
+        if (charIndex > 0) {
+          setDisplayText(currentRole.substring(0, charIndex - 1));
+          setCharIndex(charIndex - 1);
+        } else {
+          // Move to next role
+          setIsDeleting(false);
+          setCurrentRoleIndex((currentRoleIndex + 1) % roles.length);
+        }
+      }
+    }, isDeleting ? 50 : 100); // Faster deletion, slower typing
 
+    return () => clearTimeout(timer);
+  }, [charIndex, isDeleting, currentRoleIndex, roles]);
   useEffect(() => {
     setIsVisible(true)
   }, [])
@@ -160,16 +197,40 @@ export default function Home() {
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
           <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Hi, I&apos;m  
-              <span className="gradient-text"> Vigneshwaran</span>
-              <br />
-              <span className="text-3xl sm:text-4xl lg:text-5xl">Software Developer</span>
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Building secure, <strong>offline-first mobile experiences</strong> with React Native, Redux, and scalable architecture.
-              Empowering 2000+ field technicians globally with high-performance apps.
-            </p>
+            <>
+              <div className="text-center max-w-5xl mx-auto">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+                  Hi I&apos;m
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Vigneshwaran</span>
+                  <br />
+                  <span className="text-3xl sm:text-4xl lg:text-4xl">
+                    {displayText}
+                    <span className="animate-pulse">|</span>
+                  </span>
+                </h1>
+                <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                  Passionate about creating innovative digital solutions and bringing ideas to life through code.
+                </p>
+              </div>
+            </>
+
+            <div className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed space-y-7">
+              <p>
+                🚀 Passionate about crafting <strong>game-changing mobile experiences</strong> that work everywhere!
+                Specializing in bulletproof offline-first architecture with React Native & SQLite that keeps
+                <strong>2000+ field technicians powered up</strong> across the globe.
+              </p>
+
+              <p>
+                From zero connectivity zones to lightning-fast syncing - I build apps that never let you down!
+                🔥 <strong>Fast learner & tech explorer</strong> - currently mastering React Web & Next.js to expand
+                from mobile-first to full-stack powerhouse!
+              </p>
+
+              <p>
+                💪 Ready to transform your next big idea into mobile magic? ✨
+              </p>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
                 href="#projects"
@@ -193,10 +254,10 @@ export default function Home() {
 
             </div>
           </div>
-          <div className="mt-16 animate-bounce" onClick={()=> {
+          <div className="mt-16 animate-bounce" onClick={() => {
             const e = document.getElementById("about")
-            if(e){
-              e.scrollIntoView({behavior:"smooth"})
+            if (e) {
+              e.scrollIntoView({ behavior: "smooth" })
             }
           }}>
             <ChevronDown className="mx-auto text-gray-400" size={32} />
@@ -217,7 +278,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              I&apos;m a passionate React & React Native Developer based in <strong>Coimbatore, India</strong>,
+                I&apos;m a passionate React & React Native Developer based in <strong>Coimbatore, India</strong>,
                 with over <strong>2 years of experience</strong> specializing in building offline-first,
                 high-performance mobile applications.
               </p>
@@ -228,7 +289,7 @@ export default function Home() {
                 experiences across Android and iOS platforms.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              I&apos;m proficient in <strong>Redux</strong>, <strong>Context API</strong>, and
+                I&apos;m proficient in <strong>Redux</strong>, <strong>Context API</strong>, and
                 <strong> Next.js basics</strong>, enabling me to build robust apps and sleek user experiences
                 for both mobile and web platforms.
               </p>
@@ -394,7 +455,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Let&apos;s Build Something Powerful
+              Let&apos;s Build Something Powerful
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6"></div>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
@@ -404,103 +465,103 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
-          <div className="space-y-6 animate-fade-in-up">
-  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
-    Get In Touch
-  </h3>
+            <div className="space-y-6 animate-fade-in-up">
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+                Get In Touch
+              </h3>
 
-  {/* Phone */}
-  <a
-    href="tel:+919487941025"
-    className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
-  >
-    <Phone className="text-green-600" size={24} />
-    <div>
-      <div className="font-semibold text-gray-900 dark:text-white">Phone / Whatsapp</div>
-      <div className="text-gray-600 dark:text-gray-300">+91 9487941025</div>
-      <div className="text-gray-600 dark:text-gray-300">+91 8610075771</div>
-    </div>
-  </a>
+              {/* Phone */}
+              <a
+                href="tel:+919487941025"
+                className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
+              >
+                <Phone className="text-green-600" size={24} />
+                <div>
+                  <div className="font-semibold text-gray-900 dark:text-white">Phone / Whatsapp</div>
+                  <div className="text-gray-600 dark:text-gray-300">+91 9487941025</div>
+                  <div className="text-gray-600 dark:text-gray-300">+91 8610075771</div>
+                </div>
+              </a>
 
-  {/* Email */}
-  <a
-    href="mailto:bvjamalian@gmail.com"
-    className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
-  >
-    <Mail className="text-blue-600" size={24} />
-    <div>
-      <div className="font-semibold text-gray-900 dark:text-white">Email</div>
-      <div className="text-gray-600 dark:text-gray-300">bvjamalian@gmail.com</div>
-    </div>
-  </a>
+              {/* Email */}
+              <a
+                href="mailto:bvjamalian@gmail.com"
+                className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
+              >
+                <Mail className="text-blue-600" size={24} />
+                <div>
+                  <div className="font-semibold text-gray-900 dark:text-white">Email</div>
+                  <div className="text-gray-600 dark:text-gray-300">bvjamalian@gmail.com</div>
+                </div>
+              </a>
 
-  {/* LinkedIn */}
-  <a
-    href="https://linkedin.com/in/vignesh-waran-18599a2b2"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
-  >
-    <Linkedin className="text-blue-600" size={24} />
-    <div>
-      <div className="font-semibold text-gray-900 dark:text-white">LinkedIn</div>
-      <div className="text-gray-600 dark:text-gray-300">Connect with me</div>
-    </div>
-  </a>
+              {/* LinkedIn */}
+              <a
+                href="https://linkedin.com/in/vignesh-waran-18599a2b2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
+              >
+                <Linkedin className="text-blue-600" size={24} />
+                <div>
+                  <div className="font-semibold text-gray-900 dark:text-white">LinkedIn</div>
+                  <div className="text-gray-600 dark:text-gray-300">Connect with me</div>
+                </div>
+              </a>
 
-  {/* GitHub */}
-  <a
-    href="https://github.com/Bv2124"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
-  >
-    <Github className="text-gray-700 dark:text-gray-300" size={24} />
-    <div>
-      <div className="font-semibold text-gray-900 dark:text-white">GitHub</div>
-      <div className="text-gray-600 dark:text-gray-300">Check out my code</div>
-    </div>
-  </a>
-</div>
+              {/* GitHub */}
+              <a
+                href="https://github.com/Bv2124"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
+              >
+                <Github className="text-gray-700 dark:text-gray-300" size={24} />
+                <div>
+                  <div className="font-semibold text-gray-900 dark:text-white">GitHub</div>
+                  <div className="text-gray-600 dark:text-gray-300">Check out my code</div>
+                </div>
+              </a>
+            </div>
 
 
-<div className="bg-gradient-to-br from-blue-600 to-purple-600 p-8 rounded-2xl text-white">
-  <h3 className="text-2xl font-bold mb-6">Why Work With Me?</h3>
-  <ul className="space-y-4">
-    <li className="flex items-start gap-3">
-      <Shield className="mt-1 flex-shrink-0" size={20} />
-      <span><strong>Security-First:</strong> Encrypted storage and secure authentication flows</span>
-    </li>
-    <li className="flex items-start gap-3">
-      <Zap className="mt-1 flex-shrink-0" size={20} />
-      <span><strong>Performance-Driven:</strong> Optimized for speed and efficiency</span>
-    </li>
-    <li className="flex items-start gap-3">
-      <Smartphone className="mt-1 flex-shrink-0" size={20} />
-      <span><strong>Cross-Platform:</strong> Native performance on both iOS and Android</span>
-    </li>
-    <li className="flex items-start gap-3">
-      <Database className="mt-1 flex-shrink-0" size={20} />
-      <span><strong>Offline-Ready:</strong> Works seamlessly without internet connectivity</span>
-    </li>
-    <li className="flex items-start gap-3">
-      <Code className="mt-1 flex-shrink-0" size={20} />
-      <span><strong>Clean Architecture:</strong> Scalable and maintainable codebase with reusable components</span>
-    </li>
-    <li className="flex items-start gap-3">
-      <Monitor className="mt-1 flex-shrink-0" size={20} />
-      <span><strong>Pixel-Perfect UI:</strong> Delightful user interfaces crafted with attention to detail</span>
-    </li>
-    <li className="flex items-start gap-3">
-      <Feather className="mt-1 flex-shrink-0" size={20} />
-      <span><strong>Design-Driven:</strong> Collaborates effectively with designers and follows best UX practices</span>
-    </li>
-    <li className="flex items-start gap-3">
-      <Globe className="mt-1 flex-shrink-0" size={20} />
-      <span><strong>Global Mindset:</strong> Builds apps that are localization-ready and timezone-aware</span>
-    </li>
-  </ul>
-</div>
+            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-8 rounded-2xl text-white">
+              <h3 className="text-2xl font-bold mb-6">Why Work With Me?</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <Shield className="mt-1 flex-shrink-0" size={20} />
+                  <span><strong>Security-First:</strong> Encrypted storage and secure authentication flows</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Zap className="mt-1 flex-shrink-0" size={20} />
+                  <span><strong>Performance-Driven:</strong> Optimized for speed and efficiency</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Smartphone className="mt-1 flex-shrink-0" size={20} />
+                  <span><strong>Cross-Platform:</strong> Native performance on both iOS and Android</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Database className="mt-1 flex-shrink-0" size={20} />
+                  <span><strong>Offline-Ready:</strong> Works seamlessly without internet connectivity</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Code className="mt-1 flex-shrink-0" size={20} />
+                  <span><strong>Clean Architecture:</strong> Scalable and maintainable codebase with reusable components</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Monitor className="mt-1 flex-shrink-0" size={20} />
+                  <span><strong>Pixel-Perfect UI:</strong> Delightful user interfaces crafted with attention to detail</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Feather className="mt-1 flex-shrink-0" size={20} />
+                  <span><strong>Design-Driven:</strong> Collaborates effectively with designers and follows best UX practices</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Globe className="mt-1 flex-shrink-0" size={20} />
+                  <span><strong>Global Mindset:</strong> Builds apps that are localization-ready and timezone-aware</span>
+                </li>
+              </ul>
+            </div>
 
           </div>
         </div>
