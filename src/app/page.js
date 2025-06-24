@@ -218,7 +218,7 @@ export default function Home() {
               <p>
                 🚀 Passionate about crafting <strong>game-changing mobile experiences</strong> that work everywhere!
                 Specializing in bulletproof offline-first architecture with React Native & SQLite that keeps
-                <strong>2000+ field technicians powered up</strong> across the globe.
+                <strong> 2000+ field technicians powered up</strong> across the globe.
               </p>
 
               <p>
@@ -284,7 +284,7 @@ export default function Home() {
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                 Currently at <strong>Nanosoft Engineers Pvt Ltd</strong>, I&apos;ve led the development of mobile apps
-                that serve <strong>2000+ field technicians globally</strong>. My expertise lies in creating
+                that serve <strong>2000 + field technicians globally</strong>. My expertise lies in creating
                 scalable architecture, implementing secure data solutions, and delivering blazing-fast UI
                 experiences across Android and iOS platforms.
               </p>
