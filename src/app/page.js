@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+<<<<<<< HEAD
 import {
   Github,
   Linkedin,
@@ -31,6 +32,7 @@ import {
   Server
 } from 'lucide-react'
 import ScrollProgressBar from './components/Scrollable'
+
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false)
 
