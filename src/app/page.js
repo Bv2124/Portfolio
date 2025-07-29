@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-<<<<<<< HEAD
 import {
   Github,
   Linkedin,
