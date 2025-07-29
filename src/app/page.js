@@ -33,6 +33,7 @@ import {
 import ScrollProgressBar from './components/Scrollable'
 
 export default function Home() {
+  const [isVisible, setIsVisible] = useState(false)
   useEffect(() => {
     setIsVisible(true)
   }, [])
