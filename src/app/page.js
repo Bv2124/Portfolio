@@ -33,8 +33,6 @@ import {
 import ScrollProgressBar from './components/Scrollable'
 
 export default function Home() {
-  const [isVisible, setIsVisible] = useState(false)
-
   useEffect(() => {
     setIsVisible(true)
   }, [])
@@ -138,6 +136,7 @@ export default function Home() {
 
 
   return (
+
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 bg-gradient-to-b from-blue-500 to-purple-600">
       <ScrollProgressBar />
       {/* Navigation */}
