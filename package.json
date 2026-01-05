@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build": "opennextjs-cloudflare",
     "start": "next start",
-    "lint": "next lint",
-    "build": "NEXT_DISABLE_ESLINT_PLUGIN=true next build"
+    "lint": "next lint"
   },
   "dependencies": {
     "lucide-react": "^0.263.1",
@@ -15,6 +15,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^0.2.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^8",
     "eslint-config-next": "14.0.0",
