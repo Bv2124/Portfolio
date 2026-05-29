@@ -1,0 +1,6 @@
+{
+  "name": "vigneshwaran-portfolio",
+  "compatibility_date": "2026-01-05",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": ".open-next/worker"
+}
