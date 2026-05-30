@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Github, ExternalLink, CheckCircle2 } from 'lucide-react'
+import { Github, ExternalLink, CheckCircle2, Lock } from 'lucide-react'
 import PropTypes from 'prop-types'
 import SectionHeading from './SectionHeading'
 
@@ -80,7 +80,7 @@ export default function Projects({ projects, githubUrl }) {
                 ))}
               </div>
 
-              {(project.github || project.live) && (
+              {(project.github || project.live) ? (
                 <div className="flex gap-4 mt-5 pt-4 border-t border-slate-800">
                   {project.github && (
                     <a href={project.github} target="_blank" rel="noreferrer"
@@ -94,6 +94,10 @@ export default function Projects({ projects, githubUrl }) {
                       <ExternalLink size={13} /> Live
                     </a>
                   )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 mt-5 pt-4 border-t border-slate-800 text-slate-500 text-xs font-mono">
+                  <Lock size={12} className="shrink-0" /> Private client project · code under NDA
                 </div>
               )}
             </div>

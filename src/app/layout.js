@@ -8,9 +8,11 @@ const inter = Inter({ subsets: ['latin'] })
 // SEO metadata derived from the same JSON source of truth.
 const { personal, skills } = data
 const pageTitle = `${personal.name} — ${personal.title}`
+// Longer, keyword-rich <title> for search ranking; OG/Twitter cards keep the clean pageTitle.
+const seoTitle = `${pageTitle} | React, Next.js, React Native & Python/Django`
 
 export const metadata = {
-  title:       pageTitle,
+  title:       seoTitle,
   description: personal.heroBio,
   keywords:    [...new Set(skills.map(s => s.name)), personal.title, personal.location].join(', '),
   authors:     [{ name: personal.name }],
