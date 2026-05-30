@@ -51,7 +51,7 @@
       "start": "2025-08",
       "end": null,
       "summary": "Building full-stack web applications for the Australian healthcare and aged-care sector.",
-      "tech": ["React", "Next.js", "Python", "Django", "PostgreSQL", "Strapi", "Salesforce"],
+      "tech": ["React", "Next.js", "Python", "Azure Functions", "Django", "PostgreSQL", "Strapi", "Salesforce"],
       "highlights": [
         "Built an online exam portal for secure, timed assessments",
         "Developed a therapy-scheduling platform for mental-health clinicians",
@@ -96,6 +96,7 @@
 
     { "name": "Python",         "iconName": "Braces",     "color": "text-yellow-400", "category": "Backend",  "level": "Intermediate", "levelPercent": 70 },
     { "name": "Django",         "iconName": "Server",     "color": "text-emerald-400","category": "Backend",  "level": "Basic",        "levelPercent": 45 },
+    { "name": "Azure Functions","iconName": "Cloud",      "color": "text-sky-400",    "category": "Backend",  "level": "Intermediate", "levelPercent": 70 },
     { "name": "Strapi CMS",     "iconName": "Cloud",      "color": "text-violet-400", "category": "Backend",  "level": "Intermediate", "levelPercent": 65 },
     { "name": "Firebase",       "iconName": "Flame",      "color": "text-orange-400", "category": "Backend",  "level": "Basic",        "levelPercent": 50 },
     { "name": "REST APIs",      "iconName": "Server",     "color": "text-emerald-400","category": "Backend",  "level": "Intermediate", "levelPercent": 75 },
@@ -126,9 +127,9 @@
     {
       "title": "Therapy Scheduling Platform",
       "type": "Web",
-      "description": "A scheduling platform for mental-health clinicians to manage client appointments, session notes and availability — streamlining therapy workflows end to end.",
-      "tech": ["React", "Django", "PostgreSQL", "Strapi"],
-      "highlights": ["Clinician calendars", "Session management", "Secure client records"],
+      "description": "A scheduling platform for mental-health clinicians to manage client appointments, session notes and availability — streamlining therapy workflows end to end. Backend built as a serverless app of 13 Azure Functions in raw Python.",
+      "tech": ["React", "Azure Functions", "Python", "PostgreSQL"],
+      "highlights": ["Clinician calendars & scheduling", "13 serverless Python Azure Functions", "Secure client records"],
       "github": null,
       "live": null
     },
@@ -142,38 +143,38 @@
       "live": null
     },
     {
-      "title": "Mission-Critical Enterprise App",
+      "title": "Facility Management App",
       "type": "Mobile",
-      "description": "Offline-first mobile solution for 2,000+ field technicians with encrypted local storage, barcode scanning and intelligent media capture for seamless enterprise operations.",
+      "description": "Cross-platform React Native app used by 2,000+ field technicians, featuring offline-first data sync, encrypted local storage, barcode scanning and media capture for reliable operation without connectivity.",
       "tech": ["React Native", "Redux Toolkit", "SQLite", "Firebase"],
-      "highlights": ["Zero-downtime operations", "Encrypted local storage", "Cross-platform excellence"],
+      "highlights": ["Offline-first data sync", "Encrypted local storage (AES)", "iOS & Android support"],
       "github": null,
       "live": null
     },
     {
-      "title": "Customer Experience Command Center",
+      "title": "Customer Handling App",
       "type": "Mobile",
-      "description": "Dynamic CRM platform with live visit tracking, instant service escalation, digital signatures and intelligent retry mechanisms for robust field operations.",
-      "tech": ["React Native", "Redux", "SQLite", "Custom APIs"],
-      "highlights": ["Real-time client intelligence", "Professional documentation", "Bulletproof sync"],
+      "description": "Mobile CRM for field teams with live visit tracking, service-escalation workflows, digital signature capture and automatic retry-based sync to keep records consistent across devices.",
+      "tech": ["React Native", "Redux", "SQLite", "REST APIs"],
+      "highlights": ["Real-time visit tracking", "Digital signature capture", "Automatic retry sync"],
       "github": null,
       "live": null
     },
     {
-      "title": "Smart Attendance System",
+      "title": "Attendance App",
       "type": "Mobile",
-      "description": "GPS-powered workforce management with geofencing, QR validation and offline logging — handles attendance in remote areas with precision.",
-      "tech": ["React Native", "Redux", "SQLite", "GeoLocation"],
-      "highlights": ["GPS-intelligent validation", "Offline-first resilience", "Enterprise scalability"],
+      "description": "Workforce attendance app with GPS geofencing, QR-code validation and offline logging, enabling accurate check-in/check-out for remote and low-connectivity work sites.",
+      "tech": ["React Native", "Redux", "SQLite", "Geolocation"],
+      "highlights": ["GPS geofencing", "QR-code validation", "Offline attendance logging"],
       "github": null,
       "live": null
     },
     {
-      "title": "WebView Hybrid Application",
+      "title": "Hybrid WebView Mobile App",
       "type": "Mobile",
-      "description": "Converted web-based enterprise systems into native apps using react-native-webview with hybrid architecture and optimized rendering for smooth performance.",
+      "description": "Packaged existing web-based enterprise systems into native iOS and Android apps using react-native-webview, with a hybrid architecture and optimized rendering for smooth performance.",
       "tech": ["React Native", "WebView"],
-      "highlights": ["Hybrid architecture", "Native integration", "Performance optimization"],
+      "highlights": ["Hybrid web/native architecture", "Native device integration", "Optimized rendering"],
       "github": null,
       "live": null
     }
