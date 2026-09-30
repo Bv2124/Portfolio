@@ -1,8 +1,8 @@
 import { GraduationCap, Award } from 'lucide-react'
-import PropTypes from 'prop-types'
-import SectionHeading from './SectionHeading'
+import SectionHeading from '@/components/ui/SectionHeading'
+import type { EducationItem } from '@/lib/types'
 
-export default function Education({ education }) {
+export default function Education({ education }: { education: EducationItem[] }) {
   return (
     <section id="education" className="py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-6xl mx-auto">
@@ -46,14 +46,4 @@ export default function Education({ education }) {
       </div>
     </section>
   )
-}
-
-Education.propTypes = {
-  education: PropTypes.arrayOf(PropTypes.shape({
-    type:          PropTypes.string.isRequired,
-    qualification: PropTypes.string.isRequired,
-    institution:   PropTypes.string.isRequired,
-    period:        PropTypes.string.isRequired,
-    note:          PropTypes.string,
-  })).isRequired,
 }

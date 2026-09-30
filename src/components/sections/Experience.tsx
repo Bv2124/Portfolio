@@ -1,12 +1,12 @@
 'use client'
 
 import { Briefcase, MapPin, CheckCircle2 } from 'lucide-react'
-import PropTypes from 'prop-types'
-import SectionHeading from './SectionHeading'
-import useNow from '../hooks/useNow'
-import { formatRange, formatDuration } from '../lib/experience'
+import SectionHeading from '@/components/ui/SectionHeading'
+import useNow from '@/hooks/useNow'
+import { formatRange, formatDuration } from '@/lib/experience'
+import type { Job } from '@/lib/types'
 
-export default function Experience({ experience }) {
+export default function Experience({ experience }: { experience: Job[] }) {
   const now = useNow()
 
   return (
@@ -16,7 +16,7 @@ export default function Experience({ experience }) {
 
         {/* Timeline */}
         <div className="relative border-l border-slate-800 ml-3 sm:ml-4 space-y-10">
-          {experience.map((job, i) => {
+          {experience.map(job => {
             const isCurrent = !job.end
             return (
               <div  key={job.company} className="relative pl-8 sm:pl-10">
@@ -91,17 +91,4 @@ export default function Experience({ experience }) {
       </div>
     </section>
   )
-}
-
-Experience.propTypes = {
-  experience: PropTypes.arrayOf(PropTypes.shape({
-    company:    PropTypes.string.isRequired,
-    role:       PropTypes.string.isRequired,
-    location:   PropTypes.string.isRequired,
-    start:      PropTypes.string.isRequired,
-    end:        PropTypes.string,
-    summary:    PropTypes.string.isRequired,
-    tech:       PropTypes.arrayOf(PropTypes.string).isRequired,
-    highlights: PropTypes.arrayOf(PropTypes.string).isRequired,
-  })).isRequired,
 }

@@ -20,14 +20,6 @@ body {
   color: #e2e8f0;
 }
 
-/* ── Color tokens ───────────────────────────────────────────── */
-:root {
-  --c-bg:      #020617;
-  --c-surface: #0f172a;
-  --c-border:  rgba(148,163,184,.12);
-  --c-accent:  #3b82f6;
-}
-
 /* ── Terminal window ────────────────────────────────────────── */
 .terminal-window {
   background: #0d1424;
@@ -64,31 +56,4 @@ body {
 /* ── Section alternating tint ───────────────────────────────── */
 .section-alt {
   background: rgba(15,23,42,.55);
-}
-
-/* ── Gradient text helper ───────────────────────────────────── */
-.gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Card hover lift ────────────────────────────────────────── */
-.card-hover {
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -8px rgba(0,0,0,.4);
-}
-
-/* ── Keyframe animations ────────────────────────────────────── */
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0);    }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up .7s ease-out both;
 }

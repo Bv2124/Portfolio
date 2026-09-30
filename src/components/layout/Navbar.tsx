@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Download, Menu, X } from 'lucide-react'
-import PropTypes from 'prop-types'
-import useScrolled from '../hooks/useScrolled'
-import useActiveSection from '../hooks/useActiveSection'
+import useScrolled from '@/hooks/useScrolled'
+import useActiveSection from '@/hooks/useActiveSection'
+import type { Personal } from '@/lib/types'
 
 const NAV_LINKS = [
   { id: 'about',      label: 'About'      },
@@ -13,10 +13,10 @@ const NAV_LINKS = [
   { id: 'projects',   label: 'Projects'   },
   { id: 'education',  label: 'Education'  },
   { id: 'contact',    label: 'Contact'    },
-]
+] as const
 const SECTION_IDS = NAV_LINKS.map(l => l.id)
 
-export default function Navbar({ personal }) {
+export default function Navbar({ personal }: { personal: Pick<Personal, 'firstName' | 'resume'> }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const scrolled = useScrolled(20)
   const active = useActiveSection(SECTION_IDS)
@@ -24,7 +24,7 @@ export default function Navbar({ personal }) {
   // Close the mobile drawer on Escape.
   useEffect(() => {
     if (!menuOpen) return undefined
-    const onKey = e => { if (e.key === 'Escape') setMenuOpen(false) }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenuOpen(false) }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [menuOpen])
@@ -114,11 +114,4 @@ export default function Navbar({ personal }) {
       )}
     </nav>
   )
-}
-
-Navbar.propTypes = {
-  personal: PropTypes.shape({
-    firstName: PropTypes.string.isRequired,
-    resume:    PropTypes.string.isRequired,
-  }).isRequired,
 }

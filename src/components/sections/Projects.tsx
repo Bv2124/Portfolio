@@ -2,10 +2,15 @@
 
 import { useMemo, useState } from 'react'
 import { Github, ExternalLink, CheckCircle2, Lock } from 'lucide-react'
-import PropTypes from 'prop-types'
-import SectionHeading from './SectionHeading'
+import SectionHeading from '@/components/ui/SectionHeading'
+import type { Project } from '@/lib/types'
 
-export default function Projects({ projects, githubUrl }) {
+interface ProjectsProps {
+  projects: Project[]
+  githubUrl: string
+}
+
+export default function Projects({ projects, githubUrl }: ProjectsProps) {
   // Filter tabs are derived from the data: "All" + each distinct type present.
   const types = useMemo(
     () => ['All', ...Array.from(new Set(projects.map(p => p.type).filter(Boolean)))],
@@ -119,17 +124,4 @@ export default function Projects({ projects, githubUrl }) {
       </div>
     </section>
   )
-}
-
-Projects.propTypes = {
-  projects: PropTypes.arrayOf(PropTypes.shape({
-    title:       PropTypes.string.isRequired,
-    type:        PropTypes.string,
-    description: PropTypes.string.isRequired,
-    tech:        PropTypes.arrayOf(PropTypes.string).isRequired,
-    highlights:  PropTypes.arrayOf(PropTypes.string).isRequired,
-    github:      PropTypes.string,
-    live:        PropTypes.string,
-  })).isRequired,
-  githubUrl: PropTypes.string.isRequired,
 }

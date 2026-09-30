@@ -1,20 +1,25 @@
 'use client'
 
 import { MapPin } from 'lucide-react'
-import PropTypes from 'prop-types'
-import SectionHeading from './SectionHeading'
-import BoldText from './BoldText'
-import useNow from '../hooks/useNow'
-import { yearsSince } from '../lib/experience'
+import SectionHeading from '@/components/ui/SectionHeading'
+import BoldText from '@/components/ui/BoldText'
+import useNow from '@/hooks/useNow'
+import { yearsSince } from '@/lib/experience'
+import type { About as AboutData, Personal } from '@/lib/types'
 
-const ACHIEVEMENT_COLORS = {
+const ACHIEVEMENT_COLORS: Record<AboutData['achievements'][number]['color'], string> = {
   blue:   'bg-blue-500',
   purple: 'bg-violet-500',
   green:  'bg-emerald-500',
   orange: 'bg-orange-500',
 }
 
-export default function About({ personal, about }) {
+interface AboutProps {
+  personal: Personal
+  about: AboutData
+}
+
+export default function About({ personal, about }: AboutProps) {
   const now = useNow()
   const years = now ? yearsSince(personal.careerStart, now) : personal.yearsExperienceFallback
 
@@ -56,15 +61,4 @@ export default function About({ personal, about }) {
       </div>
     </section>
   )
-}
-
-About.propTypes = {
-  personal: PropTypes.object.isRequired,
-  about: PropTypes.shape({
-    paragraphs:   PropTypes.arrayOf(PropTypes.string).isRequired,
-    achievements: PropTypes.arrayOf(PropTypes.shape({
-      text:  PropTypes.string.isRequired,
-      color: PropTypes.string.isRequired,
-    })).isRequired,
-  }).isRequired,
 }

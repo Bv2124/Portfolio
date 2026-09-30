@@ -1,7 +1,10 @@
-import PropTypes from 'prop-types'
+interface SectionHeadingProps {
+  number: string
+  title: string
+}
 
 // Numbered section header — "01. About Me" with an accent underline.
-export default function SectionHeading({ number, title }) {
+export default function SectionHeading({ number, title }: SectionHeadingProps) {
   return (
     <div className="mb-14">
       <p className="font-mono text-xs text-blue-400/70 mb-2 tracking-widest">{number}.</p>
@@ -9,9 +12,4 @@ export default function SectionHeading({ number, title }) {
       <div className="w-14 h-0.5 bg-gradient-to-r from-blue-500 to-violet-500" />
     </div>
   )
-}
-
-SectionHeading.propTypes = {
-  number: PropTypes.string.isRequired,
-  title:  PropTypes.string.isRequired,
 }

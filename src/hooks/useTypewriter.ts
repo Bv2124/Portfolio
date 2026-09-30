@@ -2,10 +2,19 @@
 
 import { useEffect, useState } from 'react'
 
+interface TypewriterOptions {
+  typeSpeed?: number
+  deleteSpeed?: number
+  pause?: number
+}
+
 // Cycles through `words` with a type/delete animation.
 // One self-cleaning timeout per tick — the pause at a full word is just a
 // longer delay, so there are never stacked/orphaned timers (the original bug).
-export default function useTypewriter(words, { typeSpeed = 100, deleteSpeed = 50, pause = 2000 } = {}) {
+export default function useTypewriter(
+  words: readonly string[],
+  { typeSpeed = 100, deleteSpeed = 50, pause = 2000 }: TypewriterOptions = {}
+): string {
   const [text, setText] = useState('')
   const [index, setIndex] = useState(0)
   const [deleting, setDeleting] = useState(false)
@@ -13,7 +22,7 @@ export default function useTypewriter(words, { typeSpeed = 100, deleteSpeed = 50
   useEffect(() => {
     if (!words.length) return undefined
 
-    const word = words[index % words.length]
+    const word = words[index % words.length] ?? ''
     const atFullWord = !deleting && text === word
     const atEmpty = deleting && text === ''
 

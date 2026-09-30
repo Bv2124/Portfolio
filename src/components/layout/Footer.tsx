@@ -1,10 +1,12 @@
 'use client'
 
 import { Github, Linkedin, Mail } from 'lucide-react'
-import PropTypes from 'prop-types'
-import useNow from '../hooks/useNow'
+import useNow from '@/hooks/useNow'
+import type { Personal } from '@/lib/types'
 
-export default function Footer({ personal }) {
+type FooterPersonal = Pick<Personal, 'name' | 'footerBio' | 'github' | 'linkedin' | 'email' | 'copyrightYear'>
+
+export default function Footer({ personal }: { personal: FooterPersonal }) {
   const now = useNow()
   // Live current year, with the JSON value as the pre-mount fallback.
   const year = now ? now.getFullYear() : personal.copyrightYear
@@ -38,15 +40,4 @@ export default function Footer({ personal }) {
       </div>
     </footer>
   )
-}
-
-Footer.propTypes = {
-  personal: PropTypes.shape({
-    name:          PropTypes.string.isRequired,
-    footerBio:     PropTypes.string.isRequired,
-    github:        PropTypes.string.isRequired,
-    linkedin:      PropTypes.string.isRequired,
-    email:         PropTypes.string.isRequired,
-    copyrightYear: PropTypes.number.isRequired,
-  }).isRequired,
 }

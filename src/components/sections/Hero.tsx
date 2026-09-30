@@ -2,12 +2,19 @@
 
 import { useEffect, useState } from 'react'
 import { ArrowRight, ChevronDown, Download } from 'lucide-react'
-import PropTypes from 'prop-types'
-import useTypewriter from '../hooks/useTypewriter'
-import useNow from '../hooks/useNow'
-import { yearsSince } from '../lib/experience'
+import useTypewriter from '@/hooks/useTypewriter'
+import useNow from '@/hooks/useNow'
+import { yearsSince } from '@/lib/experience'
+import type { Personal } from '@/lib/types'
 
-export default function Hero({ personal, roles, projectCount, skillCount }) {
+interface HeroProps {
+  personal: Personal
+  roles: string[]
+  projectCount: number
+  skillCount: number
+}
+
+export default function Hero({ personal, roles, projectCount, skillCount }: HeroProps) {
   const [visible, setVisible] = useState(false)
   const displayText = useTypewriter(roles)
   const now = useNow()
@@ -127,11 +134,4 @@ export default function Hero({ personal, roles, projectCount, skillCount }) {
       </button>
     </section>
   )
-}
-
-Hero.propTypes = {
-  personal:     PropTypes.object.isRequired,
-  roles:        PropTypes.arrayOf(PropTypes.string).isRequired,
-  projectCount: PropTypes.number.isRequired,
-  skillCount:   PropTypes.number.isRequired,
 }

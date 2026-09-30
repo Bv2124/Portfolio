@@ -1,9 +1,18 @@
+import type { ReactNode } from 'react'
 import { Github, Linkedin, Mail, Phone } from 'lucide-react'
-import PropTypes from 'prop-types'
-import SectionHeading from './SectionHeading'
-import { getIcon } from '../lib/icons'
+import SectionHeading from '@/components/ui/SectionHeading'
+import { getIcon } from '@/lib/icons'
+import type { Personal, WhyItem } from '@/lib/types'
 
-function ContactCard({ href, icon, label, children, external }) {
+interface ContactCardProps {
+  href: string
+  icon: ReactNode
+  label: string
+  children: ReactNode
+  external?: boolean
+}
+
+function ContactCard({ href, icon, label, children, external = false }: ContactCardProps) {
   return (
     <a
       href={href}
@@ -18,16 +27,15 @@ function ContactCard({ href, icon, label, children, external }) {
     </a>
   )
 }
-ContactCard.propTypes = {
-  href:     PropTypes.string.isRequired,
-  icon:     PropTypes.node.isRequired,
-  label:    PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  external: PropTypes.bool,
-}
-ContactCard.defaultProps = { external: false }
 
-export default function Contact({ personal, whyHireMe }) {
+interface ContactProps {
+  personal: Personal
+  whyHireMe: WhyItem[]
+}
+
+export default function Contact({ personal, whyHireMe }: ContactProps) {
+  const [primaryPhone = ''] = personal.phones
+
   return (
     <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 section-alt scroll-mt-16">
       <div className="max-w-6xl mx-auto">
@@ -41,7 +49,7 @@ export default function Contact({ personal, whyHireMe }) {
             </p>
 
             <ContactCard
-              href={`tel:${personal.phones[0].replace(/\s/g, '')}`}
+              href={`tel:${primaryPhone.replace(/\s/g, '')}`}
               icon={<Phone size={18} className="text-emerald-400" />}
               label="Phone / WhatsApp"
             >
@@ -101,18 +109,4 @@ export default function Contact({ personal, whyHireMe }) {
       </div>
     </section>
   )
-}
-
-Contact.propTypes = {
-  personal: PropTypes.shape({
-    phones:   PropTypes.arrayOf(PropTypes.string).isRequired,
-    email:    PropTypes.string.isRequired,
-    linkedin: PropTypes.string.isRequired,
-    github:   PropTypes.string.isRequired,
-  }).isRequired,
-  whyHireMe: PropTypes.arrayOf(PropTypes.shape({
-    iconName:    PropTypes.string.isRequired,
-    title:       PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  })).isRequired,
 }

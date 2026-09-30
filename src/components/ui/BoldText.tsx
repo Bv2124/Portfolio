@@ -1,7 +1,5 @@
-import PropTypes from 'prop-types'
-
 // Renders inline **bold** markdown from a plain string.
-export default function BoldText({ text }) {
+export default function BoldText({ text }: { text: string }) {
   const parts = text.split(/\*\*(.*?)\*\*/)
   return parts.map((part, i) =>
     i % 2 === 1
@@ -9,5 +7,3 @@ export default function BoldText({ text }) {
       : part
   )
 }
-
-BoldText.propTypes = { text: PropTypes.string.isRequired }

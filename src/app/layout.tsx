@@ -1,7 +1,8 @@
 import './globals.css'
+import type { Metadata, Viewport } from 'next'
+import type { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
-import PropTypes from 'prop-types'
-import data from './data/portfolio.json'
+import data from '@/lib/data'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,7 +12,7 @@ const pageTitle = `${personal.name} — ${personal.title}`
 // Longer, keyword-rich <title> for search ranking; OG/Twitter cards keep the clean pageTitle.
 const seoTitle = `${pageTitle} | React, Next.js, React Native & Python/Django`
 
-export const metadata = {
+export const metadata: Metadata = {
   title:       seoTitle,
   description: personal.heroBio,
   keywords:    [...new Set(skills.map(s => s.name)), personal.title, personal.location].join(', '),
@@ -28,19 +29,17 @@ export const metadata = {
   },
 }
 
-export const viewport = {
+export const viewport: Viewport = {
   width:        'device-width',
   initialScale: 1,
 }
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`scroll-smooth dark ${inter.className}`}>
-      <head />
+    <html lang="en" className={`scroll-smooth ${inter.className}`}>
       <body className="overflow-x-hidden bg-slate-950">
         {children}
       </body>
     </html>
   )
 }
-RootLayout.propTypes = { children: PropTypes.node.isRequired }
