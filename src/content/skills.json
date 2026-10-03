@@ -1,0 +1,99 @@
+{
+  "groups": [
+    {
+      "name": "Languages",
+      "iconName": "Braces",
+      "items": [
+        { "name": "JavaScript", "note": "ES6+" },
+        { "name": "TypeScript" },
+        { "name": "Python", "core": true },
+        { "name": "SQL" }
+      ]
+    },
+    {
+      "name": "Frontend",
+      "iconName": "Monitor",
+      "items": [
+        { "name": "React", "core": true },
+        { "name": "Next.js", "core": true },
+        { "name": "Redux Toolkit" },
+        { "name": "Context API" },
+        { "name": "Tailwind CSS" },
+        { "name": "Bootstrap" },
+        { "name": "HTML5" },
+        { "name": "CSS3" }
+      ]
+    },
+    {
+      "name": "Backend",
+      "iconName": "Server",
+      "items": [
+        { "name": "Django", "core": true },
+        { "name": "Django ORM" },
+        { "name": "Node.js", "core": true },
+        { "name": "RESTful API design" },
+        { "name": "Strapi", "note": "headless CMS" },
+        { "name": "Firebase" }
+      ]
+    },
+    {
+      "name": "Databases",
+      "iconName": "Database",
+      "items": [
+        { "name": "PostgreSQL", "note": "schema design, query optimization, migrations", "core": true },
+        { "name": "MySQL" },
+        { "name": "SQLite" }
+      ]
+    },
+    {
+      "name": "Testing & QA",
+      "iconName": "TestTube2",
+      "items": [
+        { "name": "Pytest" },
+        { "name": "Playwright for Python", "note": "end-to-end browser automation" },
+        { "name": "Regression and smoke testing" }
+      ]
+    },
+    {
+      "name": "Cloud & CI/CD",
+      "iconName": "Cloud",
+      "items": [
+        { "name": "Microsoft Azure" },
+        { "name": "Vercel" },
+        { "name": "GitHub Actions" }
+      ]
+    },
+    {
+      "name": "Mobile",
+      "iconName": "Smartphone",
+      "items": [
+        { "name": "React Native", "note": "CLI", "core": true },
+        { "name": "AsyncStorage" },
+        { "name": "Android Studio" },
+        { "name": "Xcode" },
+        { "name": "App Store & Play Store releases" }
+      ]
+    },
+    {
+      "name": "Integrations",
+      "iconName": "Plug",
+      "items": [
+        { "name": "Salesforce", "note": "data migration & integration" },
+        { "name": "Google Sheets API" }
+      ]
+    },
+    {
+      "name": "Tools & Practices",
+      "iconName": "Wrench",
+      "items": [
+        { "name": "Git" },
+        { "name": "GitHub" },
+        { "name": "Postman" },
+        { "name": "pgAdmin" },
+        { "name": "Code review" },
+        { "name": "Data migration & validation" },
+        { "name": "Production support" }
+      ]
+    }
+  ]
+}

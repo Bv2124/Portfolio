@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Vigneshwaran B — Portfolio
 
-## Getting Started
+[![CI](https://github.com/Bv2124/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Bv2124/Portfolio/actions/workflows/ci.yml)
 
-First, run the development server:
+Personal site of a Full-Stack Engineer: **<https://bv2124.vercel.app>**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+A statically exported Next.js site whose every fact comes from validated content files, tested
+end to end on desktop and mobile, accessible by default, and animated without hiding anything
+from crawlers, screen readers or people who prefer reduced motion.
+
+| Home | Case study | Mobile |
+|---|---|---|
+| ![Home page](docs/screenshots/home-desktop.png) | ![Case study page](docs/screenshots/case-study-desktop.png) | ![Home page on a phone](docs/screenshots/home-mobile.png) |
+
+## Highlights
+
+- **Content as data, validated.** All copy lives in `src/content/*.json` and is parsed by a zod
+  schema at build time. Types come from the schema, cross-references are checked, and a bad edit
+  fails the build with the exact field path.
+- **Case studies** at `/case-studies/<slug>/`, each with its own canonical URL, Open Graph card and
+  `TechArticle` structured data.
+- **Motion without the usual costs.** CSS-first animation, View Transitions for the project
+  filter, and no animation library. Nothing is hidden in the server HTML; reduced motion and
+  no-JS are tested modes.
+- **Accessible:**
+  - no serious or critical axe violations (WCAG 2.1 A/AA rules) on any page, checked in CI
+  - skip link and landmarks
+  - focus management in the mobile menu
+  - 44px tap targets and contrast-checked colour tokens
+- **Quality gates in CI:** lint, strict type-check, unit tests, build, Playwright on desktop and
+  mobile (smoke, accessibility, SEO, motion), and a Lighthouse budget.
+
+## Results
+
+Measured on the production build (`out/`):
+
+| Metric | Home | Case study |
+|---|---|---|
+| Lighthouse (desktop): performance / accessibility / best practices / SEO | 100 / 100 / 100 / 100 | 100 / 100 / 100 / 100 |
+| First-load JavaScript | 115 kB | 112 kB |
+| LCP, real Chrome, 4× CPU + slow 4G (median) | ≈ 1.5 s | — |
+| Unit tests / end-to-end tests | 91 / 154 (desktop + mobile) | |
+
+How the mobile figure was measured, and why real-browser numbers were preferred over Lighthouse's
+simulation on the development machine, is in [ADR 3](docs/adr/0003-motion-and-performance-budget.md).
+
+## Architecture
+
+```mermaid
+flowchart LR
+  A["src/content/*.json"] --> B["lib/content.ts<br/>zod schema · selectors · server-only"]
+  B --> C["Server components<br/>sections · case-study pages · metadata"]
+  C --> D["Small client islands<br/>nav · filter · typewriter · reveals"]
+  C --> E["next build<br/>static export"]
+  D --> E
+  E --> F["out/ → Vercel CDN"]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Pages are **server components**. Only interactive pieces are client components, and none of them
+  import the content module, so the JSON never ships to the browser.
+- Dates that change over time (years of experience, current job duration) render a build-time
+  value and correct themselves after load, so there is no hydration mismatch.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Key decisions
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. [Ship the site as a static export](docs/adr/0001-static-export.md)
+2. [Keep content in validated JSON, separate from components](docs/adr/0002-validated-json-content.md)
+3. [Motion is CSS-first, never hides content, and has a budget](docs/adr/0003-motion-and-performance-budget.md)
 
-## Learn More
+## Getting started
 
-To learn more about Next.js, take a look at the following resources:
+Requires Node 24 (see `.nvmrc`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm ci
+npm run dev                       # http://localhost:3000
+npx playwright install chromium   # once, for the end-to-end tests
+npm run verify                    # everything CI runs
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+| Command | What it does |
+|---|---|
+| `npm run dev` | Development server |
+| `npm run build` | Static export to `out/` (also lints and type-checks) |
+| `npm run preview` | Serve `out/` on http://localhost:4173 |
+| `npm run lint` | ESLint, zero warnings allowed |
+| `npm run typecheck` | `next typegen` + `tsc --noEmit` (strict) |
+| `npm test` | Vitest: date helpers, content schema, résumé-fidelity checks |
+| `npm run test:e2e` | Playwright against `out/`: smoke, accessibility (axe), SEO, motion |
+| `npm run verify` | All of the above, in order |
+| `npm run og` | Regenerate the link-preview image from the content |
+| `npm run screenshots` | Regenerate the screenshots above from the build |
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
+  app/              routes: layout, home, case-studies/[slug], sitemap, robots, 404
+  content/          the content (JSON) and its index
+  components/
+    layout/         navbar, footer, progress bar
+    sections/       home-page sections
+    case-study/     case-study page parts and visuals
+    motion/         reveal, count-up, spotlight, play-on-view, timeline
+    ui/             headings, rich text, live values
+  hooks/            small client hooks
+  lib/              schema, content selectors, date helpers, icons, section registry
+e2e/                Playwright specs
+docs/               ADRs, content guide, screenshots
+scripts/            OG image and screenshot generators
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To change what the site says, see the **[content guide](docs/content.md)**.
+
+`public/google53cb6bda22f1b3ca.html` is the Google Search Console ownership file. Keep it.
+
+## Licence
+
+Source code is MIT (see [LICENSE](LICENSE)). The personal content (`src/content/`) and the résumé
+PDF are © Vigneshwaran B and are not licensed for reuse.
