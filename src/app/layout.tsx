@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
 import { SITE_URL, getProfile, getSkillKeywords, siteOpenGraph } from '@/lib/content'
+import RevealRoot from '@/components/motion/RevealRoot'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         {children}
+        <RevealRoot />
       </body>
     </html>
   )

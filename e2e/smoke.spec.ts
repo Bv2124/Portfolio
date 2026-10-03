@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { rawContent } from '../src/content'
 
 const SECTION_IDS = ['about', 'experience', 'case-studies', 'skills', 'projects', 'education', 'contact']
 
@@ -139,28 +140,37 @@ test.describe('mobile drawer', () => {
 })
 
 test.describe('projects filter', () => {
+  const projects = rawContent.projects
+  const mobileApps = projects.filter(p => p.type === 'Mobile Apps')
+
+  // Cards animate out when filtered away, so assertions retry until the exit has finished.
   test('filters cards and reports the pressed state', async ({ page }) => {
     await page.goto('/')
     const group = page.getByRole('group', { name: 'Filter projects' })
     const cards = page.locator('section#projects h3')
-    const total = await cards.count()
+    await expect(cards).toHaveCount(projects.length)
 
     const mobile = group.getByRole('button', { name: 'Mobile Apps' })
     await mobile.click()
     await expect(mobile).toHaveAttribute('aria-pressed', 'true')
     await expect(group.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'false')
-    expect(await cards.count()).toBeLessThan(total)
+    await expect(cards).toHaveCount(mobileApps.length)
+    await expect(cards).toHaveText(mobileApps.map(p => p.title))
 
     await group.getByRole('button', { name: 'All' }).click()
-    await expect(cards).toHaveCount(total)
+    await expect(cards).toHaveCount(projects.length)
   })
 
   test('project numbers stay stable when filtering', async ({ page }) => {
     await page.goto('/')
     const group = page.getByRole('group', { name: 'Filter projects' })
     await group.getByRole('button', { name: 'Mobile Apps' }).click()
-    // Mobile projects are not the first ones in the full list, so the first card must not be "01".
-    const firstNumber = await page.locator('section#projects [data-index]').first().getAttribute('data-index')
-    expect(firstNumber).not.toBe('01')
+    const numbers = page.locator('section#projects [data-index]')
+    await expect(numbers).toHaveCount(mobileApps.length)
+
+    // Each card keeps its number from the full list (e.g. the first mobile app is not "01").
+    const expected = mobileApps.map(p => String(projects.indexOf(p) + 1).padStart(2, '0'))
+    const actual = await numbers.evaluateAll(els => els.map(el => el.getAttribute('data-index')))
+    expect(actual).toEqual(expected)
   })
 })

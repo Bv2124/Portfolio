@@ -1,5 +1,6 @@
 import SectionHeading from '@/components/ui/SectionHeading'
 import BoldText from '@/components/ui/BoldText'
+import Reveal from '@/components/motion/Reveal'
 import { LiveYears } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import { yearsSince } from '@/lib/experience'
@@ -28,16 +29,16 @@ export default function About({ personal, about }: AboutProps) {
         <SectionHeading id="about" />
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          <div className="space-y-5">
+          <Reveal className="space-y-5">
             {about.paragraphs.map((para, i) => (
               <p key={i} className="text-slate-400 leading-relaxed text-[15px]">
                 <BoldText text={para} tokens={tokens} />
               </p>
             ))}
-          </div>
+          </Reveal>
 
           <div className="space-y-6">
-            <div className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
+            <Reveal index={1} className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
               <h3 className="font-mono text-xs text-muted mb-5 uppercase tracking-widest">
                 <span className="sr-only">Key achievements</span>
                 <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>key_achievements</span>
@@ -50,9 +51,9 @@ export default function About({ personal, about }: AboutProps) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
 
-            <div className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
+            <Reveal index={2} className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
               <h3 className="font-mono text-xs text-muted mb-5 uppercase tracking-widest">
                 <span className="sr-only">Quick facts</span>
                 <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>quick_facts</span>
@@ -65,7 +66,7 @@ export default function About({ personal, about }: AboutProps) {
                   </div>
                 ))}
               </dl>
-            </div>
+            </Reveal>
           </div>
         </div>
       </div>

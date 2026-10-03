@@ -1,28 +1,42 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
-// Thin horizontal reading-progress bar pinned to the top of the viewport.
+// Thin reading-progress bar pinned to the top of the viewport. Updates at most once per frame
+// by writing a compositor-only transform directly, so scrolling never re-renders React.
+// A short CSS transition smooths it; with reduced motion it tracks the scroll position exactly.
 export default function ScrollProgressBar() {
-  const [progress, setProgress] = useState(0)
+  const barRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const bar = barRef.current
+    if (!bar) return undefined
+
+    let frame = 0
     const update = () => {
-      const scrollTop = window.scrollY
-      const docHeight = document.body.scrollHeight - window.innerHeight
-      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0)
+      frame = 0
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0
+      bar.style.transform = `scaleX(${progress})`
     }
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update) }
 
     update()
-    window.addEventListener('scroll', update, { passive: true })
-    return () => window.removeEventListener('scroll', update)
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+    }
   }, [])
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed top-0 left-0 w-full z-[100] h-[2px] bg-slate-800/60">
       <div
-        className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 transition-[width] duration-150 ease-out"
-        style={{ width: `${progress}%` }}
+        ref={barRef}
+        className="h-full origin-left bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 transition-transform duration-150 ease-out motion-reduce:transition-none"
+        style={{ transform: 'scaleX(0)' }}
       />
     </div>
   )

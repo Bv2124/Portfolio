@@ -58,7 +58,7 @@ export default function TimezoneShift() {
         </div>
         <div
           aria-live="polite"
-          className={`rounded-xl border p-4 ${
+          className={`rounded-xl border p-4 transition-colors duration-300 ${
             fixed ? 'border-emerald-500/40 bg-emerald-500/10' : 'border-red-400/40 bg-red-500/10'
           }`}
         >

@@ -1,5 +1,6 @@
 import { GraduationCap, Award } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
+import Reveal from '@/components/motion/Reveal'
 import type { EducationItem } from '@/lib/schema'
 
 export default function Education({ education }: { education: EducationItem[] }) {
@@ -9,12 +10,13 @@ export default function Education({ education }: { education: EducationItem[] })
         <SectionHeading id="education" />
 
         <div className="grid sm:grid-cols-2 gap-5">
-          {education.map(item => {
+          {education.map((item, index) => {
             const isCert = item.type === 'Certification'
             const Icon = isCert ? Award : GraduationCap
             return (
-              <div
+              <Reveal
                 key={item.qualification}
+                index={index % 2}
                 className="bg-slate-900/70 rounded-2xl border border-slate-800/80 p-6 hover:border-slate-700/80 transition-colors duration-200"
               >
                 <div className="flex items-start gap-3 mb-2">
@@ -39,7 +41,7 @@ export default function Education({ education }: { education: EducationItem[] })
                 {item.note && isCert && (
                   <p className="text-slate-400 text-xs leading-relaxed mt-3 ml-[30px]">{item.note}</p>
                 )}
-              </div>
+              </Reveal>
             )
           })}
         </div>

@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import { ArrowRight, ChevronDown, Download } from 'lucide-react'
 import RoleTypewriter from '@/components/ui/RoleTypewriter'
+import HeroBackground from '@/components/motion/HeroBackground'
 import { LiveYears } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import { yearsSince } from '@/lib/experience'
@@ -33,11 +34,9 @@ export default function Hero({ personal, roles }: HeroProps) {
   }
 
   return (
-    <section className="relative min-h-svh flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Subtle grid + glow orbs */}
-      <div aria-hidden="true" className="absolute inset-0 grid-bg pointer-events-none" />
-      <div aria-hidden="true" className="absolute top-1/4 -left-20 w-80 h-80 bg-blue-600/[.06] rounded-full blur-3xl pointer-events-none" />
-      <div aria-hidden="true" className="absolute bottom-1/4 -right-20 w-80 h-80 bg-violet-600/[.06] rounded-full blur-3xl pointer-events-none" />
+    <section data-spotlight-host="" className="relative min-h-svh flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Drifting aurora, grid and cursor spotlight */}
+      <HeroBackground />
 
       <div className="relative max-w-6xl mx-auto w-full pt-24 pb-16">
 
@@ -58,13 +57,18 @@ export default function Hero({ personal, roles }: HeroProps) {
           </div>
         )}
 
-        <h1
-          className="hero-in text-[clamp(2.25rem,10vw,4.5rem)] font-bold text-slate-100 mb-6 leading-tight"
-          style={step(2)}
-        >
-          <span className="whitespace-nowrap">{personal.firstName}</span>{' '}
-          <span className="whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400">
-            {personal.lastName}
+        {/* Each word slides up from behind a mask (transform only; the text is always in the HTML). */}
+        <h1 className="text-[clamp(2.25rem,10vw,4.5rem)] font-bold text-slate-100 mb-6 leading-tight">
+          <span className="hero-mask">
+            <span className="hero-word" style={{ '--d': '0ms' } as CSSProperties}>{personal.firstName}</span>
+          </span>{' '}
+          <span className="hero-mask">
+            <span
+              className="hero-word text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400"
+              style={{ '--d': '90ms' } as CSSProperties}
+            >
+              {personal.lastName}
+            </span>
           </span>
         </h1>
 
@@ -90,7 +94,7 @@ export default function Hero({ personal, roles }: HeroProps) {
           </div>
         </div>
 
-        <p className="hero-in text-slate-400 text-base sm:text-lg max-w-2xl mb-10 leading-relaxed" style={step(4)}>
+        <p className="hero-rise text-slate-400 text-base sm:text-lg max-w-2xl mb-10 leading-relaxed" style={step(4)}>
           {personal.heroBio}
         </p>
 

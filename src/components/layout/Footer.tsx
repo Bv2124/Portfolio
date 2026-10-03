@@ -30,7 +30,7 @@ export default function Footer({ personal }: { personal: FooterPersonal }) {
         </div>
 
         <p className="text-muted text-xs font-mono">
-          © <CurrentYear fallback={BUILD_NOW.getFullYear()} /> {personal.name} &middot; Built with Next.js &amp; Tailwind CSS
+          © <CurrentYear fallback={BUILD_NOW.getFullYear()} /> {personal.name} &middot; Built with Next.js, Tailwind CSS &amp; Motion
         </p>
       </div>
     </footer>

@@ -32,7 +32,16 @@ async function waitForAnimations(page: Page) {
   )
 }
 
+// Below-the-fold content waits (at opacity 0) for its scroll reveal, and axe skips invisible
+// elements. Put every reveal into its final state first so the whole page is actually audited.
+async function revealAll(page: Page) {
+  await page.evaluate(() => {
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(el => { el.dataset.reveal = 'in' })
+  })
+}
+
 async function expectNoBlockingViolations(page: Page) {
+  await revealAll(page)
   await waitForAnimations(page)
   const { violations } = await analyze(page)
   const found = blocking(violations)

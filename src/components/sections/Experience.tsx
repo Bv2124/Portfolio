@@ -1,6 +1,8 @@
 import { Briefcase, MapPin, CheckCircle2 } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
 import BoldText from '@/components/ui/BoldText'
+import Reveal from '@/components/motion/Reveal'
+import TimelineProgress from '@/components/motion/TimelineProgress'
 import { LiveDuration } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import { formatRange, formatDuration } from '@/lib/experience'
@@ -14,11 +16,12 @@ export default function Experience({ experience }: { experience: Job[] }) {
 
         {/* Timeline */}
         <div className="relative border-l border-slate-800 ml-3 sm:ml-4 space-y-10">
-          {experience.map(job => {
+          <TimelineProgress />
+          {experience.map((job, index) => {
             const isCurrent = !job.end
             const builtDuration = formatDuration(job.start, job.end, BUILD_NOW)
             return (
-              <div key={`${job.company}-${job.start}`} className="relative pl-8 sm:pl-10">
+              <Reveal key={`${job.company}-${job.start}`} index={index} from="left" className="relative pl-8 sm:pl-10">
                 {/* Node */}
                 <span aria-hidden="true" className={`absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full border-2 ${
                   isCurrent
@@ -90,7 +93,7 @@ export default function Experience({ experience }: { experience: Job[] }) {
                     ))}
                   </div>
                 </div>
-              </div>
+              </Reveal>
             )
           })}
         </div>

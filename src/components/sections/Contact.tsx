@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Github, Linkedin, Mail, Phone } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
+import Reveal from '@/components/motion/Reveal'
 import { getIcon } from '@/lib/icons'
 import type { Personal, WhyItem } from '@/lib/schema'
 
@@ -43,7 +44,7 @@ export default function Contact({ personal, whyHireMe }: ContactProps) {
 
         <div className="grid md:grid-cols-2 gap-10">
           {/* Contact links */}
-          <div className="space-y-3">
+          <Reveal className="space-y-3">
             <p className="text-slate-400 text-sm leading-relaxed mb-5">{personal.contactIntro}</p>
 
             <ContactCard
@@ -81,10 +82,10 @@ export default function Contact({ personal, whyHireMe }: ContactProps) {
             >
               <span className="text-slate-400 text-sm">{personal.github.replace(/^https?:\/\//, '')}</span>
             </ContactCard>
-          </div>
+          </Reveal>
 
           {/* Why hire me */}
-          <div className="bg-slate-900/80 rounded-2xl border border-slate-800 p-7">
+          <Reveal index={1} className="bg-slate-900/80 rounded-2xl border border-slate-800 p-7">
             <h3 className="font-mono text-xs text-muted mb-6 uppercase tracking-widest">
               <span className="sr-only">Why work with me</span>
               <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>why_work_with_me()</span>
@@ -103,7 +104,7 @@ export default function Contact({ personal, whyHireMe }: ContactProps) {
                 )
               })}
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

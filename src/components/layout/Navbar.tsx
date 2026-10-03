@@ -19,10 +19,13 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
   const pathname = usePathname()
   const buttonRef = useRef<HTMLButtonElement>(null)
   const drawerRef = useRef<HTMLDivElement>(null)
+  const linksRef = useRef<HTMLDivElement>(null)
+  const pillRef = useRef<HTMLSpanElement>(null)
 
   // The export serves pages with a trailing slash, so "/" and "/case-studies/x/" are what we see.
   const isHome = (pathname.replace(/\/+$/, '') || '/') === '/'
   const onCaseStudy = pathname.startsWith('/case-studies/')
+  const currentId = onCaseStudy ? 'case-studies' : active
 
   const closeMenu = (returnFocus = false) => {
     setMenuOpen(false)
@@ -54,6 +57,38 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
     }
   }, [menuOpen])
 
+  // The active-section highlight is one element that slides between links (CSS transition on
+  // transform/width). It is measured, so it follows real link sizes, including after web fonts
+  // load or the window is resized. The first placement is instant; later moves animate.
+  useEffect(() => {
+    const container = linksRef.current
+    const pill = pillRef.current
+    if (!container || !pill) return undefined
+
+    const place = () => {
+      const link = currentId
+        ? container.querySelector<HTMLElement>(`[data-nav-id="${currentId}"]`)
+        : null
+      if (!link || link.offsetWidth === 0) {
+        pill.style.opacity = '0'
+        return
+      }
+      pill.style.width = `${link.offsetWidth}px`
+      pill.style.height = `${link.offsetHeight}px`
+      pill.style.transform = `translate3d(${link.offsetLeft}px, ${link.offsetTop}px, 0)`
+      pill.style.opacity = '1'
+    }
+
+    place()
+    const frame = requestAnimationFrame(() => { pill.dataset.ready = 'true' })
+    document.fonts?.ready.then(place).catch(() => {})
+    window.addEventListener('resize', place)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('resize', place)
+    }
+  }, [currentId])
+
   // On the home page the logo scrolls to the top; elsewhere it is an ordinary link home.
   const onLogoClick = (e: React.MouseEvent) => {
     if (!isHome) return
@@ -67,12 +102,12 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
     return active === id ? 'true' : undefined
   }
 
+  const headerStyle = scrolled
+    ? 'bg-slate-950/80 backdrop-blur-md border-slate-800/80 shadow-xl shadow-slate-950/60'
+    : 'bg-transparent border-transparent'
+
   return (
-    <header className={`fixed top-0 w-full z-50 transition-[background-color,border-color,box-shadow] duration-300 ${
-      scrolled
-        ? 'bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 shadow-xl shadow-slate-950/60'
-        : 'bg-transparent'
-    }`}>
+    <header className={`fixed top-0 w-full z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${headerStyle}`}>
       <nav aria-label="Primary" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
 
@@ -91,18 +126,23 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
           </Link>
 
           {/* Desktop links */}
-          <div className="hidden xl:flex items-center gap-1">
+          <div ref={linksRef} className="relative hidden xl:flex items-center gap-1">
+            {/* Empty, decorative, and hidden by its class until the script has measured where it goes. */}
+            <span
+              ref={pillRef}
+              aria-hidden="true"
+              className="nav-pill pointer-events-none absolute left-0 top-0 rounded-lg bg-blue-400/10 opacity-0"
+            />
             {SECTIONS.map(link => {
               const current = currentFor(link.id)
               return (
                 <Link
                   key={link.id}
                   href={`/#${link.id}`}
+                  data-nav-id={link.id}
                   aria-current={current}
-                  className={`px-3 py-2 rounded-lg text-sm font-mono whitespace-nowrap transition-colors duration-200 ${
-                    current
-                      ? 'text-blue-400 bg-blue-400/10'
-                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
+                  className={`relative px-3 py-2 rounded-lg text-sm font-mono whitespace-nowrap transition-colors duration-200 ${
+                    current ? 'text-blue-400' : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
                   }`}
                 >
                   {link.label}
@@ -134,18 +174,18 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
         </div>
       </nav>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer: fades and drops in (CSS keyframes; none with reduced motion). */}
       {menuOpen && (
         <>
           <div
             aria-hidden="true"
             onClick={() => closeMenu()}
-            className="xl:hidden fixed inset-x-0 top-16 bottom-0 bg-slate-950/60"
+            className="fade-in xl:hidden fixed inset-x-0 top-16 bottom-0 bg-slate-950/60"
           />
           <div
             id={DRAWER_ID}
             ref={drawerRef}
-            className="xl:hidden relative max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain bg-slate-900/95 border-b border-slate-800 px-6 pb-6"
+            className="drawer-in xl:hidden relative max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain bg-slate-900/95 border-b border-slate-800 px-6 pb-6"
           >
             {SECTIONS.map(link => (
               <Link

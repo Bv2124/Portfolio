@@ -2,13 +2,26 @@ import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { VISUALS } from './visuals'
+import Reveal from '@/components/motion/Reveal'
 import type { CaseStudy } from '@/lib/schema'
 
-function Block({ id, title, children }: { id: string; title: string; children: ReactNode }) {
-  return (
-    <section aria-labelledby={`${id}-heading`} className="mt-14">
+// A titled section. By default the whole block reveals on scroll; blocks whose items reveal
+// one by one (the approach steps) opt out so nothing is animated twice.
+function Block({ id, title, reveal = true, children }: {
+  id: string
+  title: string
+  reveal?: boolean
+  children: ReactNode
+}) {
+  const body = (
+    <>
       <h2 id={`${id}-heading`} className="text-2xl font-bold text-slate-100">{title}</h2>
       <div className="mt-5">{children}</div>
+    </>
+  )
+  return (
+    <section aria-labelledby={`${id}-heading`} className="mt-14">
+      {reveal ? <Reveal>{body}</Reveal> : body}
     </section>
   )
 }
@@ -58,10 +71,10 @@ export default function CaseStudyBody({ study, related, prev, next }: BodyProps)
         <Paragraphs items={study.challenge} />
       </Block>
 
-      <Block id="approach" title="The approach">
+      <Block id="approach" title="The approach" reveal={false}>
         <ol className="max-w-3xl space-y-4">
           {study.approach.map((step, i) => (
-            <li key={step.title} className="flex gap-4 rounded-xl border border-slate-800/80 bg-slate-900/60 p-5">
+            <Reveal as="li" key={step.title} index={i} className="flex gap-4 rounded-xl border border-slate-800/80 bg-slate-900/60 p-5">
               <span
                 aria-hidden="true"
                 className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-blue-500/30 bg-blue-500/10 font-mono text-sm text-blue-300"
@@ -72,7 +85,7 @@ export default function CaseStudyBody({ study, related, prev, next }: BodyProps)
                 <h3 className="font-semibold text-slate-100">{step.title}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-slate-400">{step.text}</p>
               </div>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </Block>

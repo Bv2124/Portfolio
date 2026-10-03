@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Motion tokens. Every animation on the site uses these (see also src/lib/motion.ts). */
 :root {
   --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --dur-reveal: 500ms;
+  --dur-reveal-move: 600ms;
 }
 
 html {
@@ -74,21 +78,255 @@ main:focus { outline: none; }
   background: rgba(15,23,42,.55);
 }
 
-/* ── Hero entrance ──────────────────────────────────────────── */
-/* Pure CSS so the hero is in the server HTML and animates on first paint,
-   with no dependency on JavaScript having loaded. */
+/* ══ Motion ════════════════════════════════════════════════════
+   Rule: nothing is hidden in the server HTML. Entrances either run in pure CSS from
+   first paint (hero), or are armed by JavaScript only for content below the fold
+   (data-reveal). Everything is opt-in behind prefers-reduced-motion: no-preference. */
+
+/* ── Hero entrance ─────────────────────────────────────────── */
+/* Each word of the name slides up from behind a mask: transform only, so the text is
+   always in the HTML and the gradient (on the moving span) keeps rendering. */
+.hero-mask {
+  display: inline-block;
+  overflow: clip;
+  padding-bottom: .08em;
+  vertical-align: bottom;
+}
+.hero-word { display: inline-block; }
+
+@keyframes hero-word-up {
+  from { transform: translate3d(0, 110%, 0); }
+}
 @keyframes hero-in {
   from { opacity: 0; transform: translate3d(0, 16px, 0); }
 }
+@keyframes hero-rise {
+  from { transform: translate3d(0, 16px, 0); }
+}
 
 @media (prefers-reduced-motion: no-preference) {
+  .hero-word {
+    animation: hero-word-up .9s var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
   .hero-in {
     animation: hero-in .8s var(--ease-out) both;
-    animation-delay: calc(var(--i, 0) * 80ms);
+    animation-delay: calc(150ms + var(--i, 0) * 80ms);
+  }
+  /* Transform-only: the bio is a likely LCP element, so it is never transparent. */
+  .hero-rise {
+    animation: hero-rise .8s var(--ease-out) both;
+    animation-delay: calc(150ms + var(--i, 0) * 80ms);
   }
 }
 
-/* Safety net: nothing animates or transitions for people who asked for less motion. */
+/* ── Hero aurora ───────────────────────────────────────────── */
+/* Plain radial gradients (no blur filter), moved with transform only; paused off-screen. */
+.hero-aurora { contain: strict; }
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.aurora-1 { top: -14rem; left: -12rem; width: 44rem; height: 44rem; background: radial-gradient(closest-side, rgba(59,130,246,.16), transparent); }
+.aurora-2 { bottom: -16rem; right: -14rem; width: 46rem; height: 46rem; background: radial-gradient(closest-side, rgba(139,92,246,.14), transparent); }
+.aurora-3 { top: 28%; left: 42%; width: 30rem; height: 30rem; background: radial-gradient(closest-side, rgba(34,211,238,.07), transparent); }
+
+@keyframes aurora-a { to { transform: translate3d(6vw, 5vh, 0) scale(1.08); } }
+@keyframes aurora-b { to { transform: translate3d(-5vw, -6vh, 0) scale(1.1); } }
+@keyframes aurora-c { to { transform: translate3d(-6vw, 4vh, 0) scale(.92); } }
+
+/* Only on devices that can hover (desktops/laptops); static on phones to save battery. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .aurora-1 { animation: aurora-a 26s var(--ease-in-out) infinite alternate; }
+  .aurora-2 { animation: aurora-b 30s var(--ease-in-out) infinite alternate; }
+  .aurora-3 { animation: aurora-c 24s var(--ease-in-out) infinite alternate; }
+}
+.hero-aurora[data-paused='true'] .aurora-blob { animation-play-state: paused; }
+
+/* Cursor spotlight: one leaf layer moved with translate3d (no repaint of anything else). */
+.spotlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36rem;
+  height: 36rem;
+  margin: -18rem 0 0 -18rem;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .3s ease;
+  background: radial-gradient(closest-side, rgba(96,165,250,.10), transparent);
+}
+.spotlight[data-on='true'] { opacity: 1; }
+.spotlight-sm { width: 22rem; height: 22rem; margin: -11rem 0 0 -11rem; background: radial-gradient(closest-side, rgba(96,165,250,.12), transparent); }
+
+/* ── Scroll reveals ────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal='armed'] {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  [data-reveal='armed'][data-reveal-from='left'] {
+    transform: translate3d(-16px, 0, 0);
+  }
+  [data-reveal='in'] {
+    transition:
+      opacity var(--dur-reveal) var(--ease-out) var(--delay, 0ms),
+      transform var(--dur-reveal-move) var(--ease-out) var(--delay, 0ms);
+  }
+
+  /* Section headings: the wrapper stays put; kicker fades, title wipes in, underline draws. */
+  .heading-reveal[data-reveal='armed'] { opacity: 1; transform: none; }
+  .heading-reveal[data-reveal='armed'] .hr-kicker { opacity: 0; }
+  .heading-reveal[data-reveal='armed'] .hr-title { clip-path: inset(0 100% 0 0); }
+  .heading-reveal[data-reveal='armed'] .hr-line { transform: scaleX(0); }
+  .heading-reveal[data-reveal='in'] .hr-kicker { transition: opacity .3s var(--ease-out); }
+  .heading-reveal[data-reveal='in'] .hr-title { transition: clip-path .6s var(--ease-out) 80ms; }
+  .heading-reveal[data-reveal='in'] .hr-line { transition: transform .5s var(--ease-out) 200ms; }
+}
+.hr-line { transform-origin: left; }
+
+/* ── Navigation ────────────────────────────────────────────── */
+/* The active-section pill slides between links once it has been placed the first time. */
+.nav-pill[data-ready='true'] {
+  transition:
+    transform .35s var(--ease-out),
+    width .35s var(--ease-out),
+    opacity .2s ease;
+}
+
+@keyframes drawer-in {
+  from { opacity: 0; transform: translate3d(0, -8px, 0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .drawer-in { animation: drawer-in .2s var(--ease-out) both; }
+  .fade-in { animation: fade-in .2s ease-out both; }
+}
+
+/* ── Project filter: View Transitions ──────────────────────── */
+/* Only the named elements (cards, filter pill) animate; the rest of the page stays still. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+::view-transition-group(*) {
+  animation-duration: .35s;
+  animation-timing-function: var(--ease-out);
+}
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: .25s;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ── Case-study cards: rotating glow border on hover/focus ─── */
+/* An oversized conic layer rotated with transform (compositor-only), behind an inner fill. */
+.glow-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.glow-card::before {
+  content: '';
+  position: absolute;
+  z-index: -3;
+  inset: -50%;
+  background: conic-gradient(from 0deg, transparent 0 55%, rgba(96,165,250,.75), rgba(167,139,250,.75), transparent 90%);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.glow-card::after {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 1px;
+  border-radius: calc(1rem - 1px);
+  background: #0b1222;
+}
+.glow-card:hover::before,
+.glow-card:focus-within::before { opacity: 1; }
+/* Spotlight sits above the inner fill but below the card's text. */
+.glow-card .spotlight { z-index: -1; }
+
+@keyframes glow-spin { to { transform: rotate(1turn); } }
+@media (prefers-reduced-motion: no-preference) {
+  .glow-card:hover::before,
+  .glow-card:focus-within::before { animation: glow-spin 4s linear infinite; }
+}
+
+/* ── Case-study visuals: play once in view, with Replay ────── */
+/* Server HTML renders data-play="done" (final state). JS sets "ready" for visuals below the
+   fold, then "play" when they scroll into view. */
+@keyframes seq-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+}
+@keyframes bar-grow {
+  from { transform: scaleX(0); }
+}
+@keyframes gate-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+  40%  { box-shadow: 0 0 0 6px rgba(251,191,36,.25); }
+  100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+}
+@keyframes flow {
+  to { background-position: 24px 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-play='ready'] .seq { opacity: 0; }
+  [data-play='ready'] .bar-fill { transform: scaleX(0); }
+  [data-play='play'] .seq {
+    animation: seq-in .5s var(--ease-out) both;
+    animation-delay: calc(var(--step, 0) * 260ms);
+  }
+  [data-play='play'] .seq-flash {
+    animation: seq-in .5s var(--ease-out) both, gate-flash 1s ease-out both;
+    animation-delay: calc(var(--step, 0) * 260ms), calc(var(--step, 0) * 260ms + 350ms);
+  }
+  [data-play='play'] .bar-fill {
+    animation: bar-grow 1.1s var(--ease-out) both;
+    animation-delay: calc(var(--step, 0) * 250ms);
+  }
+  /* Visual already on screen at load: never hide it; just run a highlight pass. */
+  [data-play='pulse'] .seq-flash {
+    animation: gate-flash 1s ease-out .6s both;
+  }
+  [data-play='pulse'] .flow-arrow,
+  [data-play='play'] .flow-arrow {
+    background-image: linear-gradient(90deg, rgba(96,165,250,.9) 50%, transparent 50%);
+    background-size: 12px 2px;
+    animation: flow .6s linear 5 both;
+    animation-delay: calc(var(--step, 0) * 260ms);
+  }
+}
+.bar-fill { transform-origin: left; }
+
+/* ── Print and safety nets ────────────────────────────────── */
+@media print {
+  [data-reveal],
+  .hero-word,
+  .hero-in,
+  .hero-rise,
+  .seq,
+  .bar-fill {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    animation: none !important;
+  }
+}
+
+/* Nothing animates or transitions for people who asked for less motion. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -98,4 +336,5 @@ main:focus { outline: none; }
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
+  .timeline-fill { transform: none !important; }
 }
