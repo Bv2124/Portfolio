@@ -1,4 +1,4 @@
-import data from '@/lib/data'
+import { content } from '@/lib/content'
 import ScrollProgressBar from '@/components/layout/ScrollProgressBar'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -10,11 +10,8 @@ import Projects from '@/components/sections/Projects'
 import Education from '@/components/sections/Education'
 import Contact from '@/components/sections/Contact'
 
-const {
-  personal, roles, about, experience,
-  skills, skillCategories, specialty,
-  projects, education, whyHireMe,
-} = data
+const { profile, experience, skills, projects, education } = content
+const { personal, roles, about, specialty, whyHireMe } = profile
 
 export default function Home() {
   return (
@@ -22,16 +19,16 @@ export default function Home() {
       <ScrollProgressBar />
       <Navbar personal={personal} />
 
-      <main>
+      <main id="main" tabIndex={-1}>
         <Hero
           personal={personal}
           roles={roles}
           projectCount={projects.length}
-          skillCount={skills.length}
+          skillCount={skills.skills.length}
         />
         <About personal={personal} about={about} />
         <Experience experience={experience} />
-        <Skills skills={skills} categories={skillCategories} specialty={specialty} />
+        <Skills skills={skills.skills} categories={skills.categories} specialty={specialty} />
         <Projects projects={projects} githubUrl={personal.github} />
         <Education education={education} />
         <Contact personal={personal} whyHireMe={whyHireMe} />

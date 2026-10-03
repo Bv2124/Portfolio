@@ -1,27 +1,26 @@
-'use client'
-
 import { Briefcase, MapPin, CheckCircle2 } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
-import useNow from '@/hooks/useNow'
+import BoldText from '@/components/ui/BoldText'
+import { LiveDuration } from '@/components/ui/Live'
+import { BUILD_NOW } from '@/lib/build-time'
 import { formatRange, formatDuration } from '@/lib/experience'
-import type { Job } from '@/lib/types'
+import type { Job } from '@/lib/schema'
 
 export default function Experience({ experience }: { experience: Job[] }) {
-  const now = useNow()
-
   return (
-    <section id="experience" className="py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16">
+    <section id="experience" aria-labelledby="experience-heading" className="py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading number="02" title="Experience" />
+        <SectionHeading id="experience" />
 
         {/* Timeline */}
         <div className="relative border-l border-slate-800 ml-3 sm:ml-4 space-y-10">
           {experience.map(job => {
             const isCurrent = !job.end
+            const builtDuration = formatDuration(job.start, job.end, BUILD_NOW)
             return (
-              <div  key={job.company} className="relative pl-8 sm:pl-10">
+              <div key={`${job.company}-${job.start}`} className="relative pl-8 sm:pl-10">
                 {/* Node */}
-                <span className={`absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full border-2 ${
+                <span aria-hidden="true" className={`absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full border-2 ${
                   isCurrent
                     ? 'bg-emerald-400 border-emerald-400 shadow-[0_0_0_4px_rgba(52,211,153,0.15)]'
                     : 'bg-slate-700 border-slate-600'
@@ -32,31 +31,38 @@ export default function Experience({ experience }: { experience: Job[] }) {
                   <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
                     <div>
                       <h3 className="text-slate-100 font-semibold text-lg flex items-center gap-2">
-                        <Briefcase size={16} className="text-blue-400 shrink-0" />
+                        <Briefcase size={16} aria-hidden="true" className="text-blue-400 shrink-0" />
                         {job.role}
                       </h3>
-                      <p onClick={() => window.open(job.companyUrl, '_blank')} className="text-blue-300 text-sm font-medium mt-0.5 cursor-pointer">{job.company}</p>
+                      <a
+                        href={job.companyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block text-blue-300 hover:text-blue-200 text-sm font-medium mt-0.5"
+                      >
+                        {job.company}
+                      </a>
                     </div>
                     {isCurrent && (
                       <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 rounded-full">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                        <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse" />
                         Current
                       </span>
                     )}
                   </div>
 
                   {/* Meta line */}
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 font-mono mb-4">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted font-mono mb-4">
                     <span>{formatRange(job.start, job.end)}</span>
-                    {now && (
-                      <>
-                        <span className="text-slate-700">•</span>
-                        <span>{formatDuration(job.start, job.end, now)}</span>
-                      </>
-                    )}
-                    <span className="text-slate-700">•</span>
+                    <span aria-hidden="true" className="text-slate-600">•</span>
+                    <span>
+                      {isCurrent
+                        ? <LiveDuration start={job.start} end={job.end} fallback={builtDuration} />
+                        : builtDuration}
+                    </span>
+                    <span aria-hidden="true" className="text-slate-600">•</span>
                     <span className="flex items-center gap-1">
-                      <MapPin size={11} /> {job.location}
+                      <MapPin size={11} aria-hidden="true" /> {job.location}
                     </span>
                   </div>
 
@@ -66,8 +72,8 @@ export default function Experience({ experience }: { experience: Job[] }) {
                   <ul className="space-y-1.5 mb-5">
                     {job.highlights.map(h => (
                       <li key={h} className="flex items-start gap-2">
-                        <CheckCircle2 size={13} className="text-emerald-400 mt-0.5 shrink-0" />
-                        <span className="text-slate-400 text-xs leading-relaxed">{h}</span>
+                        <CheckCircle2 size={13} aria-hidden="true" className="text-emerald-400 mt-0.5 shrink-0" />
+                        <span className="text-slate-400 text-xs leading-relaxed"><BoldText text={h} /></span>
                       </li>
                     ))}
                   </ul>

@@ -6,21 +6,24 @@ interface TypewriterOptions {
   typeSpeed?: number
   deleteSpeed?: number
   pause?: number
+  // When false no timers run and the current text stays put (off-screen, reduced motion…).
+  enabled?: boolean
 }
 
 // Cycles through `words` with a type/delete animation.
-// One self-cleaning timeout per tick — the pause at a full word is just a
-// longer delay, so there are never stacked/orphaned timers (the original bug).
+// Starts on the first word fully typed, so the server HTML already contains a real role.
+// One self-cleaning timeout per tick — the pause at a full word is just a longer delay,
+// so there are never stacked/orphaned timers.
 export default function useTypewriter(
   words: readonly string[],
-  { typeSpeed = 100, deleteSpeed = 50, pause = 2000 }: TypewriterOptions = {}
+  { typeSpeed = 65, deleteSpeed = 35, pause = 1600, enabled = true }: TypewriterOptions = {}
 ): string {
-  const [text, setText] = useState('')
+  const [text, setText] = useState(words[0] ?? '')
   const [index, setIndex] = useState(0)
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
-    if (!words.length) return undefined
+    if (!enabled || !words.length) return undefined
 
     const word = words[index % words.length] ?? ''
     const atFullWord = !deleting && text === word
@@ -28,7 +31,6 @@ export default function useTypewriter(
 
     let delay = deleting ? deleteSpeed : typeSpeed
     if (atFullWord) delay = pause
-    else if (atEmpty) delay = typeSpeed
 
     const timer = setTimeout(() => {
       if (atFullWord) {
@@ -42,7 +44,7 @@ export default function useTypewriter(
     }, delay)
 
     return () => clearTimeout(timer)
-  }, [text, deleting, index, words, typeSpeed, deleteSpeed, pause])
+  }, [text, deleting, index, words, typeSpeed, deleteSpeed, pause, enabled])
 
   return text
 }

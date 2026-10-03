@@ -1,0 +1,186 @@
+{
+  "categories": [
+    "Frontend",
+    "Backend",
+    "Tools",
+    "Database"
+  ],
+  "skills": [
+    {
+      "name": "HTML5",
+      "iconName": "Monitor",
+      "category": "Frontend",
+      "level": "Expert",
+      "levelPercent": 95,
+      "accent": "orange"
+    },
+    {
+      "name": "CSS3",
+      "iconName": "Palette",
+      "category": "Frontend",
+      "level": "Expert",
+      "levelPercent": 90,
+      "accent": "blue"
+    },
+    {
+      "name": "React",
+      "iconName": "Atom",
+      "category": "Frontend",
+      "level": "Expert",
+      "levelPercent": 85,
+      "accent": "cyan"
+    },
+    {
+      "name": "Next.js",
+      "iconName": "Globe",
+      "category": "Frontend",
+      "level": "Intermediate",
+      "levelPercent": 65,
+      "accent": "slate"
+    },
+    {
+      "name": "Tailwind CSS",
+      "iconName": "Wind",
+      "category": "Frontend",
+      "level": "Intermediate",
+      "levelPercent": 70,
+      "accent": "sky"
+    },
+    {
+      "name": "Bootstrap",
+      "iconName": "Box",
+      "category": "Frontend",
+      "level": "Basic",
+      "levelPercent": 55,
+      "accent": "purple"
+    },
+    {
+      "name": "Python",
+      "iconName": "Braces",
+      "category": "Backend",
+      "level": "Intermediate",
+      "levelPercent": 70,
+      "accent": "yellow"
+    },
+    {
+      "name": "Django",
+      "iconName": "Server",
+      "category": "Backend",
+      "level": "Basic",
+      "levelPercent": 45,
+      "accent": "emerald"
+    },
+    {
+      "name": "Azure Functions",
+      "iconName": "Cloud",
+      "category": "Backend",
+      "level": "Intermediate",
+      "levelPercent": 70,
+      "accent": "sky"
+    },
+    {
+      "name": "Strapi CMS",
+      "iconName": "Cloud",
+      "category": "Backend",
+      "level": "Intermediate",
+      "levelPercent": 65,
+      "accent": "violet"
+    },
+    {
+      "name": "Firebase",
+      "iconName": "Flame",
+      "category": "Backend",
+      "level": "Basic",
+      "levelPercent": 50,
+      "accent": "orange"
+    },
+    {
+      "name": "REST APIs",
+      "iconName": "Server",
+      "category": "Backend",
+      "level": "Intermediate",
+      "levelPercent": 75,
+      "accent": "emerald"
+    },
+    {
+      "name": "React Native",
+      "iconName": "Smartphone",
+      "category": "Tools",
+      "level": "Expert",
+      "levelPercent": 90,
+      "accent": "blue"
+    },
+    {
+      "name": "Salesforce",
+      "iconName": "Cloud",
+      "category": "Tools",
+      "level": "Basic",
+      "levelPercent": 50,
+      "accent": "sky"
+    },
+    {
+      "name": "Redux Toolkit",
+      "iconName": "Layers",
+      "category": "Tools",
+      "level": "Intermediate",
+      "levelPercent": 65,
+      "accent": "purple"
+    },
+    {
+      "name": "TypeScript",
+      "iconName": "Code2",
+      "category": "Tools",
+      "level": "Intermediate",
+      "levelPercent": 60,
+      "accent": "blue"
+    },
+    {
+      "name": "Android Studio",
+      "iconName": "Terminal",
+      "category": "Tools",
+      "level": "Intermediate",
+      "levelPercent": 70,
+      "accent": "green"
+    },
+    {
+      "name": "Xcode",
+      "iconName": "Apple",
+      "category": "Tools",
+      "level": "Intermediate",
+      "levelPercent": 65,
+      "accent": "slate"
+    },
+    {
+      "name": "Expo",
+      "iconName": "Compass",
+      "category": "Tools",
+      "level": "Basic",
+      "levelPercent": 50,
+      "accent": "slate"
+    },
+    {
+      "name": "PostgreSQL",
+      "iconName": "Database",
+      "category": "Database",
+      "level": "Intermediate",
+      "levelPercent": 70,
+      "accent": "sky"
+    },
+    {
+      "name": "SQLite",
+      "iconName": "Database",
+      "category": "Database",
+      "level": "Intermediate",
+      "levelPercent": 70,
+      "accent": "emerald"
+    },
+    {
+      "name": "MySQL",
+      "iconName": "Server",
+      "category": "Database",
+      "level": "Basic",
+      "levelPercent": 50,
+      "accent": "teal"
+    }
+  ]
+}

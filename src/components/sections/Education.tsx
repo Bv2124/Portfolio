@@ -1,12 +1,12 @@
 import { GraduationCap, Award } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
-import type { EducationItem } from '@/lib/types'
+import type { EducationItem } from '@/lib/schema'
 
 export default function Education({ education }: { education: EducationItem[] }) {
   return (
-    <section id="education" className="py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16">
+    <section id="education" aria-labelledby="education-heading" className="py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading number="05" title="Education & Certifications" />
+        <SectionHeading id="education" />
 
         <div className="grid sm:grid-cols-2 gap-5">
           {education.map(item => {
@@ -18,7 +18,7 @@ export default function Education({ education }: { education: EducationItem[] })
                 className="bg-slate-900/70 rounded-2xl border border-slate-800/80 p-6 hover:border-slate-700/80 transition-colors duration-200"
               >
                 <div className="flex items-start gap-3 mb-2">
-                  <Icon size={18} className={`mt-0.5 shrink-0 ${isCert ? 'text-amber-400' : 'text-blue-400'}`} />
+                  <Icon size={18} aria-hidden="true" className={`mt-0.5 shrink-0 ${isCert ? 'text-amber-400' : 'text-blue-400'}`} />
                   <div className="flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-slate-100 font-semibold text-base leading-snug">
@@ -34,7 +34,7 @@ export default function Education({ education }: { education: EducationItem[] })
                   </div>
                 </div>
 
-                <p className="font-mono text-xs text-slate-500 ml-[30px]">{item.period}</p>
+                <p className="font-mono text-xs text-muted ml-[30px]">{item.period}</p>
 
                 {item.note && isCert && (
                   <p className="text-slate-400 text-xs leading-relaxed mt-3 ml-[30px]">{item.note}</p>

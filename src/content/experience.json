@@ -1,0 +1,52 @@
+[
+  {
+    "company": "Intergy Consulting",
+    "companyUrl": "https://www.intergy.com.au/",
+    "role": "Full-Stack Developer",
+    "location": "Mohan Buisness Park, Coimbatore, India",
+    "start": "2025-08",
+    "end": null,
+    "summary": "Building full-stack web applications for the Australian healthcare and aged-care sector.",
+    "tech": [
+      "React",
+      "Next.js",
+      "Python",
+      "Azure Functions",
+      "Django",
+      "PostgreSQL",
+      "Strapi",
+      "Salesforce"
+    ],
+    "highlights": [
+      "Built an online exam portal for secure, timed assessments",
+      "Developed a therapy-scheduling platform for mental-health clinicians",
+      "Engineered a support-worker allocation system for aged care across Australia",
+      "Integrated Strapi CMS and Salesforce; self-driven Django learning"
+    ]
+  },
+  {
+    "company": "Nanosoft Engineers Pvt Ltd",
+    "companyUrl": "https://www.nanosoftsolutions.in/index.html",
+    "role": "React Native Developer",
+    "location": "Rs puram, Coimbatore, India",
+    "start": "2023-05",
+    "end": "2025-08",
+    "summary": "Led offline-first mobile app development serving 2,000+ field technicians.",
+    "tech": [
+      "React Native",
+      "Redux Toolkit",
+      "SQLite",
+      "Firebase",
+      "Android Studio",
+      "Xcode"
+    ],
+    "highlights": [
+      "Delivered 4+ production apps used by 2,000+ field technicians worldwide",
+      "Improved sync success rates 45% with custom retry queues & exponential backoff",
+      "Cut image upload payloads 60% via automated media compression",
+      "Reduced UI latency 30% by refactoring legacy navigation & modal components",
+      "Shipped 15+ QA-ready builds; led Android & iOS store release cycles",
+      "Secured offline data with encrypted local storage"
+    ]
+  }
+]

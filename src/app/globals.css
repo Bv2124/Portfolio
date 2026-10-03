@@ -2,23 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Scrollbar ─────────────────────────────────────────────── */
-::-webkit-scrollbar { display: none; }
+:root {
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}
 
 html {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  scroll-behavior: smooth;
+  color-scheme: dark;
+  scrollbar-width: thin;
+  scrollbar-color: #334155 #020617;
+  /* Room for the fixed nav when jumping to an anchor. */
+  scroll-padding-top: 5rem;
+}
+
+html,
+body {
+  overflow-x: clip;
 }
 
 body {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  overflow-x: hidden;
-  overscroll-behavior: none;
   background-color: #020617;
   color: #e2e8f0;
 }
+
+/* Smooth scrolling only for people who haven't asked for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ── Focus ──────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+}
+main:focus { outline: none; }
 
 /* ── Terminal window ────────────────────────────────────────── */
 .terminal-window {
@@ -56,4 +72,30 @@ body {
 /* ── Section alternating tint ───────────────────────────────── */
 .section-alt {
   background: rgba(15,23,42,.55);
+}
+
+/* ── Hero entrance ──────────────────────────────────────────── */
+/* Pure CSS so the hero is in the server HTML and animates on first paint,
+   with no dependency on JavaScript having loaded. */
+@keyframes hero-in {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-in {
+    animation: hero-in .8s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+}
+
+/* Safety net: nothing animates or transitions for people who asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

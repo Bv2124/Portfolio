@@ -1,0 +1,133 @@
+[
+  {
+    "slug": "online-exam-portal",
+    "title": "Online Exam Portal",
+    "type": "Web",
+    "description": "A web-based examination platform for creating, scheduling and grading assessments, with secure timed test delivery and real-time result processing.",
+    "tech": [
+      "React",
+      "Next.js",
+      "Python",
+      "PostgreSQL"
+    ],
+    "highlights": [
+      "Timed secure assessments",
+      "Automated grading",
+      "Real-time results"
+    ],
+    "github": null,
+    "live": null
+  },
+  {
+    "slug": "therapy-scheduling-platform",
+    "title": "Therapy Scheduling Platform",
+    "type": "Web",
+    "description": "A scheduling platform for mental-health clinicians to manage client appointments, session notes and availability — streamlining therapy workflows end to end. Backend built as a serverless app of 13 Azure Functions in raw Python.",
+    "tech": [
+      "React",
+      "Azure Functions",
+      "Python",
+      "PostgreSQL"
+    ],
+    "highlights": [
+      "Clinician calendars & scheduling",
+      "13 serverless Python Azure Functions",
+      "Secure client records"
+    ],
+    "github": null,
+    "live": null
+  },
+  {
+    "slug": "support-worker-allocation-system",
+    "title": "Support Worker Allocation System",
+    "type": "Web",
+    "description": "Enterprise software that matches and assigns support workers to elderly clients across Australia based on skills, location and availability for aged-care providers.",
+    "tech": [
+      "React",
+      "Python",
+      "PostgreSQL",
+      "Salesforce"
+    ],
+    "highlights": [
+      "Smart worker matching",
+      "Geo-based allocation",
+      "Aged-care workflows"
+    ],
+    "github": null,
+    "live": null
+  },
+  {
+    "slug": "facility-management-app",
+    "title": "Facility Management App",
+    "type": "Mobile",
+    "description": "Cross-platform React Native app used by 2,000+ field technicians, featuring offline-first data sync, encrypted local storage, barcode scanning and media capture for reliable operation without connectivity.",
+    "tech": [
+      "React Native",
+      "Redux Toolkit",
+      "SQLite",
+      "Firebase"
+    ],
+    "highlights": [
+      "Offline-first data sync",
+      "Encrypted local storage (AES)",
+      "iOS & Android support"
+    ],
+    "github": null,
+    "live": null
+  },
+  {
+    "slug": "customer-handling-app",
+    "title": "Customer Handling App",
+    "type": "Mobile",
+    "description": "Mobile CRM for field teams with live visit tracking, service-escalation workflows, digital signature capture and automatic retry-based sync to keep records consistent across devices.",
+    "tech": [
+      "React Native",
+      "Redux",
+      "SQLite",
+      "REST APIs"
+    ],
+    "highlights": [
+      "Real-time visit tracking",
+      "Digital signature capture",
+      "Automatic retry sync"
+    ],
+    "github": null,
+    "live": null
+  },
+  {
+    "slug": "attendance-app",
+    "title": "Attendance App",
+    "type": "Mobile",
+    "description": "Workforce attendance app with GPS geofencing, QR-code validation and offline logging, enabling accurate check-in/check-out for remote and low-connectivity work sites.",
+    "tech": [
+      "React Native",
+      "Redux",
+      "SQLite",
+      "Geolocation"
+    ],
+    "highlights": [
+      "GPS geofencing",
+      "QR-code validation",
+      "Offline attendance logging"
+    ],
+    "github": null,
+    "live": null
+  },
+  {
+    "slug": "hybrid-webview-mobile-app",
+    "title": "Hybrid WebView Mobile App",
+    "type": "Mobile",
+    "description": "Packaged existing web-based enterprise systems into native iOS and Android apps using react-native-webview, with a hybrid architecture and optimized rendering for smooth performance.",
+    "tech": [
+      "React Native",
+      "WebView"
+    ],
+    "highlights": [
+      "Hybrid web/native architecture",
+      "Native device integration",
+      "Optimized rendering"
+    ],
+    "github": null,
+    "live": null
+  }
+]

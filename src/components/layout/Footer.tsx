@@ -1,41 +1,36 @@
-'use client'
-
 import { Github, Linkedin, Mail } from 'lucide-react'
-import useNow from '@/hooks/useNow'
-import type { Personal } from '@/lib/types'
+import { CurrentYear } from '@/components/ui/Live'
+import { BUILD_NOW } from '@/lib/build-time'
+import type { Personal } from '@/lib/schema'
 
-type FooterPersonal = Pick<Personal, 'name' | 'footerBio' | 'github' | 'linkedin' | 'email' | 'copyrightYear'>
+type FooterPersonal = Pick<Personal, 'name' | 'footerBio' | 'github' | 'linkedin' | 'email'>
+
+const ICON_LINK =
+  'inline-flex h-11 w-11 items-center justify-center text-muted hover:text-slate-200 transition-colors'
 
 export default function Footer({ personal }: { personal: FooterPersonal }) {
-  const now = useNow()
-  // Live current year, with the JSON value as the pre-mount fallback.
-  const year = now ? now.getFullYear() : personal.copyrightYear
-
   return (
     <footer className="bg-slate-900/60 border-t border-slate-800 py-12 px-4">
       <div className="max-w-6xl mx-auto text-center">
-        <p className="font-mono text-sm text-slate-500 mb-3">
+        <p className="font-mono text-sm text-muted mb-3">
           <span className="text-emerald-400">&quot;{personal.name}&quot;</span>
         </p>
-        <p className="text-slate-600 text-sm mb-8 max-w-md mx-auto">{personal.footerBio}</p>
+        <p className="text-muted text-sm mb-8 max-w-md mx-auto">{personal.footerBio}</p>
 
-        <div className="flex justify-center gap-6 mb-8">
-          <a href={personal.github} target="_blank" rel="noreferrer"
-            className="text-slate-600 hover:text-slate-300 transition-colors" aria-label="GitHub">
-            <Github size={20} />
+        <div className="flex justify-center gap-2 mb-8">
+          <a href={personal.github} target="_blank" rel="noreferrer" className={ICON_LINK} aria-label="GitHub">
+            <Github size={20} aria-hidden="true" />
           </a>
-          <a href={personal.linkedin} target="_blank" rel="noreferrer"
-            className="text-slate-600 hover:text-slate-300 transition-colors" aria-label="LinkedIn">
-            <Linkedin size={20} />
+          <a href={personal.linkedin} target="_blank" rel="noreferrer" className={ICON_LINK} aria-label="LinkedIn">
+            <Linkedin size={20} aria-hidden="true" />
           </a>
-          <a href={`mailto:${personal.email}`}
-            className="text-slate-600 hover:text-slate-300 transition-colors" aria-label="Email">
-            <Mail size={20} />
+          <a href={`mailto:${personal.email}`} className={ICON_LINK} aria-label="Email">
+            <Mail size={20} aria-hidden="true" />
           </a>
         </div>
 
-        <p className="text-slate-500 text-xs font-mono">
-          © {year} {personal.name} &middot; Built with Next.js &amp; Tailwind CSS
+        <p className="text-muted text-xs font-mono">
+          © <CurrentYear fallback={BUILD_NOW.getFullYear()} /> {personal.name} &middot; Built with Next.js &amp; Tailwind CSS
         </p>
       </div>
     </footer>

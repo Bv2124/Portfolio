@@ -1,0 +1,90 @@
+{
+  "personal": {
+    "name": "Vigneshwaran Balasubramanian",
+    "firstName": "Vigneshwaran",
+    "lastName": "Balasubramanian",
+    "title": "Full-Stack Developer",
+    "location": "Coimbatore, Tamil Nadu, India",
+    "email": "bvjamalian@gmail.com",
+    "phones": [
+      "+91 9487941025"
+    ],
+    "github": "https://github.com/Bv2124",
+    "linkedin": "https://linkedin.com/in/vignesh-waran-18599a2b2",
+    "resume": "/VIGNESHWARAN.pdf",
+    "heroBio": "Full-stack developer crafting offline-first mobile apps and modern web platforms — from React Native field tools used by 2,000+ technicians to healthcare web apps for clients across Australia.",
+    "footerBio": "Full-stack developer building reliable mobile and web applications that scale with confidence.",
+    "usersServed": "3,000+",
+    "careerStart": "2023-05",
+    "openToWork": true,
+    "availability": "Open to full-stack & hybrid mobile app development · Remote / Hybrid / On-site"
+  },
+  "roles": [
+    "Full-Stack Developer",
+    "React & Next.js Developer",
+    "Python / Django Developer",
+    "React Native Developer"
+  ],
+  "about": {
+    "paragraphs": [
+      "I'm a **Full-Stack Developer** with **{{years}}+ years of experience**, building everything from offline-first mobile apps to modern web platforms for healthcare and enterprise clients.",
+      "Currently at **Intergy Consulting**, I build full-stack web applications for the Australian **healthcare and aged-care** sector using **React, Next.js, Python and Django** — including exam portals, therapy-scheduling tools and support-worker allocation systems.",
+      "Previously at **Nanosoft Engineers**, I led React Native development for apps serving **2,000+ field technicians**, specializing in offline-first architecture, encrypted storage and custom sync logic.",
+      "I'm continuously expanding my stack — currently deepening **Django** and exploring **Strapi CMS** and **Salesforce** integrations."
+    ],
+    "achievements": [
+      {
+        "text": "Built full-stack web apps for the Australian healthcare & aged-care sector",
+        "color": "blue"
+      },
+      {
+        "text": "Shipped React Native apps to Play Store & App Store for 2,000+ users",
+        "color": "purple"
+      },
+      {
+        "text": "Designed offline-first sync and encrypted local storage",
+        "color": "green"
+      },
+      {
+        "text": "Expanding into Python, Django, PostgreSQL & Strapi CMS",
+        "color": "orange"
+      }
+    ]
+  },
+  "specialty": {
+    "title": "From Mobile to Full-Stack",
+    "text": "I build offline-first mobile apps with React Native and modern web platforms with React, Next.js, Python and Django — delivering reliable, secure software for healthcare, aged-care and enterprise clients."
+  },
+  "whyHireMe": [
+    {
+      "iconName": "Code",
+      "title": "Full-Stack Range",
+      "description": "Mobile to web — React Native, React, Next.js & Python/Django"
+    },
+    {
+      "iconName": "Database",
+      "title": "Offline-Ready",
+      "description": "Apps that work seamlessly without connectivity"
+    },
+    {
+      "iconName": "Shield",
+      "title": "Security-First",
+      "description": "Encrypted storage and secure authentication flows"
+    },
+    {
+      "iconName": "Zap",
+      "title": "Performance-Driven",
+      "description": "Optimized for speed and efficiency"
+    },
+    {
+      "iconName": "Smartphone",
+      "title": "Cross-Platform",
+      "description": "Native performance on both iOS and Android"
+    },
+    {
+      "iconName": "Globe",
+      "title": "Domain-Aware",
+      "description": "Hands-on healthcare and aged-care experience"
+    }
+  ]
+}
