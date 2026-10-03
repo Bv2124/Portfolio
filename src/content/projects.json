@@ -4,22 +4,37 @@
     "title": "Support-Worker Allocation Platform",
     "type": "Web Platforms",
     "description": "Live care-sector platform used by 50+ organizations, 300+ clinicians and 2,000+ users, matching support workers to clients by skill, location and availability. I maintain and extend it, and moved its live operations off Salesforce onto the in-house Django and PostgreSQL system.",
-    "tech": ["React", "Django", "PostgreSQL", "Salesforce"],
+    "tech": [
+      "React",
+      "Django",
+      "PostgreSQL",
+      "Salesforce"
+    ],
     "highlights": [
       "50+ organizations · 300+ clinicians · 2,000+ users",
       "Moved off Salesforce with zero data loss",
       "150+ production issues resolved"
     ],
     "github": null,
-    "live": null
+    "live": null,
+    "caseStudies": [
+      "salesforce-to-django-migration",
+      "production-ownership"
+    ]
   },
   {
     "slug": "therapy-scheduling-platform",
     "title": "Therapy-Scheduling Platform",
     "type": "Web Platforms",
     "description": "Production support and feature work on a therapy-scheduling platform: resolved production bugs and built a feature that lets clients move into another therapy session even after their own session has started.",
-    "tech": ["React", "Node.js"],
-    "highlights": ["Production bug fixes", "Switch sessions after one has started"],
+    "tech": [
+      "React",
+      "Node.js"
+    ],
+    "highlights": [
+      "Production bug fixes",
+      "Switch sessions after one has started"
+    ],
     "github": null,
     "live": null
   },
@@ -28,7 +43,10 @@
     "title": "Online Exam Portal",
     "type": "Web Platforms",
     "description": "Set up the initial code architecture and built the frontend over the first 6+ months, from project start through mid-phase, including automated grading and real-time results.",
-    "tech": ["React", "Next.js"],
+    "tech": [
+      "React",
+      "Next.js"
+    ],
     "highlights": [
       "Initial code architecture",
       "Frontend from project start to mid-phase",
@@ -42,22 +60,38 @@
     "title": "Facility Management App",
     "type": "Mobile Apps",
     "description": "React Native app for field technicians, part of Nanosoft's 4+ app suite used by 2,000+ technicians, built on the suite's offline-first sync with encrypted local storage.",
-    "tech": ["React Native", "TypeScript", "Redux Toolkit", "SQLite", "AsyncStorage"],
+    "tech": [
+      "React Native",
+      "TypeScript",
+      "Redux Toolkit",
+      "SQLite",
+      "AsyncStorage"
+    ],
     "highlights": [
       "Offline-first sync (SQLite + AsyncStorage)",
       "Encrypted local storage",
       "Android & iOS releases"
     ],
     "github": null,
-    "live": null
+    "live": null,
+    "caseStudies": [
+      "offline-first-field-sync"
+    ]
   },
   {
     "slug": "customer-visit-management-app",
     "title": "Customer Visit-Management App",
     "type": "Mobile Apps",
     "description": "React Native app for managing customer visits, with photo capture, a signature pad and real-time sync.",
-    "tech": ["React Native", "Redux Toolkit"],
-    "highlights": ["Photo capture", "Signature pad", "Real-time sync"],
+    "tech": [
+      "React Native",
+      "Redux Toolkit"
+    ],
+    "highlights": [
+      "Photo capture",
+      "Signature pad",
+      "Real-time sync"
+    ],
     "github": null,
     "live": null
   },
@@ -66,8 +100,15 @@
     "title": "GPS Attendance App",
     "type": "Mobile Apps",
     "description": "GPS-aware React Native attendance app with QR check-in and offline logging.",
-    "tech": ["React Native", "Geolocation"],
-    "highlights": ["GPS-aware check-in", "QR check-in", "Offline attendance logging"],
+    "tech": [
+      "React Native",
+      "Geolocation"
+    ],
+    "highlights": [
+      "GPS-aware check-in",
+      "QR check-in",
+      "Offline attendance logging"
+    ],
     "github": null,
     "live": null
   },
@@ -76,8 +117,15 @@
     "title": "Hybrid WebView App",
     "type": "Mobile Apps",
     "description": "Packaged existing web applications as Android and iOS apps using react-native-webview.",
-    "tech": ["React Native", "react-native-webview"],
-    "highlights": ["react-native-webview wrapper", "Reuses existing web apps", "Android & iOS"],
+    "tech": [
+      "React Native",
+      "react-native-webview"
+    ],
+    "highlights": [
+      "react-native-webview wrapper",
+      "Reuses existing web apps",
+      "Android & iOS"
+    ],
     "github": null,
     "live": null
   },
@@ -86,8 +134,14 @@
     "title": "Vaasi",
     "type": "Personal Projects",
     "description": "Online bookstore where users can buy a single book or a curated collection.",
-    "tech": ["Next.js", "Django"],
-    "highlights": ["Buy a single book or a curated collection", "Next.js frontend, Django backend"],
+    "tech": [
+      "Next.js",
+      "Django"
+    ],
+    "highlights": [
+      "Buy a single book or a curated collection",
+      "Next.js frontend, Django backend"
+    ],
     "github": null,
     "live": "https://vaasi.vercel.app/"
   },
@@ -96,8 +150,14 @@
     "title": "Akam Psychiatric Care Center",
     "type": "Personal Projects",
     "description": "Dynamic site where the admin updates projects, staff details and content through Google Sheets, with no code changes.",
-    "tech": ["Next.js", "Google Sheets API"],
-    "highlights": ["Content managed in Google Sheets", "Updates without code changes"],
+    "tech": [
+      "Next.js",
+      "Google Sheets API"
+    ],
+    "highlights": [
+      "Content managed in Google Sheets",
+      "Updates without code changes"
+    ],
     "github": null,
     "live": "https://akam-2124.vercel.app/"
   },
@@ -106,8 +166,13 @@
     "title": "Computer Park",
     "type": "Personal Projects",
     "description": "Business website for a corporate-gifting and printing company, built to expand its customer reach and structured to grow into e-commerce.",
-    "tech": ["Next.js"],
-    "highlights": ["Corporate gifting & printing business site", "Structured to grow into e-commerce"],
+    "tech": [
+      "Next.js"
+    ],
+    "highlights": [
+      "Corporate gifting & printing business site",
+      "Structured to grow into e-commerce"
+    ],
     "github": null,
     "live": "https://computerpark.vercel.app/"
   }

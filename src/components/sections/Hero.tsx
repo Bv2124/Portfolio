@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import Link from 'next/link'
 import { ArrowRight, ChevronDown, Download } from 'lucide-react'
 import RoleTypewriter from '@/components/ui/RoleTypewriter'
 import { LiveYears } from '@/components/ui/Live'
@@ -95,13 +96,13 @@ export default function Hero({ personal, roles }: HeroProps) {
 
         {/* CTAs */}
         <div className="hero-in flex flex-col sm:flex-row sm:flex-wrap gap-4 mb-16" style={step(5)}>
-          <a
-            href="#projects"
+          <Link
+            href="/#case-studies"
             className="group flex items-center justify-center gap-2 min-h-11 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-[background-color,box-shadow,transform] duration-300 shadow-lg shadow-blue-600/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 text-sm"
           >
-            View Projects
-            <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
-          </a>
+            View Case Studies
+            <ArrowRight size={15} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
+          </Link>
           <a
             href={personal.resume}
             download={RESUME_DOWNLOAD_NAME}

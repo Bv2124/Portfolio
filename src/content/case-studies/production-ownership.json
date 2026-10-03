@@ -1,0 +1,47 @@
+{
+  "slug": "production-ownership",
+  "title": "Taking over a live platform after a one-month handover",
+  "tagline": "Independently resolved 150+ production issues, cut a long-loading service-creation flow to seconds, and fixed a cross-timezone scheduling bug, working daily with Australian stakeholders.",
+  "employer": "Intergy Consulting",
+  "context": "The same live care-sector platform, used by 50+ organizations, 300+ clinicians and 2,000+ users, reached me as an inherited production codebase after a one-month handover.",
+  "stack": ["Django", "PostgreSQL", "Python"],
+  "metrics": [
+    { "value": "150+", "label": "Production issues resolved" },
+    { "value": "1 month", "label": "Handover before I took ownership" },
+    { "value": "Seconds", "label": "Long-loading process now completes in" },
+    { "value": "Daily", "label": "Work with Australian stakeholders" }
+  ],
+  "challenge": [
+    "A live system with real users arrived with a one-month handover. From then on I resolved production issues independently and shipped hotfixes directly to the client, from code change to deployment.",
+    "Two problems stood out: a service-creation workflow that took a long time to load, and appointments that showed the wrong time depending on the viewer's device."
+  ],
+  "approach": [
+    {
+      "title": "Take ownership of the inherited codebase",
+      "text": "Took ownership of the inherited production codebase after a one-month handover."
+    },
+    {
+      "title": "Resolve issues and ship hotfixes",
+      "text": "Independently resolved 150+ production issues, shipping hotfixes directly to the client from code change to deployment."
+    },
+    {
+      "title": "Speed up service creation",
+      "text": "Optimized PostgreSQL queries and API logic in the service-creation workflow, reducing a long-loading process to completion within seconds."
+    },
+    {
+      "title": "Fix cross-timezone scheduling",
+      "text": "Fixed a scheduling defect so appointments display in each service's own time zone rather than the viewer's device time."
+    },
+    {
+      "title": "Work with stakeholders every day",
+      "text": "Worked directly with Australian stakeholders every day on requirements gathering and live support."
+    }
+  ],
+  "outcome": [
+    "150+ production issues resolved.",
+    "A long-loading service-creation process now completes within seconds.",
+    "Appointments display in each service's own time zone, whatever the viewer's device says."
+  ],
+  "related": ["salesforce-to-django-migration"],
+  "visual": "timezone"
+}

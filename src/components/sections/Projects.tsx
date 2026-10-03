@@ -1,12 +1,13 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Github, ExternalLink, CheckCircle2, Lock } from 'lucide-react'
+import Link from 'next/link'
+import { Github, ExternalLink, CheckCircle2, Lock, ArrowUpRight } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
-import type { Project } from '@/lib/schema'
+import type { ProjectWithLinks } from '@/lib/content'
 
 interface ProjectsProps {
-  projects: Project[]
+  projects: ProjectWithLinks[]
   githubUrl: string
 }
 
@@ -101,6 +102,21 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
                   </li>
                 ))}
               </ul>
+
+              {project.caseStudies.length > 0 && (
+                <div className="mt-4 flex flex-col">
+                  {project.caseStudies.map(study => (
+                    <Link
+                      key={study.slug}
+                      href={`/case-studies/${study.slug}/`}
+                      className="inline-flex items-start gap-1.5 min-h-11 py-2 text-sm font-medium text-blue-300 hover:text-blue-200 transition-colors"
+                    >
+                      <span>Case study: {study.title}</span>
+                      <ArrowUpRight size={14} aria-hidden="true" className="mt-0.5 shrink-0" />
+                    </Link>
+                  ))}
+                </div>
+              )}
 
               {(project.github || project.live) ? (
                 <div className="flex gap-2 mt-5 pt-4 border-t border-slate-800">

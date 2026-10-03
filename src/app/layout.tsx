@@ -2,29 +2,24 @@ import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
-import { getProfile, getSkillKeywords } from '@/lib/content'
+import { SITE_URL, getProfile, getSkillKeywords, siteOpenGraph } from '@/lib/content'
 
 const inter = Inter({ subsets: ['latin'] })
 
-// SEO metadata derived from the same validated content as the page.
 const { personal } = getProfile()
 const pageTitle = `${personal.name} — ${personal.title}`
 
 export const metadata: Metadata = {
-  title:       pageTitle,
+  // A URL object (not a string) so relative URLs resolve with the site's trailing-slash rules.
+  metadataBase: new URL(SITE_URL),
+  title: { default: pageTitle, template: `%s · ${personal.firstName} B` },
   description: personal.seoDescription,
-  keywords:    [...getSkillKeywords(), personal.title, personal.location].join(', '),
-  authors:     [{ name: personal.name }],
-  openGraph: {
-    title:       pageTitle,
-    description: personal.seoDescription,
-    type:        'website',
-  },
-  twitter: {
-    card:        'summary',
-    title:       pageTitle,
-    description: personal.seoDescription,
-  },
+  keywords: [...getSkillKeywords(), personal.title, personal.location].join(', '),
+  authors: [{ name: personal.name }],
+  // Pages that set their own `openGraph` replace this object, so they spread siteOpenGraph.
+  openGraph: { ...siteOpenGraph, title: pageTitle, description: personal.seoDescription },
+  // No title here: each page's Twitter card fills in its own from its Open Graph data.
+  twitter: { card: 'summary_large_image' },
 }
 
 export const viewport: Viewport = {

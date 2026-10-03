@@ -93,10 +93,12 @@ export const SkillsFileSchema = z.object({
   groups: z.array(SkillGroupSchema).min(1),
 })
 
+const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Expected a kebab-case slug')
+
 export const PROJECT_TYPES = ['Web Platforms', 'Mobile Apps', 'Personal Projects'] as const
 
 export const ProjectSchema = z.object({
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Expected a kebab-case slug'),
+  slug,
   title: nonEmpty,
   type: z.enum(PROJECT_TYPES),
   description: nonEmpty,
@@ -104,6 +106,36 @@ export const ProjectSchema = z.object({
   highlights: z.array(nonEmpty).min(1),
   github: z.url().nullable(),
   live: z.url().nullable(),
+  // Slugs of the case studies that go deeper on this project.
+  caseStudies: z.array(slug).optional(),
+})
+
+// Every visual has a component registered for it (see components/case-study/visuals.tsx).
+export const CASE_STUDY_VISUALS = ['pipeline', 'sync', 'timezone'] as const
+
+// Case studies only state what the résumé supports. `team`, `tradeoffs` and `learnings` are
+// optional extras that render only when filled in; nothing is shown as a placeholder.
+export const CaseStudySchema = z.object({
+  slug,
+  title: nonEmpty,
+  tagline: nonEmpty,
+  // Must match an experience entry's company; role and dates are derived from it.
+  employer: nonEmpty,
+  context: nonEmpty,
+  stack: z.array(nonEmpty).min(1),
+  metrics: z
+    .array(z.object({ value: nonEmpty, label: nonEmpty, srText: nonEmpty.optional() }))
+    .min(2)
+    .max(4),
+  challenge: z.array(nonEmpty).min(1),
+  approach: z.array(z.object({ title: nonEmpty, text: nonEmpty })).min(2),
+  outcome: z.array(nonEmpty).min(1),
+  alsoShipped: z.array(nonEmpty).optional(),
+  related: z.array(slug).optional(),
+  visual: z.enum(CASE_STUDY_VISUALS),
+  team: nonEmpty.optional(),
+  tradeoffs: z.array(nonEmpty).optional(),
+  learnings: z.array(nonEmpty).optional(),
 })
 
 export const EducationItemSchema = z.object({
@@ -120,10 +152,48 @@ export const ContentSchema = z
     experience: z.array(JobSchema).min(1),
     skills: SkillsFileSchema,
     projects: z.array(ProjectSchema).min(1),
+    caseStudies: z.array(CaseStudySchema).min(1),
     education: z.array(EducationItemSchema).min(1),
   })
   .superRefine((c, ctx) => {
     const dupes = (values: string[]) => values.filter((v, i) => values.indexOf(v) !== i)
+    const studySlugs = c.caseStudies.map(s => s.slug)
+
+    for (const dup of dupes(studySlugs)) {
+      ctx.addIssue({ code: 'custom', path: ['caseStudies'], message: `Duplicate case study slug "${dup}"` })
+    }
+    for (const dup of dupes(c.caseStudies.map(s => s.title))) {
+      ctx.addIssue({ code: 'custom', path: ['caseStudies'], message: `Duplicate case study title "${dup}"` })
+    }
+    c.caseStudies.forEach((study, i) => {
+      if (!c.experience.some(job => job.company === study.employer)) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['caseStudies', i, 'employer'],
+          message: `No experience entry for "${study.employer}"`,
+        })
+      }
+      study.related?.forEach((rel, j) => {
+        if (rel === study.slug || !studySlugs.includes(rel)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['caseStudies', i, 'related', j],
+            message: `"${rel}" is not another case study`,
+          })
+        }
+      })
+    })
+    c.projects.forEach((project, i) => {
+      project.caseStudies?.forEach((ref, j) => {
+        if (!studySlugs.includes(ref)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['projects', i, 'caseStudies', j],
+            message: `Unknown case study "${ref}"`,
+          })
+        }
+      })
+    })
 
     for (const slug of dupes(c.projects.map(p => p.slug))) {
       ctx.addIssue({ code: 'custom', path: ['projects'], message: `Duplicate project slug "${slug}"` })
@@ -151,4 +221,6 @@ export type Job = z.infer<typeof JobSchema>
 export type SkillItem = z.infer<typeof SkillItemSchema>
 export type SkillGroup = z.infer<typeof SkillGroupSchema>
 export type Project = z.infer<typeof ProjectSchema>
+export type CaseStudy = z.infer<typeof CaseStudySchema>
+export type CaseStudyVisual = (typeof CASE_STUDY_VISUALS)[number]
 export type EducationItem = z.infer<typeof EducationItemSchema>

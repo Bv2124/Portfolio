@@ -1,11 +1,12 @@
 // Single registry for page sections: nav order, heading numbers and titles all come from here.
 export const SECTIONS = [
-  { id: 'about',      label: 'About',      title: 'About Me'                   },
-  { id: 'experience', label: 'Experience', title: 'Experience'                 },
-  { id: 'skills',     label: 'Skills',     title: 'Tech Stack'                 },
-  { id: 'projects',   label: 'Projects',   title: 'Featured Projects'          },
-  { id: 'education',  label: 'Education',  title: 'Education & Certifications' },
-  { id: 'contact',    label: 'Contact',    title: 'Get In Touch'               },
+  { id: 'about',        label: 'About',        title: 'About Me'                   },
+  { id: 'experience',   label: 'Experience',   title: 'Experience'                 },
+  { id: 'case-studies', label: 'Case Studies', title: 'Case Studies'               },
+  { id: 'skills',       label: 'Skills',       title: 'Tech Stack'                 },
+  { id: 'projects',     label: 'Projects',     title: 'Featured Projects'          },
+  { id: 'education',    label: 'Education',    title: 'Education & Certifications' },
+  { id: 'contact',      label: 'Contact',      title: 'Get In Touch'               },
 ] as const
 
 export type SectionId = (typeof SECTIONS)[number]['id']

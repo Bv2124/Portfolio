@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "verify": "npm run lint && npm run typecheck && npm test && npm run build && npm run test:e2e"
+    "verify": "npm run lint && npm run typecheck && npm test && npm run build && npm run test:e2e",
+    "og": "node scripts/og-image.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.263.1",

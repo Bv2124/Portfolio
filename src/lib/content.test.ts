@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { rawContent } from '@/content'
-import { content } from './content'
+import {
+  SITE_URL,
+  caseStudyUrl,
+  content,
+  getCaseStudy,
+  getCaseStudyNeighbors,
+  getJobForCaseStudy,
+  getProjects,
+} from './content'
 import { ContentSchema } from './schema'
 
 type Raw = typeof rawContent
@@ -89,6 +97,41 @@ describe('schema rejects broken content, naming the path', () => {
       mutate: c => { c.profile.personal.seoDescription = 'x'.repeat(161) },
       path: 'profile.personal.seoDescription',
     },
+    {
+      name: 'a case study whose employer has no experience entry',
+      mutate: c => { c.caseStudies[0]!.employer = 'Nowhere Inc' },
+      path: 'caseStudies.0.employer',
+    },
+    {
+      name: 'a case study that relates to a slug that does not exist',
+      mutate: c => { (c.caseStudies[0] as { related?: string[] }).related = ['no-such-study'] },
+      path: 'caseStudies.0.related.0',
+    },
+    {
+      name: 'a case study that relates to itself',
+      mutate: c => { (c.caseStudies[0] as { related?: string[] }).related = [c.caseStudies[0]!.slug] },
+      path: 'caseStudies.0.related.0',
+    },
+    {
+      name: 'a project that links to a case study that does not exist',
+      mutate: c => { c.projects[0]!.caseStudies = ['no-such-study'] },
+      path: 'projects.0.caseStudies.0',
+    },
+    {
+      name: 'a case study visual with no component',
+      mutate: c => { (c.caseStudies[0] as { visual: string }).visual = 'hologram' },
+      path: 'caseStudies.0.visual',
+    },
+    {
+      name: 'a case study with a single metric',
+      mutate: c => { c.caseStudies[0]!.metrics = c.caseStudies[0]!.metrics.slice(0, 1) },
+      path: 'caseStudies.0.metrics',
+    },
+    {
+      name: 'a case study with no approach steps',
+      mutate: c => { c.caseStudies[0]!.approach = [] },
+      path: 'caseStudies.0.approach',
+    },
   ]
 
   it.each(cases)('$name', ({ mutate, path }) => {
@@ -105,6 +148,61 @@ describe('schema rejects broken content, naming the path', () => {
 
   it('rejects duplicate skill groups', () => {
     expect(issuePaths(c => { c.skills.groups[1]!.name = c.skills.groups[0]!.name })).toContain('skills.groups')
+  })
+
+  it('rejects duplicate case study slugs', () => {
+    expect(issuePaths(c => { c.caseStudies[1]!.slug = c.caseStudies[0]!.slug })).toContain('caseStudies')
+  })
+})
+
+describe('case study selectors', () => {
+  const [first, second, third] = content.caseStudies
+
+  it('finds a case study by slug and returns null for an unknown one', () => {
+    expect(getCaseStudy(first!.slug)?.title).toBe(first!.title)
+    expect(getCaseStudy('nope')).toBeNull()
+  })
+
+  it('links neighbours in the order they are listed, with no wrap-around', () => {
+    expect(getCaseStudyNeighbors(first!.slug)).toEqual({ prev: null, next: second })
+    expect(getCaseStudyNeighbors(second!.slug)).toEqual({ prev: first, next: third })
+    expect(getCaseStudyNeighbors(third!.slug)).toEqual({ prev: second, next: null })
+  })
+
+  it('builds canonical URLs that are absolute and end in a slash', () => {
+    expect(SITE_URL).toBe('https://bv2124.vercel.app')
+    expect(caseStudyUrl('production-ownership')).toBe('https://bv2124.vercel.app/case-studies/production-ownership/')
+  })
+
+  it('derives role and employer from the matching experience entry', () => {
+    const study = getCaseStudy('offline-first-field-sync')!
+    expect(getJobForCaseStudy(study).role).toBe('React Native Developer')
+  })
+
+  it('resolves project → case study links with titles', () => {
+    const platform = getProjects().find(p => p.slug === 'support-worker-allocation-platform')!
+    expect(platform.caseStudies.map(c => c.slug)).toEqual([
+      'salesforce-to-django-migration',
+      'production-ownership',
+    ])
+    expect(platform.caseStudies.every(c => c.title.length > 0)).toBe(true)
+  })
+
+  it('gives every case study a route-safe slug and at least two metrics', () => {
+    for (const study of content.caseStudies) {
+      expect(study.slug).toMatch(/^[a-z0-9-]+$/)
+      expect(study.metrics.length).toBeGreaterThanOrEqual(2)
+    }
+  })
+
+  it('never ships empty placeholder text in the optional sections', () => {
+    // team / tradeoffs / learnings are optional: absent is fine, but present must have real content.
+    for (const study of content.caseStudies) {
+      if (study.team !== undefined) expect(study.team.trim().length).toBeGreaterThan(0)
+      for (const line of [...(study.tradeoffs ?? []), ...(study.learnings ?? [])]) {
+        expect(line).not.toMatch(/todo|tbd|lorem|placeholder/i)
+      }
+    }
   })
 })
 
@@ -163,6 +261,9 @@ describe('key résumé facts are present, with their qualifiers', () => {
     ['Australian stakeholders', /Australian stakeholders/],
     ['mentoring 2 junior developers', /2 junior developers/],
     ['MCA end year', /2024 – 2027/],
+    ['migration case study keeps "5+ validation stages"', /5\+ validation stages/],
+    ['migration runs are described as two separate counts', /~8,000 records to staging and ~14,000 to production/],
+    ['sync case study keeps the low-connectivity qualifier', /Sync success in low-connectivity areas rose from ~30% to ~80%/],
     ['Vaasi live site', /vaasi\.vercel\.app/],
     ['Akam live site', /akam-2124\.vercel\.app/],
     ['Computer Park live site', /computerpark\.vercel\.app/],

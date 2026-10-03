@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 
-const SECTION_IDS = ['about', 'experience', 'skills', 'projects', 'education', 'contact']
+const SECTION_IDS = ['about', 'experience', 'case-studies', 'skills', 'projects', 'education', 'contact']
 
 // Collects anything the browser would show as an error (this also catches React hydration warnings).
 function trackErrors(page: Page) {
@@ -69,32 +69,45 @@ test.describe('desktop navigation', () => {
   test('nav links scroll their section into view and mark it current', async ({ page }) => {
     await page.goto('/')
     const nav = page.getByRole('navigation', { name: 'Primary' })
-    for (const id of ['experience', 'projects', 'contact']) {
-      await nav.locator(`a[href="#${id}"]`).click()
+    for (const id of ['experience', 'case-studies', 'projects', 'contact']) {
+      await nav.locator(`a[href="/#${id}"]`).click()
       await expect(page.locator(`section#${id}`)).toBeInViewport({ ratio: 0.1 })
-      await expect(nav.locator(`a[href="#${id}"]`)).toHaveAttribute('aria-current', 'true')
+      await expect(nav.locator(`a[href="/#${id}"]`)).toHaveAttribute('aria-current', 'true')
     }
   })
 
   test('the current-section highlight clears back at the top', async ({ page }) => {
     await page.goto('/')
     const nav = page.getByRole('navigation', { name: 'Primary' })
-    await nav.locator('a[href="#about"]').click()
+    await nav.locator('a[href="/#about"]').click()
     await expect(nav.locator('a[aria-current="true"]')).toHaveCount(1)
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
     await expect(nav.locator('a[aria-current="true"]')).toHaveCount(0)
   })
 
-  for (const width of [1024, 1280, 1366]) {
-    test(`nav fits on one line at ${width}px`, async ({ page }) => {
+  // Seven links plus the résumé button need ~1280px; below that the hamburger menu takes over.
+  for (const width of [1280, 1366, 1440]) {
+    test(`all nav links fit on one row at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 800 })
       await page.goto('/')
-      const links = page.getByRole('navigation', { name: 'Primary' }).locator('a:visible')
-      const heights = await links.evaluateAll(els => els.map(el => Math.round(el.getBoundingClientRect().height)))
-      expect(heights.length).toBeGreaterThan(5)
-      expect(Math.max(...heights)).toBeLessThanOrEqual(44)
+      const nav = page.getByRole('navigation', { name: 'Primary' })
+      const boxes = await nav.locator('a:visible').evaluateAll(els =>
+        els.map(el => { const r = el.getBoundingClientRect(); return { height: Math.round(r.height), right: r.right } })
+      )
+      expect(boxes.length).toBeGreaterThan(8) // logo + 7 links + résumé
+      expect(Math.max(...boxes.map(b => b.height))).toBeLessThanOrEqual(44)
+      expect(Math.max(...boxes.map(b => b.right))).toBeLessThanOrEqual(width)
     })
   }
+
+  test('uses the hamburger menu below 1280px instead of cramming the links', async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 800 })
+    await page.goto('/')
+    await expect(page.getByRole('button', { name: 'Toggle menu' })).toBeVisible()
+    await expect(page.getByRole('navigation', { name: 'Primary' }).locator('a[href="/#about"]')).toBeHidden()
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+    expect(overflow).toBeLessThanOrEqual(0)
+  })
 })
 
 test.describe('mobile drawer', () => {
@@ -119,7 +132,7 @@ test.describe('mobile drawer', () => {
   test('a drawer link navigates and closes the drawer', async ({ page }) => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Toggle menu' }).click()
-    await page.locator('#mobile-menu a[href="#projects"]').click()
+    await page.locator('#mobile-menu a[href="/#projects"]').click()
     await expect(page.locator('#mobile-menu')).toHaveCount(0)
     await expect(page.locator('section#projects')).toBeInViewport({ ratio: 0.1 })
   })

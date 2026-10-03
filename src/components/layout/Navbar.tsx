@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Download, Menu, X } from 'lucide-react'
 import useScrolled from '@/hooks/useScrolled'
 import useActiveSection from '@/hooks/useActiveSection'
@@ -14,8 +16,13 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
   const [menuOpen, setMenuOpen] = useState(false)
   const scrolled = useScrolled(20)
   const active = useActiveSection(SECTION_IDS)
+  const pathname = usePathname()
   const buttonRef = useRef<HTMLButtonElement>(null)
   const drawerRef = useRef<HTMLDivElement>(null)
+
+  // The export serves pages with a trailing slash, so "/" and "/case-studies/x/" are what we see.
+  const isHome = (pathname.replace(/\/+$/, '') || '/') === '/'
+  const onCaseStudy = pathname.startsWith('/case-studies/')
 
   const closeMenu = (returnFocus = false) => {
     setMenuOpen(false)
@@ -34,7 +41,7 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
     drawerRef.current?.querySelector('a')?.focus()
 
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenu(true) }
-    const desktop = window.matchMedia('(min-width: 1024px)')
+    const desktop = window.matchMedia('(min-width: 1280px)')
     const onResize = () => { if (desktop.matches) setMenuOpen(false) }
     window.addEventListener('keydown', onKey)
     desktop.addEventListener('change', onResize)
@@ -47,9 +54,17 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
     }
   }, [menuOpen])
 
-  const scrollToTop = () => {
+  // On the home page the logo scrolls to the top; elsewhere it is an ordinary link home.
+  const onLogoClick = (e: React.MouseEvent) => {
+    if (!isHome) return
+    e.preventDefault()
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
+  }
+
+  const currentFor = (id: string) => {
+    if (id === 'case-studies' && onCaseStudy) return 'page'
+    return active === id ? 'true' : undefined
   }
 
   return (
@@ -62,35 +77,38 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
         <div className="flex justify-between items-center h-16">
 
           {/* Logo */}
-          <button
-            type="button"
-            onClick={scrollToTop}
-            aria-label={`${personal.name}, back to top`}
-            className="flex items-center gap-1 group bg-transparent border-none p-0 cursor-pointer"
+          <Link
+            href="/"
+            onClick={onLogoClick}
+            aria-label={`${personal.name}, home`}
+            className="flex items-center gap-1 group"
           >
             <span aria-hidden="true" className="text-muted font-mono text-sm group-hover:text-slate-300 transition-colors">~/</span>
             <span aria-hidden="true" className="font-bold text-slate-100 font-mono group-hover:text-white transition-colors">
               {personal.firstName.toLowerCase()}
             </span>
             <span aria-hidden="true" className="text-blue-400 font-mono font-bold">.dev</span>
-          </button>
+          </Link>
 
           {/* Desktop links */}
-          <div className="hidden lg:flex items-center gap-1">
-            {SECTIONS.map(link => (
-              <a
-                key={link.id}
-                href={`#${link.id}`}
-                aria-current={active === link.id ? 'true' : undefined}
-                className={`px-3 py-2 rounded-lg text-sm font-mono whitespace-nowrap transition-colors duration-200 ${
-                  active === link.id
-                    ? 'text-blue-400 bg-blue-400/10'
-                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
+          <div className="hidden xl:flex items-center gap-1">
+            {SECTIONS.map(link => {
+              const current = currentFor(link.id)
+              return (
+                <Link
+                  key={link.id}
+                  href={`/#${link.id}`}
+                  aria-current={current}
+                  className={`px-3 py-2 rounded-lg text-sm font-mono whitespace-nowrap transition-colors duration-200 ${
+                    current
+                      ? 'text-blue-400 bg-blue-400/10'
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
             <a
               href={personal.resume}
               download={RESUME_DOWNLOAD_NAME}
@@ -105,7 +123,7 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
           <button
             ref={buttonRef}
             type="button"
-            className="lg:hidden h-11 w-11 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+            className="xl:hidden h-11 w-11 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
             onClick={() => setMenuOpen(o => !o)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
@@ -122,22 +140,23 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
           <div
             aria-hidden="true"
             onClick={() => closeMenu()}
-            className="lg:hidden fixed inset-x-0 top-16 bottom-0 bg-slate-950/60"
+            className="xl:hidden fixed inset-x-0 top-16 bottom-0 bg-slate-950/60"
           />
           <div
             id={DRAWER_ID}
             ref={drawerRef}
-            className="lg:hidden relative max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain bg-slate-900/95 border-b border-slate-800 px-6 pb-6"
+            className="xl:hidden relative max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain bg-slate-900/95 border-b border-slate-800 px-6 pb-6"
           >
             {SECTIONS.map(link => (
-              <a
+              <Link
                 key={link.id}
-                href={`#${link.id}`}
+                href={`/#${link.id}`}
+                aria-current={currentFor(link.id)}
                 onClick={() => closeMenu()}
                 className="flex items-center min-h-12 text-slate-300 hover:text-blue-400 transition-colors font-mono text-sm border-b border-slate-800/50 last:border-0"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <a
               href={personal.resume}

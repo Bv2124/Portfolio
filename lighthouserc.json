@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./out",
-      "url": ["/index.html"],
+      "url": ["/index.html", "/case-studies/salesforce-to-django-migration/index.html"],
       "numberOfRuns": 3,
       "settings": { "preset": "desktop" }
     },
