@@ -3,7 +3,7 @@ import { CurrentYear } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import type { Personal } from '@/lib/schema'
 
-type FooterPersonal = Pick<Personal, 'name' | 'footerBio' | 'github' | 'linkedin' | 'email'>
+type FooterPersonal = Pick<Personal, 'name' | 'footerBio' | 'github' | 'linkedin' | 'email' | 'sourceRepo'>
 
 const ICON_LINK =
   'inline-flex h-11 w-11 items-center justify-center text-muted hover:text-slate-200 transition-colors'
@@ -30,7 +30,20 @@ export default function Footer({ personal }: { personal: FooterPersonal }) {
         </div>
 
         <p className="text-muted text-xs font-mono">
-          © <CurrentYear fallback={BUILD_NOW.getFullYear()} /> {personal.name} &middot; Built with Next.js, Tailwind CSS &amp; Motion
+          © <CurrentYear fallback={BUILD_NOW.getFullYear()} /> {personal.name} &middot; Built with Next.js, TypeScript &amp; Tailwind CSS
+          {personal.sourceRepo && (
+            <>
+              {' '}&middot;{' '}
+              <a
+                href={personal.sourceRepo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-300 underline underline-offset-4 hover:text-white"
+              >
+                View source
+              </a>
+            </>
+          )}
         </p>
       </div>
     </footer>

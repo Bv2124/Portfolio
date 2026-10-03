@@ -54,9 +54,11 @@ interface BodyProps {
   related: Array<{ slug: string; title: string }>
   prev: { slug: string; title: string } | null
   next: { slug: string; title: string } | null
+  // Link to this study's content file in the public repository, once it is public.
+  sourceUrl: string | null
 }
 
-export default function CaseStudyBody({ study, related, prev, next }: BodyProps) {
+export default function CaseStudyBody({ study, related, prev, next, sourceUrl }: BodyProps) {
   const Visual = VISUALS[study.visual]
 
   return (
@@ -127,6 +129,21 @@ export default function CaseStudyBody({ study, related, prev, next }: BodyProps)
               </Link>
             </span>
           ))}
+        </p>
+      )}
+
+      {sourceUrl && (
+        <p className="mt-6 max-w-3xl text-sm text-slate-400">
+          This page is generated from{' '}
+          <a
+            href={sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-300 underline underline-offset-4 hover:text-blue-200"
+          >
+            a validated JSON file in the site&apos;s repository
+          </a>
+          .
         </p>
       )}
 

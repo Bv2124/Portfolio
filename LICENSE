@@ -20,6 +20,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Exception: the personal content in src/app/data/ (later src/content/) and the
-resume PDFs in public/ are (c) Vigneshwaran B and are not covered by this
-licence.
+Exception: the personal content in src/content/ and the resume PDF in public/
+are (c) Vigneshwaran B and are not covered by this licence.

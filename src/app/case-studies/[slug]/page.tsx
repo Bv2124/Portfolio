@@ -95,6 +95,11 @@ export default async function CaseStudyPage({ params }: PageProps) {
             related={related}
             prev={prev ? { slug: prev.slug, title: prev.title } : null}
             next={next ? { slug: next.slug, title: next.title } : null}
+            sourceUrl={
+              personal.sourceRepo
+                ? `${personal.sourceRepo}/blob/main/src/content/case-studies/${study.slug}.json`
+                : null
+            }
           />
         </article>
       </main>
