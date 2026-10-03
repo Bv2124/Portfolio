@@ -9,23 +9,21 @@ const inter = Inter({ subsets: ['latin'] })
 // SEO metadata derived from the same validated content as the page.
 const { personal } = getProfile()
 const pageTitle = `${personal.name} — ${personal.title}`
-// Longer, keyword-rich <title> for search ranking; OG/Twitter cards keep the clean pageTitle.
-const seoTitle = `${pageTitle} | React, Next.js, React Native & Python/Django`
 
 export const metadata: Metadata = {
-  title:       seoTitle,
-  description: personal.heroBio,
+  title:       pageTitle,
+  description: personal.seoDescription,
   keywords:    [...getSkillKeywords(), personal.title, personal.location].join(', '),
   authors:     [{ name: personal.name }],
   openGraph: {
     title:       pageTitle,
-    description: personal.heroBio,
+    description: personal.seoDescription,
     type:        'website',
   },
   twitter: {
     card:        'summary',
     title:       pageTitle,
-    description: personal.heroBio,
+    description: personal.seoDescription,
   },
 }
 

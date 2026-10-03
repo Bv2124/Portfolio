@@ -1,186 +1,99 @@
 {
-  "categories": [
-    "Frontend",
-    "Backend",
-    "Tools",
-    "Database"
-  ],
-  "skills": [
+  "groups": [
     {
-      "name": "HTML5",
-      "iconName": "Monitor",
-      "category": "Frontend",
-      "level": "Expert",
-      "levelPercent": 95,
-      "accent": "orange"
-    },
-    {
-      "name": "CSS3",
-      "iconName": "Palette",
-      "category": "Frontend",
-      "level": "Expert",
-      "levelPercent": 90,
-      "accent": "blue"
-    },
-    {
-      "name": "React",
-      "iconName": "Atom",
-      "category": "Frontend",
-      "level": "Expert",
-      "levelPercent": 85,
-      "accent": "cyan"
-    },
-    {
-      "name": "Next.js",
-      "iconName": "Globe",
-      "category": "Frontend",
-      "level": "Intermediate",
-      "levelPercent": 65,
-      "accent": "slate"
-    },
-    {
-      "name": "Tailwind CSS",
-      "iconName": "Wind",
-      "category": "Frontend",
-      "level": "Intermediate",
-      "levelPercent": 70,
-      "accent": "sky"
-    },
-    {
-      "name": "Bootstrap",
-      "iconName": "Box",
-      "category": "Frontend",
-      "level": "Basic",
-      "levelPercent": 55,
-      "accent": "purple"
-    },
-    {
-      "name": "Python",
+      "name": "Languages",
       "iconName": "Braces",
-      "category": "Backend",
-      "level": "Intermediate",
-      "levelPercent": 70,
-      "accent": "yellow"
+      "items": [
+        { "name": "JavaScript", "note": "ES6+" },
+        { "name": "TypeScript" },
+        { "name": "Python", "core": true },
+        { "name": "SQL" }
+      ]
     },
     {
-      "name": "Django",
+      "name": "Frontend",
+      "iconName": "Monitor",
+      "items": [
+        { "name": "React", "core": true },
+        { "name": "Next.js", "core": true },
+        { "name": "Redux Toolkit" },
+        { "name": "Context API" },
+        { "name": "Tailwind CSS" },
+        { "name": "Bootstrap" },
+        { "name": "HTML5" },
+        { "name": "CSS3" }
+      ]
+    },
+    {
+      "name": "Backend",
       "iconName": "Server",
-      "category": "Backend",
-      "level": "Basic",
-      "levelPercent": 45,
-      "accent": "emerald"
+      "items": [
+        { "name": "Django", "core": true },
+        { "name": "Django ORM" },
+        { "name": "Node.js", "core": true },
+        { "name": "RESTful API design" },
+        { "name": "Strapi", "note": "headless CMS" },
+        { "name": "Firebase" }
+      ]
     },
     {
-      "name": "Azure Functions",
+      "name": "Databases",
+      "iconName": "Database",
+      "items": [
+        { "name": "PostgreSQL", "note": "schema design, query optimization, migrations", "core": true },
+        { "name": "MySQL" },
+        { "name": "SQLite" }
+      ]
+    },
+    {
+      "name": "Testing & QA",
+      "iconName": "TestTube2",
+      "items": [
+        { "name": "Pytest" },
+        { "name": "Playwright for Python", "note": "end-to-end browser automation" },
+        { "name": "Regression and smoke testing" }
+      ]
+    },
+    {
+      "name": "Cloud & CI/CD",
       "iconName": "Cloud",
-      "category": "Backend",
-      "level": "Intermediate",
-      "levelPercent": 70,
-      "accent": "sky"
+      "items": [
+        { "name": "Microsoft Azure" },
+        { "name": "Vercel" },
+        { "name": "GitHub Actions" }
+      ]
     },
     {
-      "name": "Strapi CMS",
-      "iconName": "Cloud",
-      "category": "Backend",
-      "level": "Intermediate",
-      "levelPercent": 65,
-      "accent": "violet"
-    },
-    {
-      "name": "Firebase",
-      "iconName": "Flame",
-      "category": "Backend",
-      "level": "Basic",
-      "levelPercent": 50,
-      "accent": "orange"
-    },
-    {
-      "name": "REST APIs",
-      "iconName": "Server",
-      "category": "Backend",
-      "level": "Intermediate",
-      "levelPercent": 75,
-      "accent": "emerald"
-    },
-    {
-      "name": "React Native",
+      "name": "Mobile",
       "iconName": "Smartphone",
-      "category": "Tools",
-      "level": "Expert",
-      "levelPercent": 90,
-      "accent": "blue"
+      "items": [
+        { "name": "React Native", "note": "CLI", "core": true },
+        { "name": "AsyncStorage" },
+        { "name": "Android Studio" },
+        { "name": "Xcode" },
+        { "name": "App Store & Play Store releases" }
+      ]
     },
     {
-      "name": "Salesforce",
-      "iconName": "Cloud",
-      "category": "Tools",
-      "level": "Basic",
-      "levelPercent": 50,
-      "accent": "sky"
+      "name": "Integrations",
+      "iconName": "Plug",
+      "items": [
+        { "name": "Salesforce", "note": "data migration & integration" },
+        { "name": "Google Sheets API" }
+      ]
     },
     {
-      "name": "Redux Toolkit",
-      "iconName": "Layers",
-      "category": "Tools",
-      "level": "Intermediate",
-      "levelPercent": 65,
-      "accent": "purple"
-    },
-    {
-      "name": "TypeScript",
-      "iconName": "Code2",
-      "category": "Tools",
-      "level": "Intermediate",
-      "levelPercent": 60,
-      "accent": "blue"
-    },
-    {
-      "name": "Android Studio",
-      "iconName": "Terminal",
-      "category": "Tools",
-      "level": "Intermediate",
-      "levelPercent": 70,
-      "accent": "green"
-    },
-    {
-      "name": "Xcode",
-      "iconName": "Apple",
-      "category": "Tools",
-      "level": "Intermediate",
-      "levelPercent": 65,
-      "accent": "slate"
-    },
-    {
-      "name": "Expo",
-      "iconName": "Compass",
-      "category": "Tools",
-      "level": "Basic",
-      "levelPercent": 50,
-      "accent": "slate"
-    },
-    {
-      "name": "PostgreSQL",
-      "iconName": "Database",
-      "category": "Database",
-      "level": "Intermediate",
-      "levelPercent": 70,
-      "accent": "sky"
-    },
-    {
-      "name": "SQLite",
-      "iconName": "Database",
-      "category": "Database",
-      "level": "Intermediate",
-      "levelPercent": 70,
-      "accent": "emerald"
-    },
-    {
-      "name": "MySQL",
-      "iconName": "Server",
-      "category": "Database",
-      "level": "Basic",
-      "levelPercent": 50,
-      "accent": "teal"
+      "name": "Tools & Practices",
+      "iconName": "Wrench",
+      "items": [
+        { "name": "Git" },
+        { "name": "GitHub" },
+        { "name": "Postman" },
+        { "name": "pgAdmin" },
+        { "name": "Code review" },
+        { "name": "Data migration & validation" },
+        { "name": "Production support" }
+      ]
     }
   ]
 }

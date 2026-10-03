@@ -24,6 +24,28 @@ test.describe('home page (server HTML)', () => {
     expect(html).toContain('id="projects"')
   })
 
+  test('shows the key résumé facts in the rendered text', async ({ request }) => {
+    const html = await renderedMarkup(request, '/')
+    const text = html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ')
+    for (const fact of [
+      'bv2124.dev@gmail.com',
+      'Full-Stack Engineer',
+      '150+ production issues',
+      '~14,000 to production',
+      '300+ clinicians',
+      'low-connectivity areas from ~30% to ~80%',
+      'Australia (Remote)',
+      'vaasi.vercel.app',
+    ]) {
+      expect(text, `missing "${fact}"`).toContain(fact)
+    }
+  })
+
+  test('résumé download link carries a recruiter-friendly file name', async ({ request }) => {
+    const html = await renderedMarkup(request, '/')
+    expect(html).toContain('download="Vigneshwaran_B_Full-Stack_Engineer_Resume.pdf"')
+  })
+
   test('does not hide any content with inline opacity:0', async ({ request }) => {
     const html = await renderedMarkup(request, '/')
     expect(html).not.toMatch(/style="[^"]*opacity:\s*0[;"]/)

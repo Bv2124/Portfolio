@@ -8,10 +8,9 @@ export const content = ContentSchema.parse(rawContent)
 
 export const getProfile = () => content.profile
 export const getExperience = () => content.experience
-export const getSkills = () => content.skills.skills
-export const getSkillCategories = () => content.skills.categories
+export const getSkillGroups = () => content.skills.groups
 export const getProjects = () => content.projects
 export const getEducation = () => content.education
 
 // Unique skill names, used for the <meta keywords> tag.
-export const getSkillKeywords = () => [...new Set(content.skills.skills.map(s => s.name))]
+export const getSkillKeywords = () => [...new Set(content.skills.groups.flatMap(g => g.items.map(i => i.name)))]

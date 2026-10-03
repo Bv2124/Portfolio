@@ -44,14 +44,12 @@ export default function Contact({ personal, whyHireMe }: ContactProps) {
         <div className="grid md:grid-cols-2 gap-10">
           {/* Contact links */}
           <div className="space-y-3">
-            <p className="text-slate-400 text-sm leading-relaxed mb-5">
-              Ready to build something reliable, scalable and offline-ready? Let&apos;s connect!
-            </p>
+            <p className="text-slate-400 text-sm leading-relaxed mb-5">{personal.contactIntro}</p>
 
             <ContactCard
               href={`tel:${primaryPhone.replace(/\s/g, '')}`}
               icon={<Phone size={18} className="text-emerald-400" />}
-              label="Phone / WhatsApp"
+              label="Phone"
             >
               {personal.phones.map(p => (
                 <span key={p} className="block text-slate-400 text-sm">{p}</span>
@@ -72,7 +70,7 @@ export default function Contact({ personal, whyHireMe }: ContactProps) {
               label="LinkedIn"
               external
             >
-              <span className="text-slate-400 text-sm">Connect with me</span>
+              <span className="text-slate-400 text-sm break-all">{personal.linkedin.replace(/^https?:\/\//, '')}</span>
             </ContactCard>
 
             <ContactCard
@@ -81,7 +79,7 @@ export default function Contact({ personal, whyHireMe }: ContactProps) {
               label="GitHub"
               external
             >
-              <span className="text-slate-400 text-sm">Check out my code</span>
+              <span className="text-slate-400 text-sm">{personal.github.replace(/^https?:\/\//, '')}</span>
             </ContactCard>
           </div>
 

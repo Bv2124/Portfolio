@@ -3,50 +3,38 @@
     "company": "Intergy Consulting",
     "companyUrl": "https://www.intergy.com.au/",
     "role": "Full-Stack Developer",
-    "location": "Mohan Buisness Park, Coimbatore, India",
+    "location": "Australia (Remote)",
     "start": "2025-08",
     "end": null,
-    "summary": "Building full-stack web applications for the Australian healthcare and aged-care sector.",
-    "tech": [
-      "React",
-      "Next.js",
-      "Python",
-      "Azure Functions",
-      "Django",
-      "PostgreSQL",
-      "Strapi",
-      "Salesforce"
-    ],
+    "summary": "Remote full-stack role on care-sector platforms, working directly with Australian stakeholders every day.",
+    "tech": ["React", "Next.js", "Python", "Django", "Node.js", "PostgreSQL", "Strapi", "Salesforce", "Azure", "GitHub Actions"],
     "highlights": [
-      "Built an online exam portal for secure, timed assessments",
-      "Developed a therapy-scheduling platform for mental-health clinicians",
-      "Engineered a support-worker allocation system for aged care across Australia",
-      "Integrated Strapi CMS and Salesforce; self-driven Django learning"
+      "Maintain and extend a live care-sector support-worker allocation platform serving 50+ organizations, 300+ clinicians, and 2,000+ users, matching support workers to clients by skill, location, and availability.",
+      "Took ownership of an inherited production codebase after a one-month handover; independently resolved 150+ production issues and ship hotfixes directly to the client, from code change to deployment.",
+      "Removed the platform's dependency on Salesforce by rebuilding the core service-validation logic from scratch and moving live operations onto the in-house Django and PostgreSQL system.",
+      "Led scripted data migrations of ~8,000 records to staging and ~14,000 to production, using a custom dry-run comparison script and 5+ validation stages to block duplicates, with zero data loss.",
+      "Optimized PostgreSQL queries and API logic in the service-creation workflow, reducing a long-loading process to completion within seconds.",
+      "Fixed a cross-timezone scheduling defect so appointments display in each service's own time zone rather than the viewer's device time.",
+      "Work directly with Australian stakeholders every day on requirements gathering and live support, and partner with the client's Salesforce developer to plan and execute the migration.",
+      "**Therapy-scheduling platform (React, Node.js):** resolved production bugs and built a feature that lets clients move into another therapy session even after their own session has started.",
+      "**Online exam portal:** set up the initial code architecture and built the frontend over the first 6+ months, from project start through mid-phase, including automated grading and real-time results."
     ]
   },
   {
     "company": "Nanosoft Engineers Pvt Ltd",
     "companyUrl": "https://www.nanosoftsolutions.in/index.html",
     "role": "React Native Developer",
-    "location": "Rs puram, Coimbatore, India",
+    "location": "Coimbatore, India",
     "start": "2023-05",
     "end": "2025-08",
-    "summary": "Led offline-first mobile app development serving 2,000+ field technicians.",
-    "tech": [
-      "React Native",
-      "Redux Toolkit",
-      "SQLite",
-      "Firebase",
-      "Android Studio",
-      "Xcode"
-    ],
+    "summary": "Shipped 4+ offline-first React Native apps for 2,000+ field technicians.",
+    "tech": ["React Native", "TypeScript", "Redux Toolkit", "SQLite", "AsyncStorage", "Firebase"],
     "highlights": [
-      "Delivered 4+ production apps used by 2,000+ field technicians worldwide",
-      "Improved sync success rates 45% with custom retry queues & exponential backoff",
-      "Cut image upload payloads 60% via automated media compression",
-      "Reduced UI latency 30% by refactoring legacy navigation & modal components",
-      "Shipped 15+ QA-ready builds; led Android & iOS store release cycles",
-      "Secured offline data with encrypted local storage"
+      "Delivered 4+ production mobile apps used by 2,000+ field technicians, with Redux Toolkit managing state across the app suite.",
+      "Designed an offline-first sync architecture (SQLite, AsyncStorage, custom retry queues with exponential backoff), raising sync success in low-connectivity areas from ~30% to ~80%.",
+      "Refactored legacy components and automated media compression, cutting UI latency by 30% and image payloads by 60%.",
+      "Led 15+ Android and iOS releases through App Store and Play Store review cycles, including encrypted local storage and compliance checks.",
+      "Also built a customer visit-management app (photo capture, signature pad, real-time sync) and a GPS-aware attendance app with QR check-in and offline logging."
     ]
   }
 ]

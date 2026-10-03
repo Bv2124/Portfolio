@@ -20,15 +20,10 @@ export default function Home() {
       <Navbar personal={personal} />
 
       <main id="main" tabIndex={-1}>
-        <Hero
-          personal={personal}
-          roles={roles}
-          projectCount={projects.length}
-          skillCount={skills.skills.length}
-        />
+        <Hero personal={personal} roles={roles} />
         <About personal={personal} about={about} />
         <Experience experience={experience} />
-        <Skills skills={skills.skills} categories={skills.categories} specialty={specialty} />
+        <Skills groups={skills.groups} specialty={specialty} />
         <Projects projects={projects} githubUrl={personal.github} />
         <Education education={education} />
         <Contact personal={personal} whyHireMe={whyHireMe} />

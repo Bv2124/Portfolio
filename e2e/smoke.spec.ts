@@ -132,7 +132,7 @@ test.describe('projects filter', () => {
     const cards = page.locator('section#projects h3')
     const total = await cards.count()
 
-    const mobile = group.getByRole('button', { name: 'Mobile' })
+    const mobile = group.getByRole('button', { name: 'Mobile Apps' })
     await mobile.click()
     await expect(mobile).toHaveAttribute('aria-pressed', 'true')
     await expect(group.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'false')
@@ -145,7 +145,7 @@ test.describe('projects filter', () => {
   test('project numbers stay stable when filtering', async ({ page }) => {
     await page.goto('/')
     const group = page.getByRole('group', { name: 'Filter projects' })
-    await group.getByRole('button', { name: 'Mobile' }).click()
+    await group.getByRole('button', { name: 'Mobile Apps' }).click()
     // Mobile projects are not the first ones in the full list, so the first card must not be "01".
     const firstNumber = await page.locator('section#projects [data-index]').first().getAttribute('data-index')
     expect(firstNumber).not.toBe('01')

@@ -1,4 +1,3 @@
-import { MapPin } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
 import BoldText from '@/components/ui/BoldText'
 import { LiveYears } from '@/components/ui/Live'
@@ -35,25 +34,38 @@ export default function About({ personal, about }: AboutProps) {
                 <BoldText text={para} tokens={tokens} />
               </p>
             ))}
-            <div className="flex items-center gap-2.5 pt-2">
-              <MapPin size={15} aria-hidden="true" className="text-blue-400 shrink-0" />
-              <span className="text-slate-400 text-sm">{personal.location}</span>
-            </div>
           </div>
 
-          <div className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
-            <h3 className="font-mono text-xs text-muted mb-5 uppercase tracking-widest">
-              <span className="sr-only">Key achievements</span>
-              <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>key_achievements</span>
-            </h3>
-            <ul className="space-y-4">
-              {about.achievements.map(ach => (
-                <li key={ach.text} className="flex items-start gap-3">
-                  <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full mt-[7px] shrink-0 ${ACHIEVEMENT_COLORS[ach.color]}`} />
-                  <span className="text-slate-400 text-sm leading-relaxed">{ach.text}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="space-y-6">
+            <div className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
+              <h3 className="font-mono text-xs text-muted mb-5 uppercase tracking-widest">
+                <span className="sr-only">Key achievements</span>
+                <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>key_achievements</span>
+              </h3>
+              <ul className="space-y-4">
+                {about.achievements.map(ach => (
+                  <li key={ach.text} className="flex items-start gap-3">
+                    <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full mt-[7px] shrink-0 ${ACHIEVEMENT_COLORS[ach.color]}`} />
+                    <span className="text-slate-400 text-sm leading-relaxed">{ach.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
+              <h3 className="font-mono text-xs text-muted mb-5 uppercase tracking-widest">
+                <span className="sr-only">Quick facts</span>
+                <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>quick_facts</span>
+              </h3>
+              <dl className="space-y-3">
+                {personal.quickFacts.map(fact => (
+                  <div key={fact.label} className="flex flex-col sm:flex-row sm:gap-4 text-sm">
+                    <dt className="sm:w-28 shrink-0 font-mono text-xs text-muted pt-0.5">{fact.label}</dt>
+                    <dd className="text-slate-300">{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </div>
         </div>
       </div>

@@ -6,16 +6,16 @@ const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Expected YYYY-MM')
 const iconName = z.enum(Object.keys(ICONS) as [IconName, ...IconName[]])
 const nonEmpty = z.string().trim().min(1)
 
-// Tokens, never Tailwind classes: Tailwind can't see classes that only appear in JSON.
-export const ACCENTS = [
-  'orange', 'blue', 'cyan', 'slate', 'sky', 'purple',
-  'yellow', 'emerald', 'violet', 'green', 'teal',
-] as const
-
 const AchievementSchema = z.object({
   text: nonEmpty,
   color: z.enum(['blue', 'purple', 'green', 'orange']),
 })
+
+// A hero stat is either a fixed value or the live "years of experience" figure.
+const HeroStatSchema = z.union([
+  z.object({ computed: z.literal('years'), label: nonEmpty }),
+  z.object({ value: nonEmpty, label: nonEmpty, srText: nonEmpty.optional() }),
+])
 
 export const PersonalSchema = z.object({
   name: nonEmpty,
@@ -27,13 +27,19 @@ export const PersonalSchema = z.object({
   phones: z.array(nonEmpty).min(1),
   github: z.url(),
   linkedin: z.url(),
+  website: z.url(),
+  // Set once the repository is public; enables "View source" links.
+  sourceRepo: z.url().nullable(),
   resume: z.string().startsWith('/'),
   heroBio: nonEmpty,
+  seoDescription: nonEmpty.max(160),
   footerBio: nonEmpty,
-  usersServed: nonEmpty,
+  contactIntro: nonEmpty,
   careerStart: month,
   openToWork: z.boolean(),
   availability: nonEmpty,
+  heroStats: z.array(HeroStatSchema).min(1),
+  quickFacts: z.array(z.object({ label: nonEmpty, value: nonEmpty })).min(1),
 })
 
 export const AboutSchema = z.object({
@@ -69,24 +75,30 @@ export const JobSchema = z.object({
   highlights: z.array(nonEmpty).min(1),
 })
 
-export const SkillSchema = z.object({
+// Skills mirror the resume's categories. `note` keeps its qualifiers (e.g. "schema design,
+// query optimization, migrations"); `core` marks the headline stack.
+export const SkillItemSchema = z.object({
+  name: nonEmpty,
+  note: nonEmpty.optional(),
+  core: z.boolean().optional(),
+})
+
+export const SkillGroupSchema = z.object({
   name: nonEmpty,
   iconName,
-  accent: z.enum(ACCENTS),
-  category: nonEmpty,
-  level: z.enum(['Expert', 'Intermediate', 'Basic']),
-  levelPercent: z.number().int().min(0).max(100),
+  items: z.array(SkillItemSchema).min(1),
 })
 
 export const SkillsFileSchema = z.object({
-  categories: z.array(nonEmpty).min(1),
-  skills: z.array(SkillSchema).min(1),
+  groups: z.array(SkillGroupSchema).min(1),
 })
+
+export const PROJECT_TYPES = ['Web Platforms', 'Mobile Apps', 'Personal Projects'] as const
 
 export const ProjectSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Expected a kebab-case slug'),
   title: nonEmpty,
-  type: nonEmpty,
+  type: z.enum(PROJECT_TYPES),
   description: nonEmpty,
   tech: z.array(nonEmpty).min(1),
   highlights: z.array(nonEmpty).min(1),
@@ -119,29 +131,24 @@ export const ContentSchema = z
     for (const title of dupes(c.projects.map(p => p.title))) {
       ctx.addIssue({ code: 'custom', path: ['projects'], message: `Duplicate project title "${title}"` })
     }
+    for (const group of dupes(c.skills.groups.map(g => g.name))) {
+      ctx.addIssue({ code: 'custom', path: ['skills', 'groups'], message: `Duplicate skill group "${group}"` })
+    }
     c.experience.forEach((job, i) => {
       if (job.end && job.end < job.start) {
         ctx.addIssue({ code: 'custom', path: ['experience', i, 'end'], message: 'end is before start' })
-      }
-    })
-    c.skills.skills.forEach((skill, i) => {
-      if (!c.skills.categories.includes(skill.category)) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['skills', 'skills', i, 'category'],
-          message: `Unknown category "${skill.category}"`,
-        })
       }
     })
   })
 
 export type Content = z.infer<typeof ContentSchema>
 export type Personal = z.infer<typeof PersonalSchema>
+export type HeroStat = z.infer<typeof HeroStatSchema>
 export type About = z.infer<typeof AboutSchema>
 export type Specialty = z.infer<typeof SpecialtySchema>
 export type WhyItem = z.infer<typeof WhyItemSchema>
 export type Job = z.infer<typeof JobSchema>
-export type Skill = z.infer<typeof SkillSchema>
+export type SkillItem = z.infer<typeof SkillItemSchema>
+export type SkillGroup = z.infer<typeof SkillGroupSchema>
 export type Project = z.infer<typeof ProjectSchema>
 export type EducationItem = z.infer<typeof EducationItemSchema>
-export type Accent = (typeof ACCENTS)[number]

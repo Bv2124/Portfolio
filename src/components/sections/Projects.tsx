@@ -60,6 +60,19 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
                 className="pointer-events-none absolute top-5 right-5 font-mono text-5xl font-bold text-slate-800/70 group-hover:text-slate-700/70 transition-colors select-none leading-none before:content-[attr(data-index)]"
               />
 
+              {project.live && (
+                <div aria-hidden="true" className="flex items-center gap-2 mb-4 -mt-1 pr-14">
+                  <span className="flex gap-1">
+                    <span className="w-2 h-2 rounded-full bg-slate-700" />
+                    <span className="w-2 h-2 rounded-full bg-slate-700" />
+                    <span className="w-2 h-2 rounded-full bg-slate-700" />
+                  </span>
+                  <span className="flex-1 truncate rounded bg-slate-950/70 border border-slate-800 px-2 py-0.5 font-mono text-[10px] text-muted">
+                    {new URL(project.live).host}
+                  </span>
+                </div>
+              )}
+
               <span className="inline-block mb-3 text-[10px] font-mono uppercase tracking-widest text-violet-300 bg-violet-500/10 border border-violet-500/20 px-2 py-0.5 rounded">
                 {project.type}
               </span>
@@ -106,7 +119,7 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
                 </div>
               ) : (
                 <div className="flex items-center gap-1.5 mt-5 pt-4 border-t border-slate-800 text-muted text-xs font-mono">
-                  <Lock size={12} aria-hidden="true" className="shrink-0" /> Private client project · code under NDA
+                  <Lock size={12} aria-hidden="true" className="shrink-0" /> Private project · code not public
                 </div>
               )}
             </div>

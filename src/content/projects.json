@@ -1,57 +1,38 @@
 [
   {
-    "slug": "online-exam-portal",
-    "title": "Online Exam Portal",
-    "type": "Web",
-    "description": "A web-based examination platform for creating, scheduling and grading assessments, with secure timed test delivery and real-time result processing.",
-    "tech": [
-      "React",
-      "Next.js",
-      "Python",
-      "PostgreSQL"
-    ],
+    "slug": "support-worker-allocation-platform",
+    "title": "Support-Worker Allocation Platform",
+    "type": "Web Platforms",
+    "description": "Live care-sector platform used by 50+ organizations, 300+ clinicians and 2,000+ users, matching support workers to clients by skill, location and availability. I maintain and extend it, and moved its live operations off Salesforce onto the in-house Django and PostgreSQL system.",
+    "tech": ["React", "Django", "PostgreSQL", "Salesforce"],
     "highlights": [
-      "Timed secure assessments",
-      "Automated grading",
-      "Real-time results"
+      "50+ organizations · 300+ clinicians · 2,000+ users",
+      "Moved off Salesforce with zero data loss",
+      "150+ production issues resolved"
     ],
     "github": null,
     "live": null
   },
   {
     "slug": "therapy-scheduling-platform",
-    "title": "Therapy Scheduling Platform",
-    "type": "Web",
-    "description": "A scheduling platform for mental-health clinicians to manage client appointments, session notes and availability — streamlining therapy workflows end to end. Backend built as a serverless app of 13 Azure Functions in raw Python.",
-    "tech": [
-      "React",
-      "Azure Functions",
-      "Python",
-      "PostgreSQL"
-    ],
-    "highlights": [
-      "Clinician calendars & scheduling",
-      "13 serverless Python Azure Functions",
-      "Secure client records"
-    ],
+    "title": "Therapy-Scheduling Platform",
+    "type": "Web Platforms",
+    "description": "Production support and feature work on a therapy-scheduling platform: resolved production bugs and built a feature that lets clients move into another therapy session even after their own session has started.",
+    "tech": ["React", "Node.js"],
+    "highlights": ["Production bug fixes", "Switch sessions after one has started"],
     "github": null,
     "live": null
   },
   {
-    "slug": "support-worker-allocation-system",
-    "title": "Support Worker Allocation System",
-    "type": "Web",
-    "description": "Enterprise software that matches and assigns support workers to elderly clients across Australia based on skills, location and availability for aged-care providers.",
-    "tech": [
-      "React",
-      "Python",
-      "PostgreSQL",
-      "Salesforce"
-    ],
+    "slug": "online-exam-portal",
+    "title": "Online Exam Portal",
+    "type": "Web Platforms",
+    "description": "Set up the initial code architecture and built the frontend over the first 6+ months, from project start through mid-phase, including automated grading and real-time results.",
+    "tech": ["React", "Next.js"],
     "highlights": [
-      "Smart worker matching",
-      "Geo-based allocation",
-      "Aged-care workflows"
+      "Initial code architecture",
+      "Frontend from project start to mid-phase",
+      "Automated grading & real-time results"
     ],
     "github": null,
     "live": null
@@ -59,75 +40,75 @@
   {
     "slug": "facility-management-app",
     "title": "Facility Management App",
-    "type": "Mobile",
-    "description": "Cross-platform React Native app used by 2,000+ field technicians, featuring offline-first data sync, encrypted local storage, barcode scanning and media capture for reliable operation without connectivity.",
-    "tech": [
-      "React Native",
-      "Redux Toolkit",
-      "SQLite",
-      "Firebase"
-    ],
+    "type": "Mobile Apps",
+    "description": "React Native app for field technicians, part of Nanosoft's 4+ app suite used by 2,000+ technicians, built on the suite's offline-first sync with encrypted local storage.",
+    "tech": ["React Native", "TypeScript", "Redux Toolkit", "SQLite", "AsyncStorage"],
     "highlights": [
-      "Offline-first data sync",
-      "Encrypted local storage (AES)",
-      "iOS & Android support"
+      "Offline-first sync (SQLite + AsyncStorage)",
+      "Encrypted local storage",
+      "Android & iOS releases"
     ],
     "github": null,
     "live": null
   },
   {
-    "slug": "customer-handling-app",
-    "title": "Customer Handling App",
-    "type": "Mobile",
-    "description": "Mobile CRM for field teams with live visit tracking, service-escalation workflows, digital signature capture and automatic retry-based sync to keep records consistent across devices.",
-    "tech": [
-      "React Native",
-      "Redux",
-      "SQLite",
-      "REST APIs"
-    ],
-    "highlights": [
-      "Real-time visit tracking",
-      "Digital signature capture",
-      "Automatic retry sync"
-    ],
+    "slug": "customer-visit-management-app",
+    "title": "Customer Visit-Management App",
+    "type": "Mobile Apps",
+    "description": "React Native app for managing customer visits, with photo capture, a signature pad and real-time sync.",
+    "tech": ["React Native", "Redux Toolkit"],
+    "highlights": ["Photo capture", "Signature pad", "Real-time sync"],
     "github": null,
     "live": null
   },
   {
-    "slug": "attendance-app",
-    "title": "Attendance App",
-    "type": "Mobile",
-    "description": "Workforce attendance app with GPS geofencing, QR-code validation and offline logging, enabling accurate check-in/check-out for remote and low-connectivity work sites.",
-    "tech": [
-      "React Native",
-      "Redux",
-      "SQLite",
-      "Geolocation"
-    ],
-    "highlights": [
-      "GPS geofencing",
-      "QR-code validation",
-      "Offline attendance logging"
-    ],
+    "slug": "gps-attendance-app",
+    "title": "GPS Attendance App",
+    "type": "Mobile Apps",
+    "description": "GPS-aware React Native attendance app with QR check-in and offline logging.",
+    "tech": ["React Native", "Geolocation"],
+    "highlights": ["GPS-aware check-in", "QR check-in", "Offline attendance logging"],
     "github": null,
     "live": null
   },
   {
-    "slug": "hybrid-webview-mobile-app",
-    "title": "Hybrid WebView Mobile App",
-    "type": "Mobile",
-    "description": "Packaged existing web-based enterprise systems into native iOS and Android apps using react-native-webview, with a hybrid architecture and optimized rendering for smooth performance.",
-    "tech": [
-      "React Native",
-      "WebView"
-    ],
-    "highlights": [
-      "Hybrid web/native architecture",
-      "Native device integration",
-      "Optimized rendering"
-    ],
+    "slug": "hybrid-webview-app",
+    "title": "Hybrid WebView App",
+    "type": "Mobile Apps",
+    "description": "Packaged existing web applications as Android and iOS apps using react-native-webview.",
+    "tech": ["React Native", "react-native-webview"],
+    "highlights": ["react-native-webview wrapper", "Reuses existing web apps", "Android & iOS"],
     "github": null,
     "live": null
+  },
+  {
+    "slug": "vaasi",
+    "title": "Vaasi",
+    "type": "Personal Projects",
+    "description": "Online bookstore where users can buy a single book or a curated collection.",
+    "tech": ["Next.js", "Django"],
+    "highlights": ["Buy a single book or a curated collection", "Next.js frontend, Django backend"],
+    "github": null,
+    "live": "https://vaasi.vercel.app/"
+  },
+  {
+    "slug": "akam-psychiatric-care-center",
+    "title": "Akam Psychiatric Care Center",
+    "type": "Personal Projects",
+    "description": "Dynamic site where the admin updates projects, staff details and content through Google Sheets, with no code changes.",
+    "tech": ["Next.js", "Google Sheets API"],
+    "highlights": ["Content managed in Google Sheets", "Updates without code changes"],
+    "github": null,
+    "live": "https://akam-2124.vercel.app/"
+  },
+  {
+    "slug": "computer-park",
+    "title": "Computer Park",
+    "type": "Personal Projects",
+    "description": "Business website for a corporate-gifting and printing company, built to expand its customer reach and structured to grow into e-commerce.",
+    "tech": ["Next.js"],
+    "highlights": ["Corporate gifting & printing business site", "Structured to grow into e-commerce"],
+    "github": null,
+    "live": "https://computerpark.vercel.app/"
   }
 ]

@@ -3,88 +3,99 @@
     "name": "Vigneshwaran Balasubramanian",
     "firstName": "Vigneshwaran",
     "lastName": "Balasubramanian",
-    "title": "Full-Stack Developer",
+    "title": "Full-Stack Engineer",
     "location": "Coimbatore, Tamil Nadu, India",
-    "email": "bvjamalian@gmail.com",
-    "phones": [
-      "+91 9487941025"
-    ],
+    "email": "bv2124.dev@gmail.com",
+    "phones": ["+91 9487941025"],
     "github": "https://github.com/Bv2124",
     "linkedin": "https://linkedin.com/in/vignesh-waran-18599a2b2",
+    "website": "https://bv2124.vercel.app",
+    "sourceRepo": null,
     "resume": "/VIGNESHWARAN.pdf",
-    "heroBio": "Full-stack developer crafting offline-first mobile apps and modern web platforms — from React Native field tools used by 2,000+ technicians to healthcare web apps for clients across Australia.",
-    "footerBio": "Full-stack developer building reliable mobile and web applications that scale with confidence.",
-    "usersServed": "3,000+",
+    "heroBio": "I build healthcare and care-sector platforms with React, Next.js, Django, Node.js and PostgreSQL. Today I support a live platform used by 50+ organizations, owning features from requirements to production deployment. Before that, I shipped 4+ offline-first React Native apps for 2,000+ field technicians.",
+    "seoDescription": "Full-Stack Engineer building healthcare and care-sector platforms with React, Next.js, Django, Node.js and PostgreSQL.",
+    "footerBio": "Full-Stack Engineer building healthcare and care-sector platforms, owning features from requirements to production deployment.",
+    "contactIntro": "Hiring for a full-stack role? I'm open to remote, hybrid or on-site work and experienced across India–Australia time zones. Let's talk.",
     "careerStart": "2023-05",
     "openToWork": true,
-    "availability": "Open to full-stack & hybrid mobile app development · Remote / Hybrid / On-site"
-  },
-  "roles": [
-    "Full-Stack Developer",
-    "React & Next.js Developer",
-    "Python / Django Developer",
-    "React Native Developer"
-  ],
-  "about": {
-    "paragraphs": [
-      "I'm a **Full-Stack Developer** with **{{years}}+ years of experience**, building everything from offline-first mobile apps to modern web platforms for healthcare and enterprise clients.",
-      "Currently at **Intergy Consulting**, I build full-stack web applications for the Australian **healthcare and aged-care** sector using **React, Next.js, Python and Django** — including exam portals, therapy-scheduling tools and support-worker allocation systems.",
-      "Previously at **Nanosoft Engineers**, I led React Native development for apps serving **2,000+ field technicians**, specializing in offline-first architecture, encrypted storage and custom sync logic.",
-      "I'm continuously expanding my stack — currently deepening **Django** and exploring **Strapi CMS** and **Salesforce** integrations."
-    ],
-    "achievements": [
+    "availability": "Open to remote, hybrid or on-site roles",
+    "heroStats": [
+      { "computed": "years", "label": "Years of experience" },
+      { "value": "50+", "label": "Organizations on the platform I support" },
+      { "value": "150+", "label": "Production issues resolved" },
       {
-        "text": "Built full-stack web apps for the Australian healthcare & aged-care sector",
-        "color": "blue"
-      },
-      {
-        "text": "Shipped React Native apps to Play Store & App Store for 2,000+ users",
-        "color": "purple"
-      },
-      {
-        "text": "Designed offline-first sync and encrypted local storage",
-        "color": "green"
-      },
-      {
-        "text": "Expanding into Python, Django, PostgreSQL & Strapi CMS",
-        "color": "orange"
+        "value": "~14K",
+        "label": "Records migrated, zero data loss",
+        "srText": "approximately 14,000 records migrated to production with zero data loss"
       }
+    ],
+    "quickFacts": [
+      { "label": "Based in", "value": "Coimbatore, Tamil Nadu, India" },
+      { "label": "Time zones", "value": "Experienced across India–Australia" },
+      { "label": "Open to", "value": "Remote · Hybrid · On-site" },
+      { "label": "Studying", "value": "MCA (Online), Bharathiar University · 2024–2027" }
     ]
   },
-  "specialty": {
-    "title": "From Mobile to Full-Stack",
-    "text": "I build offline-first mobile apps with React Native and modern web platforms with React, Next.js, Python and Django — delivering reliable, secure software for healthcare, aged-care and enterprise clients."
+
+  "roles": [
+    "Full-Stack Engineer",
+    "Frontend · React & Next.js",
+    "Backend · Django, Node.js & PostgreSQL",
+    "Data migrations · Salesforce → Django",
+    "Mobile · Offline-first React Native"
+  ],
+
+  "about": {
+    "paragraphs": [
+      "I'm a **Full-Stack Engineer** with **{{years}}+ years of experience**. Today I build healthcare and care-sector platforms with **React, Next.js, Django, Node.js and PostgreSQL**, owning features from requirements to production deployment.",
+      "At **Intergy Consulting** (Australia, remote) I maintain and extend a live support-worker allocation platform used by **50+ organizations, 300+ clinicians and 2,000+ users**. I took ownership of the inherited codebase after a one-month handover, have independently resolved **150+ production issues**, and work directly with Australian stakeholders every day.",
+      "I removed the platform's dependency on **Salesforce** by rebuilding its core service-validation logic in Django and PostgreSQL, and led the scripted migration of **~14,000 production records** through a dry-run comparison script and 5+ validation stages, with **zero data loss**.",
+      "Before that, at **Nanosoft Engineers**, I shipped **4+ offline-first React Native apps** for **2,000+ field technicians** and raised sync success in low-connectivity areas from **~30% to ~80%**. My **Master of Social Work (Medical & Psychiatry)** gives me real understanding of the clinicians and clients who use healthcare software, and I've mentored 2 junior developers through regular code reviews."
+    ],
+    "achievements": [
+      { "text": "Resolved 150+ production issues on an inherited live platform", "color": "blue" },
+      { "text": "Migrated ~14,000 production records off Salesforce with zero data loss", "color": "purple" },
+      { "text": "Cut a long-loading service-creation workflow to seconds by optimizing PostgreSQL queries and API logic", "color": "green" },
+      { "text": "Raised offline sync success in low-connectivity areas from ~30% to ~80%", "color": "orange" },
+      { "text": "Led 15+ Android and iOS store releases; cut image payloads 60% and UI latency 30%", "color": "blue" }
+    ]
   },
+
+  "specialty": {
+    "title": "Healthcare software, informed by social work",
+    "text": "My Master of Social Work (Medical & Psychiatry) gives me real understanding of the clinicians and clients who use healthcare software. I bring that to the care-sector platforms I build and support, and to daily requirements conversations with Australian stakeholders."
+  },
+
   "whyHireMe": [
     {
-      "iconName": "Code",
+      "iconName": "Wrench",
+      "title": "Production Ownership",
+      "description": "Took over an inherited live codebase after a one-month handover; 150+ production issues resolved and hotfixes shipped from code change to deployment."
+    },
+    {
+      "iconName": "GitMerge",
+      "title": "Migration Discipline",
+      "description": "Dry-run comparison and 5+ validation stages to block duplicates: ~14,000 production records moved off Salesforce with zero data loss."
+    },
+    {
+      "iconName": "HeartPulse",
+      "title": "Healthcare Insight",
+      "description": "Master of Social Work (Medical & Psychiatry): real understanding of the clinicians and clients who use healthcare software."
+    },
+    {
+      "iconName": "Users",
+      "title": "Stakeholder-Facing",
+      "description": "Daily requirements gathering and live support with Australian stakeholders, across India–Australia time zones."
+    },
+    {
+      "iconName": "Layers",
       "title": "Full-Stack Range",
-      "description": "Mobile to web — React Native, React, Next.js & Python/Django"
+      "description": "React and Next.js, Django and Node.js, PostgreSQL, plus 4+ offline-first React Native apps released through the App Store and Play Store."
     },
     {
-      "iconName": "Database",
-      "title": "Offline-Ready",
-      "description": "Apps that work seamlessly without connectivity"
-    },
-    {
-      "iconName": "Shield",
-      "title": "Security-First",
-      "description": "Encrypted storage and secure authentication flows"
-    },
-    {
-      "iconName": "Zap",
-      "title": "Performance-Driven",
-      "description": "Optimized for speed and efficiency"
-    },
-    {
-      "iconName": "Smartphone",
-      "title": "Cross-Platform",
-      "description": "Native performance on both iOS and Android"
-    },
-    {
-      "iconName": "Globe",
-      "title": "Domain-Aware",
-      "description": "Hands-on healthcare and aged-care experience"
+      "iconName": "UserCheck",
+      "title": "Mentor",
+      "description": "Mentored 2 junior developers, including regular code reviews of their work."
     }
   ]
 }

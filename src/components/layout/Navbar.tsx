@@ -5,6 +5,7 @@ import { Download, Menu, X } from 'lucide-react'
 import useScrolled from '@/hooks/useScrolled'
 import useActiveSection from '@/hooks/useActiveSection'
 import { SECTIONS, SECTION_IDS } from '@/lib/sections'
+import { RESUME_DOWNLOAD_NAME } from '@/lib/site'
 import type { Personal } from '@/lib/schema'
 
 const DRAWER_ID = 'mobile-menu'
@@ -92,7 +93,7 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
             ))}
             <a
               href={personal.resume}
-              download
+              download={RESUME_DOWNLOAD_NAME}
               className="ml-3 flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border border-blue-500/40 text-blue-400 hover:bg-blue-400/10 hover:border-blue-400/60 transition-colors duration-200"
             >
               <Download size={13} aria-hidden="true" />
@@ -140,7 +141,7 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
             ))}
             <a
               href={personal.resume}
-              download
+              download={RESUME_DOWNLOAD_NAME}
               className="mt-4 flex items-center gap-2 min-h-11 text-blue-400 font-mono text-sm"
             >
               <Download size={14} aria-hidden="true" />
