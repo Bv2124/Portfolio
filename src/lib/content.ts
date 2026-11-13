@@ -32,6 +32,7 @@ export function getJobForCaseStudy(study: CaseStudy): Job {
 export function getCaseStudyNeighbors(slug: string) {
   const list = content.caseStudies
   const i = list.findIndex(c => c.slug === slug)
+  if (i === -1) return { prev: null, next: null }
   return { prev: list[i - 1] ?? null, next: list[i + 1] ?? null }
 }
 
@@ -56,6 +57,20 @@ export function getProjects(): ProjectWithLinks[] {
 // ── Shared metadata ─────────────────────────────────────────────────────────
 const { personal } = content.profile
 
+export const siteTitle = `${personal.name} — ${personal.title}`
+
+// File name browsers save the résumé as (the file in public/ keeps its stable URL).
+export const resumeDownloadName = `${personal.shortName} ${personal.title} Resume`.replace(/\s+/g, '_') + '.pdf'
+
+// The only personal fields the (client-side) navbar needs. Passing the whole `personal` object
+// to a client component would serialise all of it into every page's payload.
+export const navPersonal = {
+  name: personal.name,
+  firstName: personal.firstName,
+  resume: personal.resume,
+  resumeDownloadName,
+}
+
 // Child pages that set `openGraph` replace this object entirely, so they spread it.
 export const siteOpenGraph = {
   siteName: personal.name,
@@ -65,6 +80,6 @@ export const siteOpenGraph = {
     url: '/og/default.png',
     width: 1200,
     height: 630,
-    alt: `${personal.name} — ${personal.title}`,
+    alt: siteTitle,
   }],
 }

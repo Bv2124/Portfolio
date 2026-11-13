@@ -8,6 +8,8 @@ import {
   getCaseStudyNeighbors,
   getJobForCaseStudy,
   getProjects,
+  navPersonal,
+  resumeDownloadName,
 } from './content'
 import { ContentSchema } from './schema'
 
@@ -128,6 +130,36 @@ describe('schema rejects broken content, naming the path', () => {
       path: 'caseStudies.0.metrics',
     },
     {
+      name: 'a case-study meta description too long for a search snippet',
+      mutate: c => { c.caseStudies[0]!.seoDescription = 'x'.repeat(161) },
+      path: 'caseStudies.0.seoDescription',
+    },
+    {
+      name: 'a misspelled field (unknown keys are rejected, not silently dropped)',
+      mutate: c => { (c.caseStudies[0] as Record<string, unknown>).relatd = ['production-ownership'] },
+      path: 'caseStudies.0',
+    },
+    {
+      name: 'an empty education note (use null instead)',
+      mutate: c => { c.education[0]!.note = '' },
+      path: 'education.0.note',
+    },
+    {
+      name: 'the same technology listed twice on a project',
+      mutate: c => { c.projects[0]!.tech.push(c.projects[0]!.tech[0]!) },
+      path: 'projects.0.tech',
+    },
+    {
+      name: 'two metrics with the same label',
+      mutate: c => { c.caseStudies[0]!.metrics[1]!.label = c.caseStudies[0]!.metrics[0]!.label },
+      path: 'caseStudies.0.metrics',
+    },
+    {
+      name: 'the same skill twice in a group',
+      mutate: c => { c.skills.groups[0]!.items.push({ name: c.skills.groups[0]!.items[0]!.name }) },
+      path: 'skills.groups.0.items',
+    },
+    {
       name: 'a case study with no approach steps',
       mutate: c => { c.caseStudies[0]!.approach = [] },
       path: 'caseStudies.0.approach',
@@ -167,6 +199,15 @@ describe('case study selectors', () => {
     expect(getCaseStudyNeighbors(first!.slug)).toEqual({ prev: null, next: second })
     expect(getCaseStudyNeighbors(second!.slug)).toEqual({ prev: first, next: third })
     expect(getCaseStudyNeighbors(third!.slug)).toEqual({ prev: second, next: null })
+  })
+
+  it('gives an unknown slug no neighbours', () => {
+    expect(getCaseStudyNeighbors('nope')).toEqual({ prev: null, next: null })
+  })
+
+  it('derives the résumé download name from the profile', () => {
+    expect(resumeDownloadName).toBe('Vigneshwaran_B_Full-Stack_Engineer_Resume.pdf')
+    expect(Object.keys(navPersonal).sort()).toEqual(['firstName', 'name', 'resume', 'resumeDownloadName'])
   })
 
   it('builds canonical URLs that are absolute and end in a slash', () => {

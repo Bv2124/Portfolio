@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { SITE_URL, content, getCaseStudies, getProjects } from '@/lib/content'
+import { SITE_URL, content, getCaseStudies, getProjects, navPersonal, siteOpenGraph, siteTitle } from '@/lib/content'
 import ScrollProgressBar from '@/components/layout/ScrollProgressBar'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -18,6 +18,8 @@ const { personal, roles, about, specialty, whyHireMe } = profile
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
+  // Setting `openGraph` replaces the layout's object, so the shared fields are repeated here.
+  openGraph: { ...siteOpenGraph, url: '/', title: siteTitle, description: personal.seoDescription },
 }
 
 // Structured data: who this site is about, and the site itself.
@@ -28,11 +30,16 @@ const personJsonLd = {
       '@type': 'Person',
       '@id': `${SITE_URL}/#person`,
       name: personal.name,
-      alternateName: 'Vigneshwaran B',
+      alternateName: personal.shortName,
       jobTitle: personal.title,
       url: `${SITE_URL}/`,
       email: personal.email,
-      address: { '@type': 'PostalAddress', addressLocality: 'Coimbatore', addressRegion: 'Tamil Nadu', addressCountry: 'IN' },
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: personal.address.locality,
+        addressRegion: personal.address.region,
+        addressCountry: personal.address.countryCode,
+      },
       sameAs: [personal.github, personal.linkedin],
       knowsAbout: skills.groups.flatMap(g => g.items.filter(i => i.core).map(i => i.name)),
     },
@@ -40,7 +47,7 @@ const personJsonLd = {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
       url: `${SITE_URL}/`,
-      name: `${personal.name} — ${personal.title}`,
+      name: siteTitle,
       publisher: { '@id': `${SITE_URL}/#person` },
     },
   ],
@@ -51,10 +58,10 @@ export default function Home() {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <JsonLd data={personJsonLd} />
       <ScrollProgressBar />
-      <Navbar personal={personal} />
+      <Navbar personal={navPersonal} />
 
       <main id="main" tabIndex={-1}>
-        <Hero personal={personal} roles={roles} />
+        <Hero personal={personal} resumeDownloadName={navPersonal.resumeDownloadName} roles={roles} />
         <About personal={personal} about={about} />
         <Experience experience={experience} />
         <CaseStudies studies={getCaseStudies()} />

@@ -2,6 +2,7 @@
   "slug": "salesforce-to-django-migration",
   "title": "Moving a live care platform off Salesforce with zero data loss",
   "tagline": "Rebuilt the core service-validation logic in Django and PostgreSQL, then led scripted migrations of ~8,000 staging and ~14,000 production records through a dry-run comparison and 5+ validation stages.",
+  "seoDescription": "Rebuilt core service-validation logic in Django and PostgreSQL, then migrated ~14,000 production records off Salesforce with zero data loss.",
   "employer": "Intergy Consulting",
   "context": "A live care-sector platform used by 50+ organizations, 300+ clinicians and 2,000+ users, matching support workers to clients by skill, location and availability. Its live operations depended on Salesforce.",
   "stack": ["Django", "PostgreSQL", "Salesforce"],

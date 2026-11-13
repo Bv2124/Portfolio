@@ -27,8 +27,8 @@ from crawlers, screen readers or people who prefer reduced motion.
   - skip link and landmarks
   - focus management in the mobile menu
   - 44px tap targets and contrast-checked colour tokens
-- **Quality gates in CI:** lint, strict type-check, unit tests, build, Playwright on desktop and
-  mobile (smoke, accessibility, SEO, motion), and a Lighthouse budget.
+- **Quality gates in CI:** lint, strict type-check, unit tests, build, a JavaScript size budget,
+  Playwright on desktop and mobile (smoke, accessibility, SEO, motion), and a Lighthouse budget.
 
 ## Results
 
@@ -37,9 +37,9 @@ Measured on the production build (`out/`):
 | Metric | Home | Case study |
 |---|---|---|
 | Lighthouse (desktop): performance / accessibility / best practices / SEO | 100 / 100 / 100 / 100 | 100 / 100 / 100 / 100 |
-| First-load JavaScript | 115 kB | 112 kB |
+| First-load JavaScript | 116 kB | 113 kB |
 | LCP, real Chrome, 4× CPU + slow 4G (median) | ≈ 1.5 s | — |
-| Unit tests / end-to-end tests | 91 / 154 (desktop + mobile) | |
+| Unit tests / end-to-end tests | 99 / 201 (desktop, mobile and a Safari smoke run) | |
 
 How the mobile figure was measured, and why real-browser numbers were preferred over Lighthouse's
 simulation on the development machine, is in [ADR 3](docs/adr/0003-motion-and-performance-budget.md).
@@ -57,7 +57,9 @@ flowchart LR
 ```
 
 - Pages are **server components**. Only interactive pieces are client components, and none of them
-  import the content module, so the JSON never ships to the browser.
+  import the content module. They receive just the fields they render (the navbar gets four
+  strings; the project filter gets the project list), so the rest of the JSON never ships to the
+  browser.
 - Dates that change over time (years of experience, current job duration) render a build-time
   value and correct themselves after load, so there is no hydration mismatch.
 
@@ -74,7 +76,7 @@ Requires Node 24 (see `.nvmrc`).
 ```bash
 npm ci
 npm run dev                       # http://localhost:3000
-npx playwright install chromium   # once, for the end-to-end tests
+npx playwright install chromium webkit   # once, for the end-to-end tests
 npm run verify                    # everything CI runs
 ```
 
@@ -87,6 +89,7 @@ npm run verify                    # everything CI runs
 | `npm run typecheck` | `next typegen` + `tsc --noEmit` (strict) |
 | `npm test` | Vitest: date helpers, content schema, résumé-fidelity checks |
 | `npm run test:e2e` | Playwright against `out/`: smoke, accessibility (axe), SEO, motion |
+| `npm run budget` | Fail if the home page's first-load JavaScript exceeds 150 kB (gzipped) |
 | `npm run verify` | All of the above, in order |
 | `npm run og` | Regenerate the link-preview image from the content |
 | `npm run screenshots` | Regenerate the screenshots above from the build |

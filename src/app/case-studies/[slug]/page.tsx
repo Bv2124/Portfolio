@@ -8,6 +8,7 @@ import {
   getCaseStudyNeighbors,
   getJobForCaseStudy,
   getProfile,
+  navPersonal,
   siteOpenGraph,
 } from '@/lib/content'
 import ScrollProgressBar from '@/components/layout/ScrollProgressBar'
@@ -36,10 +37,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const url = caseStudyUrl(study.slug)
   return {
     title: study.title, // the layout's title template appends the site name
-    description: study.tagline,
+    description: study.seoDescription,
     alternates: { canonical: url },
-    openGraph: { ...siteOpenGraph, type: 'article', url, title: study.title, description: study.tagline },
-    twitter: { card: 'summary_large_image', title: study.title, description: study.tagline },
+    openGraph: { ...siteOpenGraph, type: 'article', url, title: study.title, description: study.seoDescription },
+    twitter: { card: 'summary_large_image', title: study.title, description: study.seoDescription },
   }
 }
 
@@ -85,7 +86,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <JsonLd data={jsonLd} />
       <ScrollProgressBar />
-      <Navbar personal={personal} />
+      <Navbar personal={navPersonal} />
 
       <main id="main" tabIndex={-1} className="px-4 sm:px-6 lg:px-8 pb-24">
         <article className="max-w-4xl mx-auto">

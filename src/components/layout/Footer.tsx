@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { Mail } from 'lucide-react'
+import { Github, Linkedin } from '@/components/ui/BrandIcons'
 import { CurrentYear } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import type { Personal } from '@/lib/schema'

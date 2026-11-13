@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
-import { Github, Linkedin, Mail, Phone } from 'lucide-react'
+import { Mail, Phone } from 'lucide-react'
+import { Github, Linkedin } from '@/components/ui/BrandIcons'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/motion/Reveal'
 import { getIcon } from '@/lib/icons'
@@ -38,7 +39,7 @@ export default function Contact({ personal, whyHireMe }: ContactProps) {
   const [primaryPhone = ''] = personal.phones
 
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt scroll-mt-16">
+    <section id="contact" aria-labelledby="contact-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt">
       <div className="max-w-6xl mx-auto">
         <SectionHeading id="contact" />
 

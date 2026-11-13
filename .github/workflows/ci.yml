@@ -41,15 +41,17 @@ jobs:
       - name: Build (static export to out/)
         run: npm run build
 
+      - name: JavaScript size budget
+        run: npm run budget
+
       - name: Cache Playwright browsers
-        id: playwright-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
 
       - name: End-to-end and accessibility tests
         run: npm run test:e2e

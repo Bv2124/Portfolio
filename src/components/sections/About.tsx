@@ -24,7 +24,7 @@ export default function About({ personal, about }: AboutProps) {
   }
 
   return (
-    <section id="about" aria-labelledby="about-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt scroll-mt-16">
+    <section id="about" aria-labelledby="about-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt">
       <div className="max-w-6xl mx-auto">
         <SectionHeading id="about" />
 

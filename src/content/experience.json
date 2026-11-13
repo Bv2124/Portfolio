@@ -10,7 +10,7 @@
     "tech": ["React", "Next.js", "Python", "Django", "Node.js", "PostgreSQL", "Strapi", "Salesforce", "Azure", "GitHub Actions"],
     "highlights": [
       "Maintain and extend a live care-sector support-worker allocation platform serving 50+ organizations, 300+ clinicians, and 2,000+ users, matching support workers to clients by skill, location, and availability.",
-      "Took ownership of an inherited production codebase after a one-month handover; independently resolved 150+ production issues and ship hotfixes directly to the client, from code change to deployment.",
+      "Took ownership of an inherited production codebase after a one-month handover; independently resolved 150+ production issues and shipped hotfixes directly to the client, from code change to deployment.",
       "Removed the platform's dependency on Salesforce by rebuilding the core service-validation logic from scratch and moving live operations onto the in-house Django and PostgreSQL system.",
       "Led scripted data migrations of ~8,000 records to staging and ~14,000 to production, using a custom dry-run comparison script and 5+ validation stages to block duplicates, with zero data loss.",
       "Optimized PostgreSQL queries and API logic in the service-creation workflow, reducing a long-loading process to completion within seconds.",

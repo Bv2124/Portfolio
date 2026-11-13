@@ -35,9 +35,10 @@ export default function TimelineProgress() {
         update() // settle at 0 or 1 when leaving
       }
     })
-    // No initial measurement: the server-rendered state (empty) is correct until the
-    // observer reports the timeline on screen, and measuring now would force a layout.
-    observer.observe(fill)
+    // Observe the track, not the fill: at scaleY(0) the fill has no height, so it would only be
+    // reported once the very top of the timeline is on screen. Nothing is measured here; the
+    // first measurement runs in the observer's callback, after the browser has laid the page out.
+    observer.observe(track)
 
     return () => {
       observer.disconnect()

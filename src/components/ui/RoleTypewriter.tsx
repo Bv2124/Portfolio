@@ -34,7 +34,7 @@ export default function RoleTypewriter({ roles }: { roles: readonly string[] }) 
   const text = useTypewriter(roles, { enabled: inView && pageVisible && !reduceMotion })
 
   return (
-    <p ref={ref} className="font-mono text-sm mt-2 min-h-[20px] whitespace-nowrap">
+    <p ref={ref} className="font-mono text-xs sm:text-sm mt-2 min-h-[20px] whitespace-nowrap">
       <span className="sr-only">Roles: {roles.join(', ')}</span>
       <span aria-hidden="true">
         <span className="text-emerald-300">{text}</span>

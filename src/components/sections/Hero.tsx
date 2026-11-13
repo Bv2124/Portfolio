@@ -6,18 +6,18 @@ import HeroBackground from '@/components/motion/HeroBackground'
 import { LiveYears } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import { yearsSince } from '@/lib/experience'
-import { RESUME_DOWNLOAD_NAME } from '@/lib/site'
 import type { HeroStat, Personal } from '@/lib/schema'
 
 interface HeroProps {
   personal: Personal
+  resumeDownloadName: string
   roles: string[]
 }
 
 // Staggers the CSS entrance animation (see .hero-in in globals.css).
 const step = (i: number): CSSProperties => ({ '--i': i } as CSSProperties)
 
-export default function Hero({ personal, roles }: HeroProps) {
+export default function Hero({ personal, resumeDownloadName, roles }: HeroProps) {
   const builtYears = yearsSince(personal.careerStart, BUILD_NOW)
 
   const renderStat = (stat: HeroStat) => {
@@ -109,10 +109,10 @@ export default function Hero({ personal, roles }: HeroProps) {
           </Link>
           <a
             href={personal.resume}
-            download={RESUME_DOWNLOAD_NAME}
+            download={resumeDownloadName}
             className="group flex items-center justify-center gap-2 min-h-11 border border-slate-700 hover:border-blue-500/50 text-slate-300 hover:text-blue-400 px-6 py-3 rounded-lg font-semibold transition-[border-color,color,transform] duration-300 hover:-translate-y-0.5 text-sm"
           >
-            <Download size={15} className="group-hover:-translate-y-0.5 transition-transform duration-300" />
+            <Download size={15} aria-hidden="true" className="group-hover:-translate-y-0.5 transition-transform duration-300" />
             Download Resume
           </a>
         </div>
@@ -135,7 +135,7 @@ export default function Hero({ personal, roles }: HeroProps) {
         aria-label="Scroll to about section"
       >
         <span className="text-xs font-mono">scroll</span>
-        <ChevronDown size={18} className="motion-safe:animate-bounce" />
+        <ChevronDown size={18} aria-hidden="true" className="motion-safe:animate-bounce" />
       </a>
     </section>
   )

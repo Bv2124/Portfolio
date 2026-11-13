@@ -97,8 +97,8 @@ export default function CaseStudyBody({ study, related, prev, next, sourceUrl }:
       </Block>
 
       {study.alsoShipped && (
-        <Block id="also-shipped" title="Alongside the sync work">
-          <Bullets items={study.alsoShipped} />
+        <Block id="also-shipped" title={study.alsoShipped.title}>
+          <Bullets items={study.alsoShipped.items} />
         </Block>
       )}
 

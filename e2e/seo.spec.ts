@@ -76,6 +76,7 @@ test.describe('home page (server HTML)', () => {
     expect(html).toContain(`<link rel="canonical" href="${SITE}/"/>`)
     expect(meta(html, 'name', 'twitter:card')).toBe('summary_large_image')
     expect(meta(html, 'property', 'og:image')).toBe(`${SITE}/og/default.png`)
+    expect(meta(html, 'property', 'og:url')).toBe(`${SITE}/`)
 
     const person = jsonLd(html).find(n => n['@type'] === 'Person')
     expect(person).toMatchObject({
@@ -96,6 +97,7 @@ for (const study of studies) {
       const html = await rawHtml(request, `/case-studies/${study.slug}/`)
       expect(html).toContain(`<link rel="canonical" href="${url}"/>`)
       expect(meta(html, 'property', 'og:title')).toBe(study.title)
+      expect(meta(html, 'name', 'description')!.length).toBeLessThanOrEqual(160)
       expect(meta(html, 'property', 'og:url')).toBe(url)
       expect(meta(html, 'property', 'og:type')).toBe('article')
       expect(meta(html, 'name', 'twitter:title')).toBe(study.title)

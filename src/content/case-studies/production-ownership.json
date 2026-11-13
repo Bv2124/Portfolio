@@ -2,6 +2,7 @@
   "slug": "production-ownership",
   "title": "Taking over a live platform after a one-month handover",
   "tagline": "Independently resolved 150+ production issues, cut a long-loading service-creation flow to seconds, and fixed a cross-timezone scheduling bug, working daily with Australian stakeholders.",
+  "seoDescription": "Resolved 150+ production issues on an inherited live platform, cut a long-loading service-creation flow to seconds, and fixed a cross-timezone scheduling bug.",
   "employer": "Intergy Consulting",
   "context": "The same live care-sector platform, used by 50+ organizations, 300+ clinicians and 2,000+ users, reached me as an inherited production codebase after a one-month handover.",
   "stack": ["Django", "PostgreSQL", "Python"],

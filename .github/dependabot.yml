@@ -13,9 +13,6 @@ updates:
         dependency-type: development
         update-types: [minor, patch]
     ignore:
-      # 1.x removes the brand icons (GitHub, LinkedIn) the site uses.
-      - dependency-name: lucide-react
-        versions: [">=1.0.0"]
       # Major upgrades are deliberate, separate pieces of work, done with the test suite as a net.
       - dependency-name: next
         update-types: [version-update:semver-major]
@@ -27,8 +24,6 @@ updates:
         update-types: [version-update:semver-major]
       - dependency-name: "@eslint/js"
         update-types: [version-update:semver-major]
-      # The App Router runs Next's bundled React; the installed copy stays on 18 until
-      # lucide-react's peer range allows 19.
       - dependency-name: react
         update-types: [version-update:semver-major]
       - dependency-name: react-dom

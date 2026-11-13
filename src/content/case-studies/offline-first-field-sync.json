@@ -2,6 +2,7 @@
   "slug": "offline-first-field-sync",
   "title": "Offline-first sync for field technicians on poor networks",
   "tagline": "Designed a SQLite + AsyncStorage sync layer with custom retry queues and exponential backoff, lifting sync success in low-connectivity areas from ~30% to ~80%.",
+  "seoDescription": "Designed a SQLite + AsyncStorage sync layer with custom retry queues and exponential backoff, lifting sync success in low-connectivity areas from ~30% to ~80%.",
   "employer": "Nanosoft Engineers Pvt Ltd",
   "context": "A suite of 4+ production React Native apps used by 2,000+ field technicians, often working in low-connectivity areas.",
   "stack": ["React Native", "TypeScript", "Redux Toolkit", "SQLite", "AsyncStorage"],
@@ -31,10 +32,13 @@
     "Sync success in low-connectivity areas rose from ~30% to ~80%.",
     "4+ production apps in use by 2,000+ field technicians."
   ],
-  "alsoShipped": [
-    "−60% image payloads, through automated media compression",
-    "−30% UI latency, by refactoring legacy components",
-    "15+ Android and iOS releases through App Store and Play Store review cycles, including encrypted local storage and compliance checks"
-  ],
+  "alsoShipped": {
+    "title": "Alongside the sync work",
+    "items": [
+      "−60% image payloads, through automated media compression",
+      "−30% UI latency, by refactoring legacy components",
+      "15+ Android and iOS releases through App Store and Play Store review cycles, including encrypted local storage and compliance checks"
+    ]
+  },
   "visual": "sync"
 }

@@ -126,7 +126,6 @@ main:focus { outline: none; }
 .aurora-blob {
   position: absolute;
   border-radius: 9999px;
-  will-change: transform;
 }
 .aurora-1 { top: -14rem; left: -12rem; width: 44rem; height: 44rem; background: radial-gradient(closest-side, rgba(59,130,246,.16), transparent); }
 .aurora-2 { bottom: -16rem; right: -14rem; width: 46rem; height: 46rem; background: radial-gradient(closest-side, rgba(139,92,246,.14), transparent); }
@@ -138,6 +137,7 @@ main:focus { outline: none; }
 
 /* Only on devices that can hover (desktops/laptops); static on phones to save battery. */
 @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .aurora-blob { will-change: transform; }
   .aurora-1 { animation: aurora-a 26s var(--ease-in-out) infinite alternate; }
   .aurora-2 { animation: aurora-b 30s var(--ease-in-out) infinite alternate; }
   .aurora-3 { animation: aurora-c 24s var(--ease-in-out) infinite alternate; }
@@ -313,7 +313,23 @@ main:focus { outline: none; }
 
 /* ── Print and safety nets ────────────────────────────────── */
 @media print {
+  /* Dark text on white paper: browsers don't print the dark backgrounds. */
+  html,
+  body {
+    background: #fff !important;
+  }
+  body * {
+    color: #0f172a !important;
+  }
+  .site-header,
+  .hero-aurora {
+    display: none !important;
+  }
+
   [data-reveal],
+  .hr-kicker,
+  .hr-title,
+  .hr-line,
   .hero-word,
   .hero-in,
   .hero-rise,

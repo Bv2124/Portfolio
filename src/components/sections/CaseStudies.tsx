@@ -8,12 +8,12 @@ import type { CaseStudy } from '@/lib/schema'
 
 export default function CaseStudies({ studies }: { studies: CaseStudy[] }) {
   return (
-    <section id="case-studies" aria-labelledby="case-studies-heading" className="py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16">
+    <section id="case-studies" aria-labelledby="case-studies-heading" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <SectionHeading id="case-studies" />
 
         <Reveal as="p" className="text-slate-400 text-sm leading-relaxed max-w-2xl mb-10">
-          Three pieces of work, written up as challenge, approach and outcome. Each one sticks to what I actually did.
+          Selected work, written up as challenge, approach and outcome. Each one sticks to what I actually did.
         </Reveal>
 
         <div className="grid gap-6 lg:grid-cols-3">

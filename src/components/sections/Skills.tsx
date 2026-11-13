@@ -10,7 +10,7 @@ interface SkillsProps {
 
 export default function Skills({ groups, specialty }: SkillsProps) {
   return (
-    <section id="skills" aria-labelledby="skills-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt scroll-mt-16">
+    <section id="skills" aria-labelledby="skills-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt">
       <div className="max-w-6xl mx-auto">
         <SectionHeading id="skills" />
 
@@ -20,7 +20,7 @@ export default function Skills({ groups, specialty }: SkillsProps) {
             <span aria-hidden="true" className="inline-block w-2 h-2 rounded-full bg-blue-400" />
             <span className="text-slate-300">Highlighted</span>
           </span>{' '}
-          items are the core of it.
+          items are the core of it<span className="sr-only"> (each is marked “core”)</span>.
         </p>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -47,6 +47,7 @@ export default function Skills({ groups, specialty }: SkillsProps) {
                       }`}
                     >
                       {item.name}
+                      {item.core && <span className="sr-only"> (core)</span>}
                       {item.note && (
                         <span className={`font-normal ${item.core ? 'text-blue-300' : 'text-muted'}`}> · {item.note}</span>
                       )}

@@ -166,6 +166,7 @@ test.describe('404 page', () => {
     const response = await page.goto('/this-page-does-not-exist/')
     expect(response?.status()).toBe(404)
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found')
+    await expect(page).toHaveTitle(/^Page not found/)
     await page.getByRole('link', { name: /Back to the home page/ }).click()
     await expect(page).toHaveURL(/\/$/)
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Vigneshwaran')
@@ -174,5 +175,11 @@ test.describe('404 page', () => {
   test('an unknown case study slug is also a 404', async ({ page }) => {
     const response = await page.goto('/case-studies/not-a-real-study/')
     expect(response?.status()).toBe(404)
+  })
+
+  test('an unknown case study does not mark Case Studies as the current page', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'desktop nav only')
+    await page.goto('/case-studies/not-a-real-study/')
+    await expect(page.getByRole('navigation', { name: 'Primary' }).locator('a[aria-current]')).toHaveCount(0)
   })
 })

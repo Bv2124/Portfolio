@@ -23,8 +23,9 @@ Rules:
    state, and the E2E suite runs with `reducedMotion: 'reduce'` and with JavaScript disabled.
 3. **No forced synchronous layout at start-up.** Count-ups, reveals and the case-study visuals
    decide "on screen or not" from IntersectionObserver callbacks, not `getBoundingClientRect()`.
-4. **Budget:** the home page's first-load JS stays at or below 150 kB, and Lighthouse
-   accessibility, best-practices and SEO stay at or above 0.95 (enforced in CI).
+4. **Budget:** the home page's first-load JS stays at or below 150 kB gzipped
+   (`scripts/check-budget.mjs`), and Lighthouse accessibility, best-practices and SEO stay at or
+   above 0.95. Both are enforced in CI.
 
 Platform features over libraries:
 

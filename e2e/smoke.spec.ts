@@ -1,7 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import { rawContent } from '../src/content'
-
-const SECTION_IDS = ['about', 'experience', 'case-studies', 'skills', 'projects', 'education', 'contact']
+import { SECTION_IDS } from '../src/lib/sections'
 
 // Collects anything the browser would show as an error (this also catches React hydration warnings).
 function trackErrors(page: Page) {
@@ -39,13 +38,45 @@ test('resume PDF is served', async ({ request }) => {
   expect(res.headers()['content-type']).toContain('application/pdf')
 })
 
-test('skip link jumps to main content', async ({ page }) => {
+test('skip link jumps to main content', async ({ page, browserName }) => {
+  // Safari's default setting makes Tab skip links (Option+Tab reaches them), so this is not testable there.
+  test.skip(browserName === 'webkit', 'Tab does not focus links in WebKit by default')
   await page.goto('/')
   await page.keyboard.press('Tab')
   const skip = page.getByRole('link', { name: 'Skip to content' })
   await expect(skip).toBeFocused()
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/#main$/)
+})
+
+test('an anchor jump puts the section just under the fixed header', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/#experience')
+  const top = () => page.locator('section#experience').evaluate(el => Math.round(el.getBoundingClientRect().top))
+  await expect.poll(top).toBeGreaterThanOrEqual(64)
+  await expect.poll(top).toBeLessThanOrEqual(96)
+})
+
+test('the longest role fits inside the terminal window on a narrow phone', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  const line = page.locator('.terminal-body p').last()
+  for (const role of rawContent.profile.roles) {
+    const fits = await line.evaluate((p, text) => {
+      p.querySelector('.text-emerald-300')!.textContent = text
+      return p.querySelector('[aria-hidden]')!.getBoundingClientRect().width <= p.clientWidth
+    }, role)
+    expect(fits, role).toBe(true)
+  }
+})
+
+test('the navbar receives only the fields it shows', async ({ request }) => {
+  // The phone number is on the home page only; a case-study page must not carry it in its payload.
+  const html = await (await request.get('/case-studies/production-ownership/')).text()
+  const digits = rawContent.profile.personal.phones[0]!.replace(/\D/g, '').slice(-10)
+  expect(html).not.toContain(digits)
+  expect(html).not.toContain('contactIntro')
 })
 
 test('all content is visible with reduced motion', async ({ page }) => {
@@ -128,6 +159,22 @@ test.describe('mobile drawer', () => {
     await expect(page.locator('#mobile-menu')).toHaveCount(0)
     await expect(toggle).toBeFocused()
     await expect(page.locator('main')).not.toHaveAttribute('inert', '')
+  })
+
+  test('the backdrop covers the page below the header, even after scrolling', async ({ page }) => {
+    await page.goto('/')
+    await page.evaluate(() => window.scrollTo({ top: 1200, behavior: 'instant' }))
+    await page.getByRole('button', { name: 'Toggle menu' }).click()
+    const drawer = page.locator('#mobile-menu')
+    await expect(drawer).toBeVisible()
+    const backdropBottom = await page.locator('.fade-in').evaluate(el => el.getBoundingClientRect().bottom)
+    const viewport = await page.evaluate(() => window.innerHeight)
+    expect(Math.round(backdropBottom)).toBe(viewport)
+
+    // Tapping the dimmed page closes the menu.
+    const box = (await drawer.boundingBox())!
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height + 40)
+    await expect(drawer).toHaveCount(0)
   })
 
   test('a drawer link navigates and closes the drawer', async ({ page }) => {

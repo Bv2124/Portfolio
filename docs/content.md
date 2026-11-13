@@ -1,7 +1,8 @@
 # Editing the content
 
-All text on the site comes from JSON files in `src/content/`. You never need to touch a component
-to update the portfolio.
+Every fact on the site comes from JSON files in `src/content/`. Components hold only fixed
+interface wording (section intros, button labels, the 404 page), so you rarely need to touch one
+to update the portfolio. Unknown or misspelled fields are rejected, not ignored.
 
 | File | What it holds |
 |---|---|
@@ -38,7 +39,8 @@ When a claim is retired, add it to the deny-list in `content.test.ts` so it can'
 {
   "slug": "kebab-case-and-unique",            // becomes /case-studies/<slug>/
   "title": "…",                               // also the <h1>, <title>, og:title
-  "tagline": "…",                             // one sentence; also the meta description
+  "tagline": "…",                             // one sentence, shown under the title
+  "seoDescription": "…",                      // meta description, 160 characters at most
   "employer": "Intergy Consulting",           // must match a company in experience.json
   "context": "…",                             // one or two sentences of setting
   "stack": ["Django", "PostgreSQL"],          // only what the work actually used
@@ -46,7 +48,7 @@ When a claim is retired, add it to the deny-list in `content.test.ts` so it can'
   "challenge": ["…"],
   "approach": [{ "title": "…", "text": "…" }], // at least 2 steps
   "outcome": ["…"],
-  "alsoShipped": ["…"],                       // optional: related wins that aren't outcomes of this work
+  "alsoShipped": { "title": "…", "items": ["…"] }, // optional: related wins that aren't outcomes of this work
   "related": ["other-slug"],                  // optional: same-platform studies
   "visual": "pipeline",                       // one of the visuals registered in components/case-study/visuals
   "team": "…", "tradeoffs": ["…"], "learnings": ["…"] // optional; rendered only when present

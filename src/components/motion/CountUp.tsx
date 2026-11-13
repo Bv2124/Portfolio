@@ -54,10 +54,17 @@ export default function CountUp({ value }: { value: string }) {
     })
     observer.observe(el)
 
-    return () => {
+    // Printing must show the real value, even for numbers that were never scrolled to.
+    const restore = () => {
       observer.disconnect()
       cancelAnimationFrame(frame)
       el.textContent = value
+    }
+    window.addEventListener('beforeprint', restore)
+
+    return () => {
+      window.removeEventListener('beforeprint', restore)
+      restore()
     }
   }, [value])
 

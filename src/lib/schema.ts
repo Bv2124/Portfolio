@@ -6,23 +6,31 @@ const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Expected YYYY-MM')
 const iconName = z.enum(Object.keys(ICONS) as [IconName, ...IconName[]])
 const nonEmpty = z.string().trim().min(1)
 
-const AchievementSchema = z.object({
+const AchievementSchema = z.strictObject({
   text: nonEmpty,
   color: z.enum(['blue', 'purple', 'green', 'orange']),
 })
 
 // A hero stat is either a fixed value or the live "years of experience" figure.
 const HeroStatSchema = z.union([
-  z.object({ computed: z.literal('years'), label: nonEmpty }),
-  z.object({ value: nonEmpty, label: nonEmpty, srText: nonEmpty.optional() }),
+  z.strictObject({ computed: z.literal('years'), label: nonEmpty }),
+  z.strictObject({ value: nonEmpty, label: nonEmpty, srText: nonEmpty.optional() }),
 ])
 
-export const PersonalSchema = z.object({
+export const PersonalSchema = z.strictObject({
   name: nonEmpty,
+  // Short form used in page titles, structured data and the résumé download file name.
+  shortName: nonEmpty,
   firstName: nonEmpty,
   lastName: nonEmpty,
   title: nonEmpty,
   location: nonEmpty,
+  // Structured form of `location`, for the Person structured data.
+  address: z.strictObject({
+    locality: nonEmpty,
+    region: nonEmpty,
+    countryCode: z.string().regex(/^[A-Z]{2}$/, 'Expected an ISO 3166-1 alpha-2 country code'),
+  }),
   email: z.email(),
   phones: z.array(nonEmpty).min(1),
   github: z.url(),
@@ -39,23 +47,23 @@ export const PersonalSchema = z.object({
   openToWork: z.boolean(),
   availability: nonEmpty,
   heroStats: z.array(HeroStatSchema).min(1),
-  quickFacts: z.array(z.object({ label: nonEmpty, value: nonEmpty })).min(1),
+  quickFacts: z.array(z.strictObject({ label: nonEmpty, value: nonEmpty })).min(1),
 })
 
-export const AboutSchema = z.object({
+export const AboutSchema = z.strictObject({
   paragraphs: z.array(nonEmpty).min(1),
   achievements: z.array(AchievementSchema).min(1),
 })
 
-export const SpecialtySchema = z.object({ title: nonEmpty, text: nonEmpty })
+export const SpecialtySchema = z.strictObject({ title: nonEmpty, text: nonEmpty })
 
-export const WhyItemSchema = z.object({
+export const WhyItemSchema = z.strictObject({
   iconName,
   title: nonEmpty,
   description: nonEmpty,
 })
 
-export const ProfileSchema = z.object({
+export const ProfileSchema = z.strictObject({
   personal: PersonalSchema,
   roles: z.array(nonEmpty).min(1),
   about: AboutSchema,
@@ -63,7 +71,7 @@ export const ProfileSchema = z.object({
   whyHireMe: z.array(WhyItemSchema).min(1),
 })
 
-export const JobSchema = z.object({
+export const JobSchema = z.strictObject({
   company: nonEmpty,
   companyUrl: z.url(),
   role: nonEmpty,
@@ -77,19 +85,19 @@ export const JobSchema = z.object({
 
 // Skills mirror the resume's categories. `note` keeps its qualifiers (e.g. "schema design,
 // query optimization, migrations"); `core` marks the headline stack.
-export const SkillItemSchema = z.object({
+export const SkillItemSchema = z.strictObject({
   name: nonEmpty,
   note: nonEmpty.optional(),
   core: z.boolean().optional(),
 })
 
-export const SkillGroupSchema = z.object({
+export const SkillGroupSchema = z.strictObject({
   name: nonEmpty,
   iconName,
   items: z.array(SkillItemSchema).min(1),
 })
 
-export const SkillsFileSchema = z.object({
+export const SkillsFileSchema = z.strictObject({
   groups: z.array(SkillGroupSchema).min(1),
 })
 
@@ -97,7 +105,7 @@ const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Expected a kebab-ca
 
 export const PROJECT_TYPES = ['Web Platforms', 'Mobile Apps', 'Personal Projects'] as const
 
-export const ProjectSchema = z.object({
+export const ProjectSchema = z.strictObject({
   slug,
   title: nonEmpty,
   type: z.enum(PROJECT_TYPES),
@@ -110,27 +118,30 @@ export const ProjectSchema = z.object({
   caseStudies: z.array(slug).optional(),
 })
 
-// Every visual has a component registered for it (see components/case-study/visuals.tsx).
+// Every visual has a component registered for it (see components/case-study/visuals/index.tsx).
 export const CASE_STUDY_VISUALS = ['pipeline', 'sync', 'timezone'] as const
 
 // Case studies only state what the résumé supports. `team`, `tradeoffs` and `learnings` are
 // optional extras that render only when filled in; nothing is shown as a placeholder.
-export const CaseStudySchema = z.object({
+export const CaseStudySchema = z.strictObject({
   slug,
   title: nonEmpty,
   tagline: nonEmpty,
+  // The page's meta description: short enough for a search snippet.
+  seoDescription: nonEmpty.max(160),
   // Must match an experience entry's company; role and dates are derived from it.
   employer: nonEmpty,
   context: nonEmpty,
   stack: z.array(nonEmpty).min(1),
   metrics: z
-    .array(z.object({ value: nonEmpty, label: nonEmpty, srText: nonEmpty.optional() }))
+    .array(z.strictObject({ value: nonEmpty, label: nonEmpty, srText: nonEmpty.optional() }))
     .min(2)
     .max(4),
   challenge: z.array(nonEmpty).min(1),
-  approach: z.array(z.object({ title: nonEmpty, text: nonEmpty })).min(2),
+  approach: z.array(z.strictObject({ title: nonEmpty, text: nonEmpty })).min(2),
   outcome: z.array(nonEmpty).min(1),
-  alsoShipped: z.array(nonEmpty).optional(),
+  // Related wins that are not outcomes of this work, with the heading to show above them.
+  alsoShipped: z.strictObject({ title: nonEmpty, items: z.array(nonEmpty).min(1) }).optional(),
   related: z.array(slug).optional(),
   visual: z.enum(CASE_STUDY_VISUALS),
   team: nonEmpty.optional(),
@@ -138,16 +149,16 @@ export const CaseStudySchema = z.object({
   learnings: z.array(nonEmpty).optional(),
 })
 
-export const EducationItemSchema = z.object({
+export const EducationItemSchema = z.strictObject({
   type: z.enum(['Degree', 'Certification']),
   qualification: nonEmpty,
   institution: nonEmpty,
   period: nonEmpty,
-  note: z.string().nullable(),
+  note: nonEmpty.nullable(),
 })
 
 export const ContentSchema = z
-  .object({
+  .strictObject({
     profile: ProfileSchema,
     experience: z.array(JobSchema).min(1),
     skills: SkillsFileSchema,
@@ -201,6 +212,37 @@ export const ContentSchema = z
     for (const title of dupes(c.projects.map(p => p.title))) {
       ctx.addIssue({ code: 'custom', path: ['projects'], message: `Duplicate project title "${title}"` })
     }
+    // These values are used as React keys (and read as lists), so each list must be free of repeats.
+    const unique = (values: string[], path: Array<string | number>, what: string) => {
+      for (const dup of new Set(dupes(values))) {
+        ctx.addIssue({ code: 'custom', path, message: `Duplicate ${what} "${dup}"` })
+      }
+    }
+    const { personal, about, whyHireMe } = c.profile
+    unique(personal.heroStats.map(s => s.label), ['profile', 'personal', 'heroStats'], 'hero stat label')
+    unique(personal.quickFacts.map(f => f.label), ['profile', 'personal', 'quickFacts'], 'quick fact label')
+    unique(personal.phones, ['profile', 'personal', 'phones'], 'phone number')
+    unique(about.achievements.map(a => a.text), ['profile', 'about', 'achievements'], 'achievement')
+    unique(whyHireMe.map(w => w.title), ['profile', 'whyHireMe'], 'title')
+    unique(c.experience.map(j => j.company), ['experience'], 'company')
+    c.experience.forEach((job, i) => {
+      unique(job.tech, ['experience', i, 'tech'], 'tech')
+      unique(job.highlights, ['experience', i, 'highlights'], 'highlight')
+    })
+    c.skills.groups.forEach((group, i) => {
+      unique(group.items.map(item => item.name), ['skills', 'groups', i, 'items'], 'skill')
+    })
+    c.projects.forEach((project, i) => {
+      unique(project.tech, ['projects', i, 'tech'], 'tech')
+      unique(project.highlights, ['projects', i, 'highlights'], 'highlight')
+    })
+    c.caseStudies.forEach((study, i) => {
+      unique(study.stack, ['caseStudies', i, 'stack'], 'stack item')
+      unique(study.metrics.map(m => m.label), ['caseStudies', i, 'metrics'], 'metric label')
+      unique(study.approach.map(a => a.title), ['caseStudies', i, 'approach'], 'approach title')
+    })
+    unique(c.education.map(e => e.qualification), ['education'], 'qualification')
+
     for (const group of dupes(c.skills.groups.map(g => g.name))) {
       ctx.addIssue({ code: 'custom', path: ['skills', 'groups'], message: `Duplicate skill group "${group}"` })
     }

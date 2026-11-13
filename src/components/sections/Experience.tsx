@@ -10,12 +10,12 @@ import type { Job } from '@/lib/schema'
 
 export default function Experience({ experience }: { experience: Job[] }) {
   return (
-    <section id="experience" aria-labelledby="experience-heading" className="py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16">
+    <section id="experience" aria-labelledby="experience-heading" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <SectionHeading id="experience" />
 
         {/* Timeline */}
-        <div className="relative border-l border-slate-800 ml-3 sm:ml-4 space-y-10">
+        <div className="relative border-l border-slate-800 ml-3 sm:ml-4 flex flex-col gap-10">
           <TimelineProgress />
           {experience.map((job, index) => {
             const isCurrent = !job.end

@@ -3,7 +3,8 @@
 import { useMemo, useState } from 'react'
 import { flushSync } from 'react-dom'
 import Link from 'next/link'
-import { Github, ExternalLink, CheckCircle2, Lock, ArrowUpRight } from 'lucide-react'
+import { ExternalLink, CheckCircle2, Lock, ArrowUpRight } from 'lucide-react'
+import { Github } from '@/components/ui/BrandIcons'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/motion/Reveal'
 import type { ProjectWithLinks } from '@/lib/content'
@@ -138,7 +139,7 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
   }
 
   return (
-    <section id="projects" aria-labelledby="projects-heading" className="py-24 px-4 sm:px-6 lg:px-8 scroll-mt-16">
+    <section id="projects" aria-labelledby="projects-heading" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <SectionHeading id="projects" />
 
@@ -172,6 +173,12 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
             })}
           </div>
         )}
+
+        <p role="status" className="sr-only">
+          {filter === 'All'
+            ? `Showing all ${projects.length} projects`
+            : `Showing ${visible.length} of ${projects.length} projects: ${filter}`}
+        </p>
 
         <div className="grid md:grid-cols-2 gap-6">
           {visible.map((project, index) => (

@@ -7,12 +7,18 @@ import { Download, Menu, X } from 'lucide-react'
 import useScrolled from '@/hooks/useScrolled'
 import useActiveSection from '@/hooks/useActiveSection'
 import { SECTIONS, SECTION_IDS } from '@/lib/sections'
-import { RESUME_DOWNLOAD_NAME } from '@/lib/site'
-import type { Personal } from '@/lib/schema'
 
 const DRAWER_ID = 'mobile-menu'
 
-export default function Navbar({ personal }: { personal: Pick<Personal, 'name' | 'firstName' | 'resume'> }) {
+// Only what the navbar shows. This is a client component, so everything passed in here is
+// serialised into the page: never hand it the whole `personal` object.
+interface NavbarProps {
+  personal: { name: string; firstName: string; resume: string; resumeDownloadName: string }
+  // Set by the 404 page, where the URL says nothing about which page this is.
+  notFound?: boolean
+}
+
+export default function Navbar({ personal, notFound = false }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const scrolled = useScrolled(20)
   const active = useActiveSection(SECTION_IDS)
@@ -24,7 +30,7 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
 
   // The export serves pages with a trailing slash, so "/" and "/case-studies/x/" are what we see.
   const isHome = (pathname.replace(/\/+$/, '') || '/') === '/'
-  const onCaseStudy = pathname.startsWith('/case-studies/')
+  const onCaseStudy = !notFound && pathname.startsWith('/case-studies/')
   const currentId = onCaseStudy ? 'case-studies' : active
 
   const closeMenu = (returnFocus = false) => {
@@ -81,9 +87,12 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
 
     place()
     const frame = requestAnimationFrame(() => { pill.dataset.ready = 'true' })
-    document.fonts?.ready.then(place).catch(() => {})
+    // Web fonts can finish loading after the section has changed; ignore that stale callback.
+    let cancelled = false
+    document.fonts?.ready.then(() => { if (!cancelled) place() }).catch(() => {})
     window.addEventListener('resize', place)
     return () => {
+      cancelled = true
       cancelAnimationFrame(frame)
       window.removeEventListener('resize', place)
     }
@@ -95,6 +104,8 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
     e.preventDefault()
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
+    // Back at the top, a leftover "#projects" in the address bar would be wrong.
+    if (window.location.hash) window.history.replaceState(null, '', window.location.pathname)
   }
 
   const currentFor = (id: string) => {
@@ -107,7 +118,8 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
     : 'bg-transparent border-transparent'
 
   return (
-    <header className={`fixed top-0 w-full z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${headerStyle}`}>
+    <>
+    <header className={`site-header fixed top-0 w-full z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${headerStyle}`}>
       <nav aria-label="Primary" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
 
@@ -151,7 +163,7 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
             })}
             <a
               href={personal.resume}
-              download={RESUME_DOWNLOAD_NAME}
+              download={personal.resumeDownloadName}
               className="ml-3 flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border border-blue-500/40 text-blue-400 hover:bg-blue-400/10 hover:border-blue-400/60 transition-colors duration-200"
             >
               <Download size={13} aria-hidden="true" />
@@ -173,19 +185,22 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
           </button>
         </div>
       </nav>
+    </header>
 
-      {/* Mobile drawer: fades and drops in (CSS keyframes; none with reduced motion). */}
+      {/* Mobile drawer: fades and drops in (CSS keyframes; none with reduced motion).
+          It sits outside <header> on purpose: the scrolled header's backdrop-filter would become
+          the containing block of these fixed layers and shrink the backdrop to the header's box. */}
       {menuOpen && (
         <>
           <div
             aria-hidden="true"
             onClick={() => closeMenu()}
-            className="fade-in xl:hidden fixed inset-x-0 top-16 bottom-0 bg-slate-950/60"
+            className="fade-in xl:hidden fixed inset-x-0 top-16 bottom-0 z-40 bg-slate-950/60"
           />
           <div
             id={DRAWER_ID}
             ref={drawerRef}
-            className="drawer-in xl:hidden relative max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain bg-slate-900/95 border-b border-slate-800 px-6 pb-6"
+            className="drawer-in xl:hidden fixed inset-x-0 top-16 z-50 max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain bg-slate-900/95 border-b border-slate-800 px-6 pb-6"
           >
             {SECTIONS.map(link => (
               <Link
@@ -200,7 +215,7 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
             ))}
             <a
               href={personal.resume}
-              download={RESUME_DOWNLOAD_NAME}
+              download={personal.resumeDownloadName}
               className="mt-4 flex items-center gap-2 min-h-11 text-blue-400 font-mono text-sm"
             >
               <Download size={14} aria-hidden="true" />
@@ -209,6 +224,6 @@ export default function Navbar({ personal }: { personal: Pick<Personal, 'name' |
           </div>
         </>
       )}
-    </header>
+    </>
   )
 }

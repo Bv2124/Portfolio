@@ -1,15 +1,18 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import { getProfile } from '@/lib/content'
+import { getProfile, navPersonal } from '@/lib/content'
+
+export const metadata: Metadata = { title: 'Page not found' }
 
 export default function NotFound() {
   const { personal } = getProfile()
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <Navbar personal={personal} />
+      <Navbar personal={navPersonal} notFound />
       <main id="main" tabIndex={-1} className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
         <p className="font-mono text-sm text-blue-400">404</p>
         <h1 className="mt-3 text-3xl sm:text-4xl font-bold">Page not found</h1>

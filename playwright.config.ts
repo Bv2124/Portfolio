@@ -16,6 +16,8 @@ export default defineConfig({
   projects: [
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
+    // Safari's engine: the smoke tests only, to catch engine-specific breakage cheaply.
+    { name: 'webkit', testMatch: /smoke\.spec\.ts/, use: { ...devices['Desktop Safari'] } },
   ],
   webServer: {
     command: 'npm run preview',

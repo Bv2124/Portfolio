@@ -31,7 +31,12 @@ export default function Spotlight({ size = 'lg' }: { size?: 'lg' | 'sm' }) {
         spot.dataset.on = 'true'
       })
     }
-    const onLeave = () => { spot.dataset.on = 'false' }
+    const onLeave = () => {
+      // Drop any queued frame, or it would switch the glow back on after the pointer has left.
+      cancelAnimationFrame(frame)
+      frame = 0
+      spot.dataset.on = 'false'
+    }
 
     host.addEventListener('pointermove', onMove)
     host.addEventListener('pointerleave', onLeave)

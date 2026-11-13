@@ -3,6 +3,7 @@
 import { spawn } from 'node:child_process'
 import { mkdirSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { createServer } from 'node:net'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from '@playwright/test'
@@ -11,7 +12,16 @@ const require = createRequire(import.meta.url)
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const outDir = resolve(root, 'docs/screenshots')
-const port = 4321
+
+// Ask the OS for a free port, so a server that is already running can never be photographed by mistake.
+const port = await new Promise((done, fail) => {
+  const probe = createServer()
+  probe.once('error', fail)
+  probe.listen(0, () => {
+    const { port: free } = probe.address()
+    probe.close(() => done(free))
+  })
+})
 const base = `http://localhost:${port}`
 
 const shots = [
@@ -27,12 +37,15 @@ const serveBin = resolve(dirname(require.resolve('serve/package.json')), 'build/
 const server = spawn(process.execPath, [serveBin, 'out', '-l', String(port)], { cwd: root, stdio: 'ignore' })
 
 try {
-  const browser = await chromium.launch()
-  // Wait for the static server to come up.
-  for (let i = 0; i < 50; i++) {
-    try { if ((await fetch(base)).ok) break } catch { /* not up yet */ }
-    await new Promise(r => setTimeout(r, 200))
+  // Wait for the static server to come up, and stop if it never does.
+  let up = false
+  for (let i = 0; i < 50 && !up; i++) {
+    try { up = (await fetch(base)).ok } catch { /* not up yet */ }
+    if (!up) await new Promise(r => setTimeout(r, 200))
   }
+  if (!up) throw new Error(`The static server did not start on ${base}. Run \`npm run build\` first.`)
+
+  const browser = await chromium.launch()
 
   for (const shot of shots) {
     const page = await browser.newPage({

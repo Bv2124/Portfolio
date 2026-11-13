@@ -23,9 +23,15 @@ export default function useTypewriter(
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
-    if (!enabled || !words.length) return undefined
+    if (!words.length) return undefined
 
     const word = words[index % words.length] ?? ''
+    if (!enabled) {
+      // Paused (off-screen, hidden tab, reduced motion): never leave a half-typed word showing.
+      setText(word)
+      setDeleting(false)
+      return undefined
+    }
     const atFullWord = !deleting && text === word
     const atEmpty = deleting && text === ''
 

@@ -2,18 +2,18 @@ import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { Inter } from 'next/font/google'
-import { SITE_URL, getProfile, getSkillKeywords, siteOpenGraph } from '@/lib/content'
+import { SITE_URL, getProfile, getSkillKeywords, siteOpenGraph, siteTitle } from '@/lib/content'
 import RevealRoot from '@/components/motion/RevealRoot'
 
 const inter = Inter({ subsets: ['latin'] })
 
 const { personal } = getProfile()
-const pageTitle = `${personal.name} — ${personal.title}`
+const pageTitle = siteTitle
 
 export const metadata: Metadata = {
   // A URL object (not a string) so relative URLs resolve with the site's trailing-slash rules.
   metadataBase: new URL(SITE_URL),
-  title: { default: pageTitle, template: `%s · ${personal.firstName} B` },
+  title: { default: pageTitle, template: `%s · ${personal.shortName}` },
   description: personal.seoDescription,
   keywords: [...getSkillKeywords(), personal.title, personal.location].join(', '),
   authors: [{ name: personal.name }],

@@ -1,10 +1,12 @@
 {
   "personal": {
     "name": "Vigneshwaran Balasubramanian",
+    "shortName": "Vigneshwaran B",
     "firstName": "Vigneshwaran",
     "lastName": "Balasubramanian",
     "title": "Full-Stack Engineer",
     "location": "Coimbatore, Tamil Nadu, India",
+    "address": { "locality": "Coimbatore", "region": "Tamil Nadu", "countryCode": "IN" },
     "email": "bv2124.dev@gmail.com",
     "phones": ["+91 9487941025"],
     "github": "https://github.com/Bv2124",

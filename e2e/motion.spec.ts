@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { rawContent } from '../src/content'
+import { SECTION_IDS } from '../src/lib/sections'
 
 // The motion rules: nothing on screen is ever hidden, every animation ends in the real content,
 // and reduced motion or no JavaScript shows everything immediately.
@@ -45,6 +46,37 @@ test.describe('scroll reveals', () => {
     await placeTimeline(-0.3)
     await expect.poll(scale).toBeGreaterThan(early)
     expect(await scale()).toBeLessThanOrEqual(1)
+  })
+})
+
+test.describe('entering the timeline from below', () => {
+  test('the line is filled when only the lower part of the timeline is on screen', async ({ page }) => {
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
+    const fill = page.locator('.timeline-fill')
+    await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }))
+    await page.evaluate(() => {
+      const track = document.querySelector('.timeline-fill')!.parentElement!
+      const rect = track.getBoundingClientRect()
+      window.scrollTo({ top: rect.top + window.scrollY + rect.height - window.innerHeight * 0.6, behavior: 'instant' })
+    })
+    await expect.poll(() => fill.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).d)).toBeGreaterThan(0.5)
+  })
+})
+
+test.describe('print', () => {
+  test('headings and metrics that were never scrolled to still print', async ({ page }) => {
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
+    await page.emulateMedia({ media: 'print' })
+    const heading = page.locator('section#education .heading-reveal')
+    await expect(heading).toHaveAttribute('data-reveal', 'armed')
+    expect(await heading.locator('.hr-title').evaluate(el => getComputedStyle(el).clipPath)).toBe('none')
+    expect(await heading.locator('.hr-kicker').evaluate(el => getComputedStyle(el).opacity)).toBe('1')
+
+    await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')))
+    const first = page.locator('section#case-studies article').first().locator('[data-countup]')
+    await expect(first).toHaveText(rawContent.caseStudies[0]!.metrics[0]!.value)
   })
 })
 
@@ -117,7 +149,7 @@ test.describe('without JavaScript', () => {
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Vigneshwaran')
     await expect(page.locator('[data-reveal="armed"]')).toHaveCount(0)
-    for (const id of ['about', 'experience', 'case-studies', 'skills', 'projects', 'education', 'contact']) {
+    for (const id of SECTION_IDS) {
       const opacity = await page.locator(`section#${id} h2`).evaluate(el => getComputedStyle(el).opacity)
       expect(opacity, id).toBe('1')
     }
