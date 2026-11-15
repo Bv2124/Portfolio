@@ -114,60 +114,64 @@ export default function Navbar({ personal, notFound = false }: NavbarProps) {
   }
 
   const headerStyle = scrolled
-    ? 'bg-slate-950/80 backdrop-blur-md border-slate-800/80 shadow-xl shadow-slate-950/60'
+    ? 'bg-ground/85 backdrop-blur-md border-line'
     : 'bg-transparent border-transparent'
+
+  // "Vigneshwaran Balasubramanian" -> "VB"
+  const initials = personal.name.split(/\s+/).map(word => word[0]).join('').slice(0, 2).toUpperCase()
 
   return (
     <>
-    <header className={`site-header fixed top-0 w-full z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${headerStyle}`}>
-      <nav aria-label="Primary" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className={`site-header fixed top-0 z-50 w-full border-b transition-[background-color,border-color] duration-300 ${headerStyle}`}>
+      <nav aria-label="Primary" className="container-page">
+        <div className="flex h-16 items-center justify-between">
 
-          {/* Logo */}
+          {/* Logo: an initials avatar and the first name */}
           <Link
             href="/"
             onClick={onLogoClick}
             aria-label={`${personal.name}, home`}
-            className="flex items-center gap-1 group"
+            className="flex min-h-11 items-center gap-3 font-semibold text-ink"
           >
-            <span aria-hidden="true" className="text-muted font-mono text-sm group-hover:text-slate-300 transition-colors">~/</span>
-            <span aria-hidden="true" className="font-bold text-slate-100 font-mono group-hover:text-white transition-colors">
-              {personal.firstName.toLowerCase()}
+            <span aria-hidden="true" className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">
+              {initials}
             </span>
-            <span aria-hidden="true" className="text-blue-400 font-mono font-bold">.dev</span>
+            <span aria-hidden="true">{personal.firstName}</span>
           </Link>
 
-          {/* Desktop links */}
-          <div ref={linksRef} className="relative hidden xl:flex items-center gap-1">
-            {/* Empty, decorative, and hidden by its class until the script has measured where it goes. */}
-            <span
-              ref={pillRef}
-              aria-hidden="true"
-              className="nav-pill pointer-events-none absolute left-0 top-0 rounded-lg bg-blue-400/10 opacity-0"
-            />
-            {SECTIONS.map(link => {
-              const current = currentFor(link.id)
-              return (
-                <Link
-                  key={link.id}
-                  href={`/#${link.id}`}
-                  data-nav-id={link.id}
-                  aria-current={current}
-                  className={`relative px-3 py-2 rounded-lg text-sm font-mono whitespace-nowrap transition-colors duration-200 ${
-                    current ? 'text-blue-400' : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              )
-            })}
+          {/* Desktop links, in a white track */}
+          <div className="hidden items-center gap-3 xl:flex">
+            <div ref={linksRef} className="relative flex items-center gap-0.5 rounded-full bg-surface p-1">
+              {/* Empty, decorative, and hidden by its class until the script has measured where it goes. */}
+              <span
+                ref={pillRef}
+                aria-hidden="true"
+                className="nav-pill pointer-events-none absolute left-0 top-0 rounded-full bg-tint opacity-0"
+              />
+              {SECTIONS.map(link => {
+                const current = currentFor(link.id)
+                return (
+                  <Link
+                    key={link.id}
+                    href={`/#${link.id}`}
+                    data-nav-id={link.id}
+                    aria-current={current}
+                    className={`relative flex min-h-11 items-center whitespace-nowrap rounded-full px-3.5 text-[0.9375rem] font-medium transition-colors duration-200 ${
+                      current ? 'text-ink' : 'text-ink-soft hover:text-ink'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              })}
+            </div>
             <a
               href={personal.resume}
               download={personal.resumeDownloadName}
-              className="ml-3 flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border border-blue-500/40 text-blue-400 hover:bg-blue-400/10 hover:border-blue-400/60 transition-colors duration-200"
+              className="btn btn-primary min-h-11 whitespace-nowrap px-5 text-[0.9375rem]"
             >
-              <Download size={13} aria-hidden="true" />
-              Resume
+              <Download size={15} aria-hidden="true" />
+              Résumé
             </a>
           </div>
 
@@ -175,7 +179,7 @@ export default function Navbar({ personal, notFound = false }: NavbarProps) {
           <button
             ref={buttonRef}
             type="button"
-            className="xl:hidden h-11 w-11 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-ink transition-colors hover:bg-tint xl:hidden"
             onClick={() => setMenuOpen(o => !o)}
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
@@ -195,31 +199,36 @@ export default function Navbar({ personal, notFound = false }: NavbarProps) {
           <div
             aria-hidden="true"
             onClick={() => closeMenu()}
-            className="fade-in xl:hidden fixed inset-x-0 top-16 bottom-0 z-40 bg-slate-950/60"
+            className="fade-in fixed inset-x-0 bottom-0 top-16 z-40 bg-ink/40 xl:hidden"
           />
           <div
             id={DRAWER_ID}
             ref={drawerRef}
-            className="drawer-in xl:hidden fixed inset-x-0 top-16 z-50 max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain bg-slate-900/95 border-b border-slate-800 px-6 pb-6"
+            className="drawer-in fixed inset-x-0 top-16 z-50 max-h-[calc(100svh-4rem)] overflow-y-auto overscroll-contain rounded-b-3xl bg-surface px-5 pb-6 sm:px-8 xl:hidden"
           >
-            {SECTIONS.map(link => (
-              <Link
-                key={link.id}
-                href={`/#${link.id}`}
-                aria-current={currentFor(link.id)}
-                onClick={() => closeMenu()}
-                className="flex items-center min-h-12 text-slate-300 hover:text-blue-400 transition-colors font-mono text-sm border-b border-slate-800/50 last:border-0"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {SECTIONS.map(link => {
+              const current = currentFor(link.id)
+              return (
+                <Link
+                  key={link.id}
+                  href={`/#${link.id}`}
+                  aria-current={current}
+                  onClick={() => closeMenu()}
+                  className={`flex min-h-14 items-center border-b border-line text-lg last:border-0 ${
+                    current ? 'font-semibold text-accent-ink' : 'font-medium text-ink'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
             <a
               href={personal.resume}
               download={personal.resumeDownloadName}
-              className="mt-4 flex items-center gap-2 min-h-11 text-blue-400 font-mono text-sm"
+              className="btn btn-primary mt-4 w-full"
             >
-              <Download size={14} aria-hidden="true" />
-              Download Resume
+              <Download size={16} aria-hidden="true" />
+              Download résumé
             </a>
           </div>
         </>

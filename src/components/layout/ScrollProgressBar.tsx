@@ -32,10 +32,10 @@ export default function ScrollProgressBar() {
   }, [])
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed top-0 left-0 w-full z-[100] h-[2px] bg-slate-800/60">
+    <div aria-hidden="true" className="pointer-events-none fixed top-0 left-0 w-full z-[100] h-[3px] bg-line/60">
       <div
         ref={barRef}
-        className="h-full origin-left bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 transition-transform duration-150 ease-out motion-reduce:transition-none"
+        className="h-full origin-left bg-accent transition-transform duration-150 ease-out motion-reduce:transition-none"
         style={{ transform: 'scaleX(0)' }}
       />
     </div>
