@@ -27,7 +27,7 @@ const base = `http://localhost:${port}`
 const shots = [
   { name: 'home-desktop', path: '/', viewport: { width: 1440, height: 900 } },
   { name: 'home-mobile', path: '/', viewport: { width: 390, height: 844 }, mobile: true },
-  { name: 'case-study-desktop', path: '/case-studies/salesforce-to-django-migration/', viewport: { width: 1440, height: 900 }, scrollTo: 'figure' },
+  { name: 'case-study-desktop', path: '/case-studies/salesforce-to-django-migration/', viewport: { width: 1440, height: 1240 } },
 ]
 
 mkdirSync(outDir, { recursive: true })

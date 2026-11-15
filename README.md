@@ -19,6 +19,11 @@ from crawlers, screen readers or people who prefer reduced motion.
   fails the build with the exact field path.
 - **Case studies** at `/case-studies/<slug>/`, each with its own canonical URL, Open Graph card and
   `TechArticle` structured data.
+- **Project screenshots.** Each personal project shows its live home page, captured from the real
+  URL with `npm run shots:projects` and checked in, so the card is the hook and the image is the link.
+- **Design tokens, not raw colours.** The palette is a set of semantic tokens (CSS variables exposed
+  to Tailwind by name) and Tailwind's default palette is removed, so a stray `bg-slate-900` can't
+  ship. Light theme, one typeface (DM Sans, self-hosted at build time).
 - **Motion without the usual costs.** CSS-first animation, View Transitions for the project
   filter, and no animation library. Nothing is hidden in the server HTML; reduced motion and
   no-JS are tested modes.
@@ -36,13 +41,16 @@ Measured on the production build (`out/`):
 
 | Metric | Home | Case study |
 |---|---|---|
-| Lighthouse (desktop): performance / accessibility / best practices / SEO | 100 / 100 / 100 / 100 | 100 / 100 / 100 / 100 |
-| First-load JavaScript | 116 kB | 113 kB |
-| LCP, real Chrome, 4× CPU + slow 4G (median) | ≈ 1.5 s | — |
-| Unit tests / end-to-end tests | 102 / 207 (desktop, mobile and a Safari smoke run) | |
+| Lighthouse (desktop): performance / accessibility / best practices / SEO | 98–100 / 100 / 100 / 100 | 99–100 / 100 / 100 / 100 |
+| First-load JavaScript | 120 kB | 113 kB |
+| LCP, real Chrome, 4× CPU + slow 4G (median of 7, `npm run lcp`) | ≈ 3.6 s | — |
+| Unit tests / end-to-end tests | 112 / 207 (desktop, mobile and a Safari smoke run) | |
 
-How the mobile figure was measured, and why real-browser numbers were preferred over Lighthouse's
-simulation on the development machine, is in [ADR 3](docs/adr/0003-motion-and-performance-budget.md).
+The LCP figure comes from `npm run lcp` (Pixel 7 profile, 4× CPU slowdown, 1.6 Mbps, 150 ms RTT).
+It depends on the machine's CPU, so use it to compare before and after a change on the same
+machine, not against a number measured elsewhere. Why real-browser numbers were preferred over
+Lighthouse's simulation, and what the redesign did to them, is in
+[ADR 3](docs/adr/0003-motion-and-performance-budget.md).
 
 ## Architecture
 
@@ -50,7 +58,7 @@ simulation on the development machine, is in [ADR 3](docs/adr/0003-motion-and-pe
 flowchart LR
   A["src/content/*.json"] --> B["lib/content.ts<br/>zod schema · selectors · server-only"]
   B --> C["Server components<br/>sections · case-study pages · metadata"]
-  C --> D["Small client islands<br/>nav · filter · typewriter · reveals"]
+  C --> D["Small client islands<br/>nav · project filter · reveals"]
   C --> E["next build<br/>static export"]
   D --> E
   E --> F["out/ → Vercel CDN"]
@@ -94,6 +102,8 @@ npm run verify                    # everything CI runs
 | `npm run verify` | All of the above, in order |
 | `npm run og` | Regenerate the link-preview image from the content |
 | `npm run screenshots` | Regenerate the screenshots above from the build |
+| `npm run shots:projects` | Re-capture each personal project's live home page into `public/projects/` (needs network) |
+| `npm run lcp` | Measure LCP of the build under mobile throttling (median of 7 runs) |
 
 ## Project structure
 
@@ -105,13 +115,14 @@ src/
     layout/         navbar, footer, progress bar
     sections/       home-page sections
     case-study/     case-study page parts and visuals
-    motion/         reveal, count-up, spotlight, play-on-view, timeline
+    motion/         reveal, count-up, play-on-view, timeline
     ui/             headings, rich text, live values
   hooks/            small client hooks
   lib/              schema, content selectors, date helpers, icons, section registry
 e2e/                Playwright specs
-docs/               ADRs, content guide, screenshots
-scripts/            OG image and screenshot generators
+public/             résumé PDF, portrait, project screenshots, link-preview image
+docs/               ADRs, content guide, README screenshots, the redesign brief
+scripts/            OG image, screenshot, project-screenshot, size-budget and LCP scripts
 ```
 
 To change what the site says, see the **[content guide](docs/content.md)**.

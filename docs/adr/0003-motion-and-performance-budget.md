@@ -15,7 +15,7 @@ JavaScript fails.
 Rules:
 
 1. **Nothing is hidden in the server HTML.** The hero entrance is pure CSS (per-word mask reveal,
-   transform-only on the likely LCP paragraph). Scroll reveals use a `data-reveal` attribute.
+   transform-only on the bio and the portrait card, the likely LCP elements). Scroll reveals use a `data-reveal` attribute.
    `RevealRoot` only "arms" (hides) elements that its first IntersectionObserver callback reports
    as off screen. No JavaScript or reduced motion means nothing is ever armed. A test asserts
    there's no inline `opacity:0` in the HTML.
@@ -34,7 +34,7 @@ Platform features over libraries:
 | Project filter animation | View Transitions API: cards and filter pill morph; instant fallback |
 | Nav highlight | One measured element moved with a CSS transition |
 | Progress bar, timeline fill | Transform written in `requestAnimationFrame`, no React re-renders |
-| Card glow border | A rotating conic-gradient pseudo-element (compositor-only), hover/focus only |
+| Card hover | A 2px lift and one soft shadow, on devices that can hover |
 
 ## Evidence
 
@@ -64,3 +64,19 @@ for its anchor-jump risks.
 - Browsers without View Transitions get an instant, correct filter.
 - New animations must follow the rules above. `e2e/motion.spec.ts` and `e2e/a11y.spec.ts` enforce
   most of them.
+
+## Update: the light-theme redesign (2026-11)
+
+The aurora background, cursor spotlight, glow border and typewriter went with the dark theme. The
+rules above are unchanged, and the effects that follow them stayed: scroll reveals, count-ups, the
+timeline fill, the progress bar, the sliding nav pill and the project-filter transition.
+
+Re-measured with `npm run lcp` (Pixel 7 profile, 4× CPU, 1.6 Mbps, 150 ms RTT), building the
+commit before the redesign and the one after on the same machine: median LCP 3.7 s before and
+3.6 s after. First paint waits for about two seconds of throttled main-thread work (hydration), not
+for the network, so adding a portrait and a different font did not move it. That machine's CPU is
+slow, so the "about 1.5 s" quoted under Evidence could not be reproduced with this method on either
+build: compare before and after on one machine rather than against that figure.
+
+Home first-load JavaScript is 120 kB in Next's report (122 kB gzipped by `npm run budget`), under
+the 150 kB budget. Lighthouse desktop: accessibility, best practices and SEO 100, performance 98 to 100.

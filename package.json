@@ -15,7 +15,8 @@
     "budget": "node scripts/check-budget.mjs",
     "og": "node scripts/og-image.mjs",
     "screenshots": "node scripts/screenshots.mjs",
-    "shots:projects": "node scripts/project-shots.mjs"
+    "shots:projects": "node scripts/project-shots.mjs",
+    "lcp": "node scripts/measure-lcp.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.71.0",
