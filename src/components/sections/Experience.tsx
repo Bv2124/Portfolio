@@ -12,7 +12,7 @@ export default function Experience({ experience }: { experience: Job[] }) {
   return (
     <section id="experience" aria-labelledby="experience-heading" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading id="experience" />
+        <SectionHeading id="experience" intro="Where I have worked and what I shipped there." />
 
         {/* Timeline */}
         <div className="relative border-l border-slate-800 ml-3 sm:ml-4 flex flex-col gap-10">

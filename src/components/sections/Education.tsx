@@ -7,7 +7,7 @@ export default function Education({ education }: { education: EducationItem[] })
   return (
     <section id="education" aria-labelledby="education-heading" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading id="education" />
+        <SectionHeading id="education" intro="Degrees and certifications." />
 
         <div className="grid sm:grid-cols-2 gap-5">
           {education.map((item, index) => {

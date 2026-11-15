@@ -1,11 +1,13 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import { Inter } from 'next/font/google'
+import { DM_Sans } from 'next/font/google'
 import { SITE_URL, getProfile, getSkillKeywords, siteOpenGraph, siteTitle } from '@/lib/content'
 import RevealRoot from '@/components/motion/RevealRoot'
 
-const inter = Inter({ subsets: ['latin'] })
+// Self-hosted at build time by next/font, so the page never loads a font from another origin
+// (the Content-Security-Policy in vercel.json would block it).
+const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' })
 
 const { personal } = getProfile()
 const pageTitle = siteTitle
@@ -26,17 +28,17 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width:        'device-width',
   initialScale: 1,
-  colorScheme:  'dark',
-  themeColor:   '#020617',
+  colorScheme:  'light',
+  themeColor:   '#EEF3F0',
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={inter.className}>
-      <body className="bg-slate-950">
+    <html lang="en" data-scroll-behavior="smooth" className={dmSans.className}>
+      <body className="bg-ground text-ink antialiased">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-lg focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:font-semibold focus:text-white"
         >
           Skip to content
         </a>

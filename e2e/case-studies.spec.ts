@@ -14,7 +14,7 @@ test.describe('home page case studies', () => {
   test('lists every case study as a link to its page', async ({ page }) => {
     await page.goto('/')
     const section = page.locator('section#case-studies')
-    await expect(section.getByRole('heading', { level: 2 })).toHaveText('Case Studies')
+    await expect(section.getByRole('heading', { level: 2 })).toHaveText('Case studies')
     for (const study of studies) {
       await expect(section.locator(`a[href="/case-studies/${study.slug}/"]`)).toHaveText(study.title)
     }

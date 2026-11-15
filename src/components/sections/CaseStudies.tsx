@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/motion/Reveal'
-import Spotlight from '@/components/motion/Spotlight'
 import CountUp from '@/components/motion/CountUp'
 import type { CaseStudy } from '@/lib/schema'
 
@@ -10,11 +9,7 @@ export default function CaseStudies({ studies }: { studies: CaseStudy[] }) {
   return (
     <section id="case-studies" aria-labelledby="case-studies-heading" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading id="case-studies" />
-
-        <Reveal as="p" className="text-slate-400 text-sm leading-relaxed max-w-2xl mb-10">
-          Selected work, written up as challenge, approach and outcome. Each one sticks to what I actually did.
-        </Reveal>
+        <SectionHeading id="case-studies" intro="Challenge, approach and outcome, sticking to what I actually did." />
 
         <div className="grid gap-6 lg:grid-cols-3">
           {studies.map((study, index) => {
@@ -23,11 +18,8 @@ export default function CaseStudies({ studies }: { studies: CaseStudy[] }) {
               <Reveal key={study.slug} index={index}>
                 {/* glow-card: the 1px ring around the inner fill lights up and rotates on hover/focus. */}
                 <article
-                  data-spotlight-host=""
-                  className="glow-card group flex h-full flex-col rounded-2xl bg-slate-800/70 p-6 transition-shadow duration-300 hover:shadow-2xl hover:shadow-slate-950/60 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-blue-400"
+                  className="group flex h-full flex-col rounded-2xl bg-slate-800/70 p-6 transition-shadow duration-300 hover:shadow-2xl hover:shadow-slate-950/60 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-blue-400"
                 >
-                  <Spotlight size="sm" />
-
                   {headline && (
                     <>
                       <p className="font-mono text-3xl font-bold text-blue-400">

@@ -41,7 +41,7 @@ export default function Contact({ personal, whyHireMe }: ContactProps) {
   return (
     <section id="contact" aria-labelledby="contact-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading id="contact" />
+        <SectionHeading id="contact" intro="Open to remote, hybrid or on-site roles." />
 
         <div className="grid md:grid-cols-2 gap-10">
           {/* Contact links */}

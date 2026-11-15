@@ -57,18 +57,13 @@ test('an anchor jump puts the section just under the fixed header', async ({ pag
   await expect.poll(top).toBeLessThanOrEqual(96)
 })
 
-test('the longest role fits inside the terminal window on a narrow phone', async ({ page }) => {
+test('the hero lists every role, and nothing spills out of the page at 360px', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 800 })
-  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
-  const line = page.locator('.terminal-body p').last()
-  for (const role of rawContent.profile.roles) {
-    const fits = await line.evaluate((p, text) => {
-      p.querySelector('.text-emerald-300')!.textContent = text
-      return p.querySelector('[aria-hidden]')!.getBoundingClientRect().width <= p.clientWidth
-    }, role)
-    expect(fits, role).toBe(true)
-  }
+  const roles = page.getByRole('list', { name: 'Roles' }).getByRole('listitem')
+  await expect(roles).toHaveText(rawContent.profile.roles)
+  const boxes = await roles.evaluateAll(els => els.map(el => el.getBoundingClientRect().right))
+  expect(Math.max(...boxes)).toBeLessThanOrEqual(360)
 })
 
 test('the navbar receives only the fields it shows', async ({ request }) => {
@@ -86,11 +81,6 @@ test('all content is visible with reduced motion', async ({ page }) => {
   await expect(page.locator('section#about h2')).toBeVisible()
   const opacity = await page.locator('h1').evaluate(el => getComputedStyle(el).opacity)
   expect(opacity).toBe('1')
-})
-
-test('typewriter renders a real role in the HTML and exposes roles to screen readers', async ({ page }) => {
-  await page.goto('/')
-  await expect(page.getByText(/^Roles:/)).toHaveCount(1)
 })
 
 test.describe('desktop navigation', () => {

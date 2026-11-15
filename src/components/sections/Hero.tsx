@@ -1,8 +1,6 @@
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
 import { ArrowRight, ChevronDown, Download } from 'lucide-react'
-import RoleTypewriter from '@/components/ui/RoleTypewriter'
-import HeroBackground from '@/components/motion/HeroBackground'
 import { LiveYears } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import { yearsSince } from '@/lib/experience'
@@ -34,10 +32,7 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
   }
 
   return (
-    <section data-spotlight-host="" className="relative min-h-svh flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Drifting aurora, grid and cursor spotlight */}
-      <HeroBackground />
-
+    <section className="relative min-h-svh flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="relative max-w-6xl mx-auto w-full pt-24 pb-16">
 
         <p aria-hidden="true" className="hero-in font-mono text-sm text-muted mb-5" style={step(0)}>
@@ -72,27 +67,11 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
           </span>
         </h1>
 
-        {/* Terminal typewriter window */}
-        <div className="hero-in terminal-window mb-8 max-w-lg" style={step(3)}>
-          <div aria-hidden="true" className="terminal-titlebar">
-            <div className="flex gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-red-500/80" />
-              <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
-              <span className="w-3 h-3 rounded-full bg-green-500/80" />
-            </div>
-            <span className="text-muted text-xs font-mono">~/portfolio — bash</span>
-            <div className="w-12" />
-          </div>
-          <div className="terminal-body">
-            <p aria-hidden="true" className="font-mono text-sm text-muted">
-              <span className="text-emerald-400">➜</span>{' '}
-              <span className="text-cyan-400 font-medium">~/portfolio</span>{' '}
-              <span className="text-muted">$</span>{' '}
-              <span className="text-slate-400">cat role.txt</span>
-            </p>
-            <RoleTypewriter roles={roles} />
-          </div>
-        </div>
+        <ul aria-label="Roles" className="hero-in mb-8 flex flex-wrap gap-2" style={step(3)}>
+          {roles.map(role => (
+            <li key={role} className="chip">{role}</li>
+          ))}
+        </ul>
 
         <p className="hero-rise text-slate-400 text-base sm:text-lg max-w-2xl mb-10 leading-relaxed" style={step(4)}>
           {personal.heroBio}

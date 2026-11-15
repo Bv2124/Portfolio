@@ -2,8 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Motion tokens. Every animation on the site uses these (see also src/lib/motion.ts). */
+/* ── Design tokens ──────────────────────────────────────────────
+   Colours are space-separated RGB channels so Tailwind can apply opacity (bg-ground/85).
+   Tailwind exposes them by name (tailwind.config.ts); components never use raw values.
+   Pairs checked for WCAG AA: ink / ink-soft on ground, surface and tint; accent-ink on ground
+   and surface; white on accent; chip-*-ink on its chip. `accent` itself is for fills only. */
 :root {
+  --color-ground: 238 243 240;      /* #EEF3F0  page background */
+  --color-surface: 255 255 255;     /* #FFFFFF  cards, nav track */
+  --color-tint: 221 233 228;        /* #DDE9E4  quiet fills */
+  --color-ink: 20 48 43;            /* #14302B  text, dark button, contact panel */
+  --color-ink-soft: 51 81 74;       /* #33514A  secondary text */
+  --color-line: 201 214 208;        /* #C9D6D0  hairlines */
+  --color-accent: 14 124 102;       /* #0E7C66  fills: dots, avatar, progress, focus ring */
+  --color-accent-ink: 11 92 76;     /* #0B5C4C  accent-coloured text */
+  --color-chip-amber: 246 230 200;  /* #F6E6C8 */
+  --color-chip-amber-ink: 74 54 8;  /* #4A3608 */
+  --color-chip-blue: 220 230 245;   /* #DCE6F5 */
+  --color-chip-blue-ink: 21 43 82;  /* #152B52 */
+
+  /* Motion tokens. Every animation on the site uses these (see also src/lib/motion.ts). */
   --ease-out: cubic-bezier(.22, 1, .36, 1);
   --ease-in-out: cubic-bezier(.65, 0, .35, 1);
   --dur-reveal: 500ms;
@@ -11,9 +29,9 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   scrollbar-width: thin;
-  scrollbar-color: #334155 #020617;
+  scrollbar-color: rgb(var(--color-line)) rgb(var(--color-ground));
   /* Room for the fixed nav when jumping to an anchor. */
   scroll-padding-top: 5rem;
 }
@@ -24,8 +42,8 @@ body {
 }
 
 body {
-  background-color: #020617;
-  color: #e2e8f0;
+  background-color: rgb(var(--color-ground));
+  color: rgb(var(--color-ink));
 }
 
 /* Smooth scrolling only for people who haven't asked for less motion. */
@@ -35,47 +53,50 @@ body {
 
 /* ── Focus ──────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #60a5fa;
+  outline: 2px solid rgb(var(--color-accent));
   outline-offset: 3px;
 }
+/* The accent ring is too faint on the dark contact panel, so it turns white there. */
+.on-ink :focus-visible { outline-color: #fff; }
 main:focus { outline: none; }
 
-/* ── Terminal window ────────────────────────────────────────── */
-.terminal-window {
-  background: #0d1424;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.07);
-  box-shadow:
-    0 0 0 1px rgba(59,130,246,.08),
-    0 20px 50px -10px rgba(0,0,0,.6);
+/* ── Layout and component primitives ───────────────────────── */
+@layer components {
+  /* Page width: 1160px with 32px gutters (20px on phones). */
+  .container-page { @apply mx-auto w-full max-w-[1160px] px-5 sm:px-8; }
+  /* Section rhythm: 96px top and bottom on desktop, 64px on phones. */
+  .section-pad { @apply py-16 md:py-24; }
+
+  .section-title {
+    @apply text-[1.75rem] font-semibold leading-tight tracking-[-0.02em] text-ink sm:text-[2rem];
+  }
+  .section-intro { @apply max-w-md text-base leading-relaxed text-ink-soft; }
+
+  .lead { @apply max-w-[36rem] text-xl leading-[1.55] text-ink-soft; }
+  .meta { @apply text-sm font-medium text-ink-soft; }
+
+  .chip {
+    @apply inline-flex items-center rounded-full bg-tint px-3.5 py-1.5 text-[0.8125rem] font-semibold leading-none text-ink;
+  }
+
+  .btn {
+    @apply inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-full px-6 text-base font-semibold transition-colors duration-200;
+  }
+  .btn-primary { @apply bg-ink text-white; }
+  .btn-secondary { @apply bg-surface text-ink; }
+
+  /* A card lifts 2px and gains one soft shadow, on devices that can hover. Put it on an inner
+     element, never on the same element as a scroll reveal (both use transform). */
+  .card-lift { transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out); }
 }
 
-.terminal-titlebar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 9px 14px;
-  background: rgba(255,255,255,.025);
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-
-.terminal-body {
-  padding: 14px 16px 16px;
-  min-height: 64px;
-}
-
-/* ── Subtle grid background ─────────────────────────────────── */
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(59,130,246,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59,130,246,.035) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
-
-/* ── Section alternating tint ───────────────────────────────── */
-.section-alt {
-  background: rgba(15,23,42,.55);
+@media (hover: hover) {
+  .btn-primary:hover { background-color: #0b211d; }
+  .btn-secondary:hover { background-color: rgb(var(--color-tint)); }
+  .card-lift:hover {
+    transform: translate3d(0, -2px, 0);
+    box-shadow: 0 12px 32px -16px rgb(20 48 43 / .25);
+  }
 }
 
 /* ══ Motion ════════════════════════════════════════════════════
@@ -85,7 +106,7 @@ main:focus { outline: none; }
 
 /* ── Hero entrance ─────────────────────────────────────────── */
 /* Each word of the name slides up from behind a mask: transform only, so the text is
-   always in the HTML and the gradient (on the moving span) keeps rendering. */
+   always in the HTML. */
 .hero-mask {
   display: inline-block;
   overflow: clip;
@@ -120,47 +141,6 @@ main:focus { outline: none; }
   }
 }
 
-/* ── Hero aurora ───────────────────────────────────────────── */
-/* Plain radial gradients (no blur filter), moved with transform only; paused off-screen. */
-.hero-aurora { contain: strict; }
-.aurora-blob {
-  position: absolute;
-  border-radius: 9999px;
-}
-.aurora-1 { top: -14rem; left: -12rem; width: 44rem; height: 44rem; background: radial-gradient(closest-side, rgba(59,130,246,.16), transparent); }
-.aurora-2 { bottom: -16rem; right: -14rem; width: 46rem; height: 46rem; background: radial-gradient(closest-side, rgba(139,92,246,.14), transparent); }
-.aurora-3 { top: 28%; left: 42%; width: 30rem; height: 30rem; background: radial-gradient(closest-side, rgba(34,211,238,.07), transparent); }
-
-@keyframes aurora-a { to { transform: translate3d(6vw, 5vh, 0) scale(1.08); } }
-@keyframes aurora-b { to { transform: translate3d(-5vw, -6vh, 0) scale(1.1); } }
-@keyframes aurora-c { to { transform: translate3d(-6vw, 4vh, 0) scale(.92); } }
-
-/* Only on devices that can hover (desktops/laptops); static on phones to save battery. */
-@media (prefers-reduced-motion: no-preference) and (hover: hover) {
-  .aurora-blob { will-change: transform; }
-  .aurora-1 { animation: aurora-a 26s var(--ease-in-out) infinite alternate; }
-  .aurora-2 { animation: aurora-b 30s var(--ease-in-out) infinite alternate; }
-  .aurora-3 { animation: aurora-c 24s var(--ease-in-out) infinite alternate; }
-}
-.hero-aurora[data-paused='true'] .aurora-blob { animation-play-state: paused; }
-
-/* Cursor spotlight: one leaf layer moved with translate3d (no repaint of anything else). */
-.spotlight {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 36rem;
-  height: 36rem;
-  margin: -18rem 0 0 -18rem;
-  border-radius: 9999px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .3s ease;
-  background: radial-gradient(closest-side, rgba(96,165,250,.10), transparent);
-}
-.spotlight[data-on='true'] { opacity: 1; }
-.spotlight-sm { width: 22rem; height: 22rem; margin: -11rem 0 0 -11rem; background: radial-gradient(closest-side, rgba(96,165,250,.12), transparent); }
-
 /* ── Scroll reveals ────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal='armed'] {
@@ -176,16 +156,13 @@ main:focus { outline: none; }
       transform var(--dur-reveal-move) var(--ease-out) var(--delay, 0ms);
   }
 
-  /* Section headings: the wrapper stays put; kicker fades, title wipes in, underline draws. */
+  /* Section headings: the wrapper stays put; the intro fades and the title wipes in. */
   .heading-reveal[data-reveal='armed'] { opacity: 1; transform: none; }
   .heading-reveal[data-reveal='armed'] .hr-kicker { opacity: 0; }
   .heading-reveal[data-reveal='armed'] .hr-title { clip-path: inset(0 100% 0 0); }
-  .heading-reveal[data-reveal='armed'] .hr-line { transform: scaleX(0); }
-  .heading-reveal[data-reveal='in'] .hr-kicker { transition: opacity .3s var(--ease-out); }
+  .heading-reveal[data-reveal='in'] .hr-kicker { transition: opacity .3s var(--ease-out) 120ms; }
   .heading-reveal[data-reveal='in'] .hr-title { transition: clip-path .6s var(--ease-out) 80ms; }
-  .heading-reveal[data-reveal='in'] .hr-line { transition: transform .5s var(--ease-out) 200ms; }
 }
-.hr-line { transform-origin: left; }
 
 /* ── Navigation ────────────────────────────────────────────── */
 /* The active-section pill slides between links once it has been placed the first time. */
@@ -229,41 +206,6 @@ main:focus { outline: none; }
   }
 }
 
-/* ── Case-study cards: rotating glow border on hover/focus ─── */
-/* An oversized conic layer rotated with transform (compositor-only), behind an inner fill. */
-.glow-card {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-}
-.glow-card::before {
-  content: '';
-  position: absolute;
-  z-index: -3;
-  inset: -50%;
-  background: conic-gradient(from 0deg, transparent 0 55%, rgba(96,165,250,.75), rgba(167,139,250,.75), transparent 90%);
-  opacity: 0;
-  transition: opacity .3s ease;
-}
-.glow-card::after {
-  content: '';
-  position: absolute;
-  z-index: -2;
-  inset: 1px;
-  border-radius: calc(1rem - 1px);
-  background: #0b1222;
-}
-.glow-card:hover::before,
-.glow-card:focus-within::before { opacity: 1; }
-/* Spotlight sits above the inner fill but below the card's text. */
-.glow-card .spotlight { z-index: -1; }
-
-@keyframes glow-spin { to { transform: rotate(1turn); } }
-@media (prefers-reduced-motion: no-preference) {
-  .glow-card:hover::before,
-  .glow-card:focus-within::before { animation: glow-spin 4s linear infinite; }
-}
-
 /* ── Case-study visuals: play once in view, with Replay ────── */
 /* Server HTML renders data-play="done" (final state). JS sets "ready" for visuals below the
    fold, then "play" when they scroll into view. */
@@ -274,9 +216,9 @@ main:focus { outline: none; }
   from { transform: scaleX(0); }
 }
 @keyframes gate-flash {
-  0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
-  40%  { box-shadow: 0 0 0 6px rgba(251,191,36,.25); }
-  100% { box-shadow: 0 0 0 0 rgba(251,191,36,0); }
+  0%   { box-shadow: 0 0 0 0 rgb(var(--color-accent) / 0); }
+  40%  { box-shadow: 0 0 0 6px rgb(var(--color-accent) / .25); }
+  100% { box-shadow: 0 0 0 0 rgb(var(--color-accent) / 0); }
 }
 @keyframes flow {
   to { background-position: 24px 0; }
@@ -303,7 +245,7 @@ main:focus { outline: none; }
   }
   [data-play='pulse'] .flow-arrow,
   [data-play='play'] .flow-arrow {
-    background-image: linear-gradient(90deg, rgba(96,165,250,.9) 50%, transparent 50%);
+    background-image: linear-gradient(90deg, rgb(var(--color-accent)) 50%, transparent 50%);
     background-size: 12px 2px;
     animation: flow .6s linear 5 both;
     animation-delay: calc(var(--step, 0) * 260ms);
@@ -313,23 +255,27 @@ main:focus { outline: none; }
 
 /* ── Print and safety nets ────────────────────────────────── */
 @media print {
-  /* Dark text on white paper: browsers don't print the dark backgrounds. */
   html,
   body {
     background: #fff !important;
   }
-  body * {
-    color: #0f172a !important;
-  }
-  .site-header,
-  .hero-aurora {
+  .site-header {
     display: none !important;
+  }
+  /* Browsers drop background colours when printing, which would leave white text on white. */
+  .contact-panel {
+    background: #fff !important;
+    color: rgb(var(--color-ink)) !important;
+    border: 1px solid rgb(var(--color-ink));
+  }
+  .contact-panel * {
+    color: inherit !important;
+    border-color: rgb(var(--color-ink)) !important;
   }
 
   [data-reveal],
   .hr-kicker,
   .hr-title,
-  .hr-line,
   .hero-word,
   .hero-in,
   .hero-rise,

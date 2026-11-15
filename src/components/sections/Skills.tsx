@@ -11,7 +11,7 @@ export default function Skills({ groups }: SkillsProps) {
   return (
     <section id="skills" aria-labelledby="skills-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading id="skills" />
+        <SectionHeading id="skills" intro="The stack I work in day to day, grouped as on my résumé." />
 
         <p className="text-slate-400 text-sm leading-relaxed max-w-2xl mb-10">
           The stack I work in day to day, grouped as on my résumé.{' '}

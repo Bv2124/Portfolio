@@ -1,12 +1,12 @@
-// Single registry for page sections: nav order, heading numbers and titles all come from here.
+// Single registry for page sections: nav order, labels and heading titles all come from here.
 export const SECTIONS = [
-  { id: 'about',        label: 'About',        title: 'About Me'                   },
+  { id: 'about',        label: 'About',        title: 'About me'                   },
   { id: 'experience',   label: 'Experience',   title: 'Experience'                 },
-  { id: 'case-studies', label: 'Case Studies', title: 'Case Studies'               },
-  { id: 'skills',       label: 'Skills',       title: 'Tech Stack'                 },
-  { id: 'projects',     label: 'Projects',     title: 'Featured Projects'          },
-  { id: 'education',    label: 'Education',    title: 'Education & Certifications' },
-  { id: 'contact',      label: 'Contact',      title: 'Get In Touch'               },
+  { id: 'case-studies', label: 'Case studies', title: 'Case studies'               },
+  { id: 'skills',       label: 'Skills',       title: 'Tech stack'                 },
+  { id: 'projects',     label: 'Projects',     title: 'Projects'                   },
+  { id: 'education',    label: 'Education',    title: 'Education & certifications' },
+  { id: 'contact',      label: 'Contact',      title: 'Get in touch'               },
 ] as const
 
 export type SectionId = (typeof SECTIONS)[number]['id']
@@ -14,8 +14,7 @@ export type SectionId = (typeof SECTIONS)[number]['id']
 export const SECTION_IDS: readonly SectionId[] = SECTIONS.map(s => s.id)
 
 export function getSection(id: SectionId) {
-  const index = SECTIONS.findIndex(s => s.id === id)
-  const section = SECTIONS[index]
+  const section = SECTIONS.find(s => s.id === id)
   if (!section) throw new Error(`Unknown section "${id}"`)
-  return { ...section, number: String(index + 1).padStart(2, '0') }
+  return section
 }

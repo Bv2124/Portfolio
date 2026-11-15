@@ -127,14 +127,6 @@ test.describe('with reduced motion', () => {
     await expect(page.getByRole('button', { name: /Replay animation/ })).toHaveCount(0)
   })
 
-  test('the typewriter holds the first role instead of cycling', async ({ page }) => {
-    await page.goto('/')
-    const typed = page.locator('.terminal-body [aria-hidden="true"] .text-emerald-300')
-    await expect(typed).toHaveText(rawContent.profile.roles[0]!)
-    await page.waitForTimeout(2500)
-    await expect(typed).toHaveText(rawContent.profile.roles[0]!)
-  })
-
   test('the timeline line is shown in full', async ({ page }) => {
     await page.goto('/')
     const scaleY = await page.locator('.timeline-fill').evaluate(el => new DOMMatrix(getComputedStyle(el).transform).d)

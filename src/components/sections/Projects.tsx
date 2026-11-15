@@ -141,7 +141,7 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
   return (
     <section id="projects" aria-labelledby="projects-heading" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading id="projects" />
+        <SectionHeading id="projects" intro="Work from my jobs, and sites I built myself." />
 
         {/* Filter tabs: the highlight glides between buttons as part of the view transition. */}
         {types.length > 2 && (
