@@ -55,11 +55,11 @@
       "Before that, at **Nanosoft Engineers**, I shipped **4+ offline-first React Native apps** for **2,000+ field technicians** and raised sync success in low-connectivity areas from **~30% to ~80%**. I've also mentored 2 junior developers through regular code reviews."
     ],
     "achievements": [
-      { "text": "Resolved 150+ production issues on an inherited live platform", "color": "blue" },
-      { "text": "Migrated ~14,000 production records off Salesforce with zero data loss", "color": "purple" },
-      { "text": "Cut a long-loading service-creation workflow to seconds by optimizing PostgreSQL queries and API logic", "color": "green" },
-      { "text": "Raised offline sync success in low-connectivity areas from ~30% to ~80%", "color": "orange" },
-      { "text": "Led 15+ Android and iOS store releases; cut image payloads 60% and UI latency 30%", "color": "blue" }
+      { "text": "Resolved 150+ production issues on an inherited live platform" },
+      { "text": "Migrated ~14,000 production records off Salesforce with zero data loss" },
+      { "text": "Cut a long-loading service-creation workflow to seconds by optimizing PostgreSQL queries and API logic" },
+      { "text": "Raised offline sync success in low-connectivity areas from ~30% to ~80%" },
+      { "text": "Led 15+ Android and iOS store releases; cut image payloads 60% and UI latency 30%" }
     ]
   },
 
@@ -89,5 +89,14 @@
       "title": "Mentor",
       "description": "Mentored 2 junior developers, including regular code reviews of their work."
     }
-  ]
+  ],
+
+  "outsideWork": {
+    "text": "Away from the keyboard I'm usually out on my bike, or watching a film.",
+    "interests": ["Cycling", "Movies"],
+    "photo": {
+      "src": "/about/cycling.jpg",
+      "alt": "A black and orange mountain bike parked on a paved path beside a lake"
+    }
+  }
 }

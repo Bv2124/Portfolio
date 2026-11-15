@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { rawContent } from '@/content'
 import {
@@ -160,6 +162,16 @@ describe('schema rejects broken content, naming the path', () => {
       path: 'skills.groups.0.items',
     },
     {
+      name: 'the same interest listed twice under outside work',
+      mutate: c => { c.profile.outsideWork!.interests = ['Cycling', 'Cycling'] },
+      path: 'profile.outsideWork.interests',
+    },
+    {
+      name: 'an outside-work photo that is not a site path',
+      mutate: c => { c.profile.outsideWork!.photo!.src = 'cycling.jpg' },
+      path: 'profile.outsideWork.photo.src',
+    },
+    {
       name: 'a case study with no approach steps',
       mutate: c => { c.caseStudies[0]!.approach = [] },
       path: 'caseStudies.0.approach',
@@ -184,6 +196,20 @@ describe('schema rejects broken content, naming the path', () => {
 
   it('rejects duplicate case study slugs', () => {
     expect(issuePaths(c => { c.caseStudies[1]!.slug = c.caseStudies[0]!.slug })).toContain('caseStudies')
+  })
+})
+
+// Images are referenced by path from content and components, so a typo would ship a broken image.
+describe('images referenced by the content exist under public/', () => {
+  const exists = (src: string) => existsSync(join(process.cwd(), 'public', src))
+
+  it('has the portrait used in the hero and the structured data', () => {
+    expect(exists('/profile.jpg')).toBe(true)
+  })
+
+  it('has the outside-work photo', () => {
+    const photo = content.profile.outsideWork?.photo
+    if (photo) expect(exists(photo.src), photo.src).toBe(true)
   })
 })
 

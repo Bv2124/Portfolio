@@ -1,31 +1,28 @@
 import type { ReactNode } from 'react'
 import { Mail, Phone } from 'lucide-react'
 import { Github, Linkedin } from '@/components/ui/BrandIcons'
-import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/motion/Reveal'
 import { getIcon } from '@/lib/icons'
+import { getSection } from '@/lib/sections'
 import type { Personal, WhyItem } from '@/lib/schema'
 
-interface ContactCardProps {
+interface PillProps {
   href: string
   icon: ReactNode
-  label: string
   children: ReactNode
   external?: boolean
 }
 
-function ContactCard({ href, icon, label, children, external = false }: ContactCardProps) {
+// A large white-outlined pill. Everything here sits on the dark panel.
+function Pill({ href, icon, children, external = false }: PillProps) {
   return (
     <a
       href={href}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      className="flex items-start gap-4 p-4 bg-slate-900/60 rounded-xl border border-slate-800/80 hover:border-slate-600/80 hover:bg-slate-900 transition-[border-color,background-color] duration-200 group"
+      className="inline-flex min-h-14 items-center gap-3 rounded-full border-2 border-white/70 px-6 text-lg font-semibold text-white transition-colors hover:bg-white hover:text-ink"
     >
-      <div aria-hidden="true" className="mt-0.5 shrink-0">{icon}</div>
-      <div>
-        <div className="font-medium text-slate-200 text-sm mb-1 group-hover:text-white transition-colors">{label}</div>
-        {children}
-      </div>
+      <span aria-hidden="true" className="shrink-0">{icon}</span>
+      {children}
     </a>
   )
 }
@@ -37,76 +34,42 @@ interface ContactProps {
 
 export default function Contact({ personal, whyHireMe }: ContactProps) {
   const [primaryPhone = ''] = personal.phones
+  const { title } = getSection('contact')
 
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeading id="contact" intro="Open to remote, hybrid or on-site roles." />
+    // The one dark moment on the page. `on-ink` makes the focus ring white; `contact-panel`
+    // swaps it to dark-on-white when printed (browsers drop background colours).
+    <section id="contact" aria-labelledby="contact-heading" className="contact-panel on-ink section-pad bg-ink text-white">
+      <div className="container-page grid gap-14 lg:grid-cols-[1.25fr_1fr] lg:gap-20">
+        <Reveal>
+          <h2 id="contact-heading" className="section-title !text-white">{title}</h2>
+          <p className="mt-5 max-w-xl text-2xl font-medium leading-snug sm:text-3xl">{personal.contactIntro}</p>
 
-        <div className="grid md:grid-cols-2 gap-10">
-          {/* Contact links */}
-          <Reveal className="space-y-3">
-            <p className="text-slate-400 text-sm leading-relaxed mb-5">{personal.contactIntro}</p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Pill href={`mailto:${personal.email}`} icon={<Mail size={20} />}>{personal.email}</Pill>
+            <Pill href={`tel:${primaryPhone.replace(/\s/g, '')}`} icon={<Phone size={20} />}>{primaryPhone}</Pill>
+            <Pill href={personal.linkedin} icon={<Linkedin size={20} />} external>LinkedIn</Pill>
+            <Pill href={personal.github} icon={<Github size={20} />} external>GitHub</Pill>
+          </div>
+        </Reveal>
 
-            <ContactCard
-              href={`tel:${primaryPhone.replace(/\s/g, '')}`}
-              icon={<Phone size={18} className="text-emerald-400" />}
-              label="Phone"
-            >
-              {personal.phones.map(p => (
-                <span key={p} className="block text-slate-400 text-sm">{p}</span>
-              ))}
-            </ContactCard>
-
-            <ContactCard
-              href={`mailto:${personal.email}`}
-              icon={<Mail size={18} className="text-blue-400" />}
-              label="Email"
-            >
-              <span className="text-slate-400 text-sm">{personal.email}</span>
-            </ContactCard>
-
-            <ContactCard
-              href={personal.linkedin}
-              icon={<Linkedin size={18} className="text-blue-400" />}
-              label="LinkedIn"
-              external
-            >
-              <span className="text-slate-400 text-sm break-all">{personal.linkedin.replace(/^https?:\/\//, '')}</span>
-            </ContactCard>
-
-            <ContactCard
-              href={personal.github}
-              icon={<Github size={18} className="text-slate-300" />}
-              label="GitHub"
-              external
-            >
-              <span className="text-slate-400 text-sm">{personal.github.replace(/^https?:\/\//, '')}</span>
-            </ContactCard>
-          </Reveal>
-
-          {/* Why hire me */}
-          <Reveal index={1} className="bg-slate-900/80 rounded-2xl border border-slate-800 p-7">
-            <h3 className="font-mono text-xs text-muted mb-6 uppercase tracking-widest">
-              <span className="sr-only">Why work with me</span>
-              <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>why_work_with_me()</span>
-            </h3>
-            <div className="space-y-4">
-              {whyHireMe.map(item => {
-                const Icon = getIcon(item.iconName)
-                return (
-                  <div key={item.title} className="flex items-start gap-3">
-                    {Icon && <Icon size={14} aria-hidden="true" className="text-blue-400 mt-0.5 shrink-0" />}
-                    <p className="text-sm">
-                      <span className="text-slate-200 font-semibold">{item.title}:</span>{' '}
-                      <span className="text-slate-400">{item.description}</span>
-                    </p>
-                  </div>
-                )
-              })}
-            </div>
-          </Reveal>
-        </div>
+        <Reveal index={1}>
+          <h3 className="text-lg font-semibold">Why work with me</h3>
+          <ul className="mt-6 space-y-6">
+            {whyHireMe.map(item => {
+              const Icon = getIcon(item.iconName)
+              return (
+                <li key={item.title} className="flex items-start gap-4">
+                  {Icon && <Icon size={20} aria-hidden="true" className="mt-0.5 shrink-0 text-white/70" />}
+                  <p className="text-base leading-relaxed text-white/80">
+                    <span className="font-semibold text-white">{item.title}.</span>{' '}
+                    {item.description}
+                  </p>
+                </li>
+              )
+            })}
+          </ul>
+        </Reveal>
       </div>
     </section>
   )

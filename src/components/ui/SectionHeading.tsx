@@ -8,7 +8,7 @@ export default function SectionHeading({ id, intro }: { id: SectionId; intro: st
   return (
     <div data-reveal="" className="heading-reveal mb-8 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
       <h2 id={`${id}-heading`} className="hr-title section-title">{title}</h2>
-      <p className="hr-kicker section-intro">{intro}</p>
+      <p className="hr-kicker section-intro sm:text-right">{intro}</p>
     </div>
   )
 }

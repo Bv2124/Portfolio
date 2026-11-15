@@ -1,72 +1,93 @@
+import Image from 'next/image'
 import SectionHeading from '@/components/ui/SectionHeading'
 import BoldText from '@/components/ui/BoldText'
 import Reveal from '@/components/motion/Reveal'
 import { LiveYears } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import { yearsSince } from '@/lib/experience'
-import type { About as AboutData, Personal } from '@/lib/schema'
-
-const ACHIEVEMENT_COLORS: Record<AboutData['achievements'][number]['color'], string> = {
-  blue:   'bg-blue-500',
-  purple: 'bg-violet-500',
-  green:  'bg-emerald-500',
-  orange: 'bg-orange-500',
-}
+import type { About as AboutData, OutsideWork, Personal } from '@/lib/schema'
 
 interface AboutProps {
   personal: Personal
   about: AboutData
+  outsideWork?: OutsideWork
 }
 
-export default function About({ personal, about }: AboutProps) {
+// This section sits on the white band, so its cards use the ground colour as their fill.
+const CARD = 'rounded-3xl bg-ground p-7'
+
+export default function About({ personal, about, outsideWork }: AboutProps) {
   const tokens = {
     years: <LiveYears start={personal.careerStart} fallback={yearsSince(personal.careerStart, BUILD_NOW)} />,
   }
 
   return (
-    <section id="about" aria-labelledby="about-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt">
-      <div className="max-w-6xl mx-auto">
+    <section id="about" aria-labelledby="about-heading" className="section-pad bg-surface">
+      <div className="container-page">
         <SectionHeading id="about" intro="Who I am, what I work on, and what I do away from the keyboard." />
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          <Reveal className="space-y-5">
+        <div className="grid items-start gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <Reveal className="space-y-5 lg:sticky lg:top-28">
             {about.paragraphs.map((para, i) => (
-              <p key={i} className="text-slate-400 leading-relaxed text-[15px]">
+              <p
+                key={i}
+                className={i === 0 ? 'lead' : 'max-w-[34rem] text-[1.0625rem] leading-relaxed text-ink-soft'}
+              >
                 <BoldText text={para} tokens={tokens} />
               </p>
             ))}
           </Reveal>
 
           <div className="space-y-6">
-            <Reveal index={1} className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
-              <h3 className="font-mono text-xs text-muted mb-5 uppercase tracking-widest">
-                <span className="sr-only">Key achievements</span>
-                <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>key_achievements</span>
-              </h3>
-              <ul className="space-y-4">
+            <Reveal index={1} className={CARD}>
+              <h3 className="text-lg font-semibold text-ink">Key achievements</h3>
+              <ul className="mt-5 space-y-4">
                 {about.achievements.map(ach => (
                   <li key={ach.text} className="flex items-start gap-3">
-                    <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full mt-[7px] shrink-0 ${ACHIEVEMENT_COLORS[ach.color]}`} />
-                    <span className="text-slate-400 text-sm leading-relaxed">{ach.text}</span>
+                    <span aria-hidden="true" className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    <span className="text-base leading-relaxed text-ink-soft">{ach.text}</span>
                   </li>
                 ))}
               </ul>
             </Reveal>
 
-            <Reveal index={2} className="bg-slate-900/80 rounded-2xl border border-slate-800/80 p-6">
-              <h3 className="font-mono text-xs text-muted mb-5 uppercase tracking-widest">
-                <span className="sr-only">Quick facts</span>
-                <span aria-hidden="true"><span className="text-blue-400">{'//'}{' '}</span>quick_facts</span>
-              </h3>
-              <dl className="space-y-3">
+            <Reveal index={2} className={CARD}>
+              <h3 className="text-lg font-semibold text-ink">Quick facts</h3>
+              <dl className="mt-5 space-y-3">
                 {personal.quickFacts.map(fact => (
-                  <div key={fact.label} className="flex flex-col sm:flex-row sm:gap-4 text-sm">
-                    <dt className="sm:w-28 shrink-0 font-mono text-xs text-muted pt-0.5">{fact.label}</dt>
-                    <dd className="text-slate-300">{fact.value}</dd>
+                  <div key={fact.label} className="flex flex-col gap-0.5 sm:flex-row sm:gap-4">
+                    <dt className="meta shrink-0 sm:w-28">{fact.label}</dt>
+                    <dd className="text-base text-ink">{fact.value}</dd>
                   </div>
                 ))}
               </dl>
             </Reveal>
+
+            {outsideWork && (
+              <Reveal index={3} className="overflow-hidden rounded-3xl bg-ground">
+                {outsideWork.photo && (
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={outsideWork.photo.src}
+                      alt={outsideWork.photo.alt}
+                      width={1200}
+                      height={1200}
+                      sizes="(min-width: 1024px) 480px, (min-width: 640px) 600px, 100vw"
+                      className="h-full w-full object-cover object-[50%_65%]"
+                    />
+                  </div>
+                )}
+                <div className="p-7">
+                  <h3 className="meta">Outside work</h3>
+                  <p className="mt-2 text-[1.0625rem] leading-relaxed text-ink">{outsideWork.text}</p>
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {outsideWork.interests.map(interest => (
+                      <li key={interest} className="chip bg-surface">{interest}</li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            )}
           </div>
         </div>
       </div>

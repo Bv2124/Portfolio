@@ -51,7 +51,7 @@ export default function TimelineProgress() {
     <div
       ref={ref}
       aria-hidden="true"
-      className="timeline-fill pointer-events-none absolute -left-px top-0 bottom-0 w-0.5 origin-top bg-gradient-to-b from-emerald-400 via-blue-500 to-violet-500"
+      className="timeline-fill pointer-events-none absolute -left-px top-0 bottom-0 w-0.5 origin-top bg-accent"
       style={{ transform: 'scaleY(0)' }}
     />
   )

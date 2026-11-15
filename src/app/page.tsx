@@ -14,7 +14,7 @@ import Contact from '@/components/sections/Contact'
 import JsonLd from '@/components/ui/JsonLd'
 
 const { profile, experience, skills, education } = content
-const { personal, roles, about, whyHireMe } = profile
+const { personal, roles, about, whyHireMe, outsideWork } = profile
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -63,7 +63,7 @@ export default function Home() {
 
       <main id="main" tabIndex={-1}>
         <Hero personal={personal} resumeDownloadName={navPersonal.resumeDownloadName} roles={roles} />
-        <About personal={personal} about={about} />
+        <About personal={personal} about={about} outsideWork={outsideWork} />
         <Experience experience={experience} />
         <CaseStudies studies={getCaseStudies()} />
         <Skills groups={skills.groups} />

@@ -17,7 +17,7 @@ function withTokens(text: string, tokens: Record<string, ReactNode>): ReactNode[
 export default function BoldText({ text, tokens = {} }: BoldTextProps) {
   return text.split(/\*\*(.*?)\*\*/).map((part, i) =>
     i % 2 === 1
-      ? <strong key={i} className="text-slate-200 font-semibold">{withTokens(part, tokens)}</strong>
+      ? <strong key={i} className="font-semibold text-ink">{withTokens(part, tokens)}</strong>
       : <span key={i}>{withTokens(part, tokens)}</span>
   )
 }

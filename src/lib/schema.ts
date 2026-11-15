@@ -8,7 +8,6 @@ const nonEmpty = z.string().trim().min(1)
 
 const AchievementSchema = z.strictObject({
   text: nonEmpty,
-  color: z.enum(['blue', 'purple', 'green', 'orange']),
 })
 
 // A hero stat is either a fixed value or the live "years of experience" figure.
@@ -61,11 +60,19 @@ export const WhyItemSchema = z.strictObject({
   description: nonEmpty,
 })
 
+// The one personal note on the page: what the owner does away from work. The photo is optional.
+export const OutsideWorkSchema = z.strictObject({
+  text: nonEmpty,
+  interests: z.array(nonEmpty).min(1),
+  photo: z.strictObject({ src: z.string().startsWith('/'), alt: nonEmpty }).optional(),
+})
+
 export const ProfileSchema = z.strictObject({
   personal: PersonalSchema,
   roles: z.array(nonEmpty).min(1),
   about: AboutSchema,
   whyHireMe: z.array(WhyItemSchema).min(1),
+  outsideWork: OutsideWorkSchema.optional(),
 })
 
 export const JobSchema = z.strictObject({
@@ -215,12 +222,13 @@ export const ContentSchema = z
         ctx.addIssue({ code: 'custom', path, message: `Duplicate ${what} "${dup}"` })
       }
     }
-    const { personal, about, whyHireMe } = c.profile
+    const { personal, about, whyHireMe, outsideWork } = c.profile
     unique(personal.heroStats.map(s => s.label), ['profile', 'personal', 'heroStats'], 'hero stat label')
     unique(personal.quickFacts.map(f => f.label), ['profile', 'personal', 'quickFacts'], 'quick fact label')
     unique(personal.phones, ['profile', 'personal', 'phones'], 'phone number')
     unique(about.achievements.map(a => a.text), ['profile', 'about', 'achievements'], 'achievement')
     unique(whyHireMe.map(w => w.title), ['profile', 'whyHireMe'], 'title')
+    unique(outsideWork?.interests ?? [], ['profile', 'outsideWork', 'interests'], 'interest')
     unique(c.experience.map(j => j.company), ['experience'], 'company')
     c.experience.forEach((job, i) => {
       unique(job.tech, ['experience', i, 'tech'], 'tech')
@@ -255,6 +263,7 @@ export type Personal = z.infer<typeof PersonalSchema>
 export type HeroStat = z.infer<typeof HeroStatSchema>
 export type About = z.infer<typeof AboutSchema>
 export type WhyItem = z.infer<typeof WhyItemSchema>
+export type OutsideWork = z.infer<typeof OutsideWorkSchema>
 export type Job = z.infer<typeof JobSchema>
 export type SkillItem = z.infer<typeof SkillItemSchema>
 export type SkillGroup = z.infer<typeof SkillGroupSchema>

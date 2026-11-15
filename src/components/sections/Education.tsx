@@ -1,46 +1,32 @@
-import { GraduationCap, Award } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/motion/Reveal'
 import type { EducationItem } from '@/lib/schema'
 
+// A plain list: four entries don't need four boxes.
 export default function Education({ education }: { education: EducationItem[] }) {
   return (
-    <section id="education" aria-labelledby="education-heading" className="py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <SectionHeading id="education" intro="Degrees and certifications." />
+    <section id="education" aria-labelledby="education-heading" className="section-pad">
+      <div className="container-page">
+        <SectionHeading id="education" intro="What I have studied, and what I am studying now." />
 
-        <div className="grid sm:grid-cols-2 gap-5">
+        <div className="divide-y divide-line border-y border-line">
           {education.map((item, index) => {
             const isCert = item.type === 'Certification'
-            const Icon = isCert ? Award : GraduationCap
             return (
               <Reveal
                 key={item.qualification}
                 index={index % 2}
-                className="bg-slate-900/70 rounded-2xl border border-slate-800/80 p-6 hover:border-slate-700/80 transition-colors duration-200"
+                className="grid gap-x-10 gap-y-1 py-6 sm:grid-cols-[1fr_auto] sm:items-baseline"
               >
-                <div className="flex items-start gap-3 mb-2">
-                  <Icon size={18} aria-hidden="true" className={`mt-0.5 shrink-0 ${isCert ? 'text-amber-400' : 'text-blue-400'}`} />
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-slate-100 font-semibold text-base leading-snug">
-                        {item.qualification}
-                      </h3>
-                      {item.note && !isCert && (
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 bg-slate-800 border border-slate-700 px-1.5 py-0.5 rounded">
-                          {item.note}
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-blue-300 text-sm mt-0.5">{item.institution}</p>
+                <div>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                    <h3 className="text-lg font-semibold leading-snug text-ink">{item.qualification}</h3>
+                    {item.note && !isCert && <span className="chip bg-surface">{item.note}</span>}
                   </div>
+                  <p className="mt-1 text-base text-accent-ink">{item.institution}</p>
+                  {item.note && isCert && <p className="mt-2 text-base text-ink-soft">{item.note}</p>}
                 </div>
-
-                <p className="font-mono text-xs text-muted ml-[30px]">{item.period}</p>
-
-                {item.note && isCert && (
-                  <p className="text-slate-400 text-xs leading-relaxed mt-3 ml-[30px]">{item.note}</p>
-                )}
+                <p className="meta tabular-nums">{item.period}</p>
               </Reveal>
             )
           })}

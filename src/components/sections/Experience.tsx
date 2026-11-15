@@ -1,4 +1,4 @@
-import { Briefcase, MapPin, CheckCircle2 } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import SectionHeading from '@/components/ui/SectionHeading'
 import BoldText from '@/components/ui/BoldText'
 import Reveal from '@/components/motion/Reveal'
@@ -10,88 +10,77 @@ import type { Job } from '@/lib/schema'
 
 export default function Experience({ experience }: { experience: Job[] }) {
   return (
-    <section id="experience" aria-labelledby="experience-heading" className="py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <section id="experience" aria-labelledby="experience-heading" className="section-pad">
+      <div className="container-page">
         <SectionHeading id="experience" intro="Where I have worked and what I shipped there." />
 
-        {/* Timeline */}
-        <div className="relative border-l border-slate-800 ml-3 sm:ml-4 flex flex-col gap-10">
+        {/* Timeline: a hairline that fills with the accent colour as you scroll through it */}
+        <div className="relative ml-3 flex flex-col gap-8 border-l border-line sm:ml-4">
           <TimelineProgress />
           {experience.map((job, index) => {
             const isCurrent = !job.end
             const builtDuration = formatDuration(job.start, job.end, BUILD_NOW)
             return (
-              <Reveal key={`${job.company}-${job.start}`} index={index} from="left" className="relative pl-8 sm:pl-10">
+              <Reveal key={`${job.company}-${job.start}`} index={index} from="left" className="relative pl-7 sm:pl-10">
                 {/* Node */}
-                <span aria-hidden="true" className={`absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full border-2 ${
-                  isCurrent
-                    ? 'bg-emerald-400 border-emerald-400 shadow-[0_0_0_4px_rgba(52,211,153,0.15)]'
-                    : 'bg-slate-700 border-slate-600'
-                }`} />
+                <span
+                  aria-hidden="true"
+                  className={`absolute -left-[7px] top-8 h-3.5 w-3.5 rounded-full ring-4 ring-ground ${
+                    isCurrent ? 'bg-accent' : 'bg-ink-soft'
+                  }`}
+                />
 
-                <div className="bg-slate-900/70 rounded-2xl border border-slate-800/80 p-6 hover:border-slate-700/80 transition-colors duration-200">
-                  {/* Header */}
-                  <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+                <div className="rounded-3xl bg-surface p-6 sm:p-8">
+                  <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
                     <div>
-                      <h3 className="text-slate-100 font-semibold text-lg flex items-center gap-2">
-                        <Briefcase size={16} aria-hidden="true" className="text-blue-400 shrink-0" />
-                        {job.role}
-                      </h3>
+                      <h3 className="text-[1.4375rem] font-semibold leading-tight text-ink">{job.role}</h3>
                       <a
                         href={job.companyUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block text-blue-300 hover:text-blue-200 text-sm font-medium mt-0.5"
+                        className="mt-1 inline-block text-base font-medium text-accent-ink underline-offset-4 hover:underline"
                       >
                         {job.company}
                       </a>
                     </div>
                     {isCurrent && (
-                      <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 rounded-full">
-                        <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse" />
+                      <span className="chip gap-2">
+                        <span aria-hidden="true" className="h-2 w-2 rounded-full bg-accent" />
                         Current
                       </span>
                     )}
                   </div>
 
-                  {/* Meta line */}
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted font-mono mb-4">
+                  <p className="meta mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
                     <span>{formatRange(job.start, job.end)}</span>
-                    <span aria-hidden="true" className="text-slate-600">•</span>
+                    <span aria-hidden="true">·</span>
                     <span>
                       {isCurrent
                         ? <LiveDuration start={job.start} end={job.end} fallback={builtDuration} />
                         : builtDuration}
                     </span>
-                    <span aria-hidden="true" className="text-slate-600">•</span>
-                    <span className="flex items-center gap-1">
-                      <MapPin size={11} aria-hidden="true" /> {job.location}
+                    <span aria-hidden="true">·</span>
+                    <span className="inline-flex items-center gap-1">
+                      <MapPin size={14} aria-hidden="true" /> {job.location}
                     </span>
-                  </div>
+                  </p>
 
-                  <p className="text-slate-400 text-sm leading-relaxed mb-4">{job.summary}</p>
+                  <p className="mt-5 text-[1.0625rem] leading-relaxed text-ink">{job.summary}</p>
 
-                  {/* Highlights */}
-                  <ul className="space-y-1.5 mb-5">
+                  <ul className="mt-5 space-y-3">
                     {job.highlights.map(h => (
-                      <li key={h} className="flex items-start gap-2">
-                        <CheckCircle2 size={13} aria-hidden="true" className="text-emerald-400 mt-0.5 shrink-0" />
-                        <span className="text-slate-400 text-xs leading-relaxed"><BoldText text={h} /></span>
+                      <li key={h} className="flex items-start gap-3">
+                        <span aria-hidden="true" className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                        <span className="text-base leading-relaxed text-ink-soft"><BoldText text={h} /></span>
                       </li>
                     ))}
                   </ul>
 
-                  {/* Tech */}
-                  <div className="flex flex-wrap gap-2">
+                  <ul aria-label="Technologies" className="mt-6 flex flex-wrap gap-2">
                     {job.tech.map(t => (
-                      <span
-                        key={t}
-                        className="px-2.5 py-1 bg-blue-500/10 text-blue-300 text-xs rounded-md border border-blue-500/20 font-mono"
-                      >
-                        {t}
-                      </span>
+                      <li key={t} className="chip">{t}</li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </Reveal>
             )
