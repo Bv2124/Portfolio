@@ -40,17 +40,17 @@ function ProjectCard({ project }: { project: ProjectWithLinks }) {
             sizes="(min-width: 1160px) 560px, (min-width: 768px) 46vw, 100vw"
             className="h-full w-full object-cover object-top"
           />
-          <span className="absolute bottom-4 left-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-surface px-4 text-sm font-semibold text-ink transition-colors group-hover:bg-ink group-hover:text-white">
+          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-surface px-3.5 py-2 text-[0.8125rem] font-semibold leading-none text-ink transition-colors group-hover:bg-ink group-hover:text-white">
             Visit site
-            <ExternalLink size={15} aria-hidden="true" />
+            <ExternalLink size={14} aria-hidden="true" />
           </span>
         </a>
       )}
 
       <div className="flex flex-1 flex-col gap-4 p-7">
-        <p className="meta">
-          {project.type}
-          {live && <> · <span className="break-all">{new URL(live).host}</span></>}
+        <p className="meta flex flex-wrap gap-x-3 gap-y-0.5">
+          <span className="font-semibold text-ink">{project.type}</span>
+          {live && <span>{new URL(live).host}</span>}
         </p>
         <h3 className="text-[1.4375rem] font-semibold leading-tight text-ink">{project.title}</h3>
         <p className="text-base leading-relaxed text-ink-soft">{project.description}</p>

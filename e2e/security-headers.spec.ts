@@ -26,11 +26,20 @@ async function withSiteHeaders(page: Page) {
     })
   })
   await page.route('**/*', async route => {
-    const response = await route.fetch()
-    await route.fulfill({ response, headers: { ...response.headers(), ...siteHeaders } })
+    try {
+      const response = await route.fetch()
+      await route.fulfill({ response, headers: { ...response.headers(), ...siteHeaders } })
+    } catch {
+      // The test ended while a background request (a Next.js router prefetch) was still in
+      // flight. That is not a problem with the page, so it must not fail the run.
+      await route.abort().catch(() => {})
+    }
   })
   return problems
 }
+
+// Stops intercepting and lets any request still in flight finish quietly.
+const release = (page: Page) => page.unrouteAll({ behavior: 'ignoreErrors' })
 
 test('vercel.json sets the headers the site relies on', () => {
   expect(Object.keys(siteHeaders).sort()).toEqual([
@@ -61,6 +70,7 @@ test('the home page works under the Content-Security-Policy', async ({ page }) =
   expect(await page.evaluate(() => document.fonts.ready.then(fonts => [...fonts].some(f => f.status === 'loaded')))).toBe(true)
 
   expect(problems).toEqual([])
+  await release(page)
 })
 
 test('a case study works under the Content-Security-Policy, including client-side navigation', async ({ page }) => {
@@ -75,4 +85,5 @@ test('a case study works under the Content-Security-Policy, including client-sid
   await expect(page.locator('section#case-studies')).toBeInViewport({ ratio: 0.1 })
 
   expect(problems).toEqual([])
+  await release(page)
 })

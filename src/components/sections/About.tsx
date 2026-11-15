@@ -27,7 +27,7 @@ export default function About({ personal, about, outsideWork }: AboutProps) {
         <SectionHeading id="about" intro="Who I am, what I work on, and what I do away from the keyboard." />
 
         <div className="grid items-start gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-          <Reveal className="space-y-5 lg:sticky lg:top-28">
+          <Reveal className="space-y-5 lg:[@media(min-height:820px)]:sticky lg:[@media(min-height:820px)]:top-28">
             {about.paragraphs.map((para, i) => (
               <p
                 key={i}

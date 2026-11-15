@@ -78,8 +78,8 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
           ))}
         </h1>
 
-        <div className="mt-10 flex flex-wrap items-start gap-x-14 gap-y-12">
-          <div className="flex min-w-0 flex-[3_1_30rem] flex-col items-start gap-6">
+        <div className="mt-10 grid items-start gap-x-14 gap-y-12 lg:grid-cols-[3fr_2fr]">
+          <div className="flex min-w-0 flex-col items-start gap-6">
             {/* Transform-only entrance: the bio is a likely LCP element, so it is never transparent. */}
             <p className="hero-rise lead" style={step(3)}>
               {personal.heroBio}
@@ -103,9 +103,14 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
             </div>
           </div>
 
-          {/* The portrait, then the four headline numbers. Transform-only entrance, as the photo may be the LCP element. */}
-          <div className="hero-rise flex w-full max-w-md flex-[2_1_20rem] flex-col gap-6 rounded-[28px] bg-surface p-7" style={step(4)}>
-            <div className="aspect-[5/4] overflow-hidden rounded-[20px] bg-tint">
+          {/* The portrait and the four headline numbers: stacked on phones, side by side on tablets,
+              stacked again in the narrow right-hand column on desktop. Transform-only entrance, as the
+              photo may be the LCP element. */}
+          <div
+            className="hero-rise flex w-full max-w-md flex-col gap-6 rounded-[28px] bg-surface p-7 sm:max-w-none sm:flex-row sm:items-center sm:gap-8 lg:max-w-md lg:flex-col lg:items-stretch lg:gap-6"
+            style={step(4)}
+          >
+            <div className="aspect-[5/4] overflow-hidden rounded-[20px] bg-tint sm:w-[46%] sm:shrink-0 lg:w-auto">
               <Image
                 src="/profile.jpg"
                 width={800}
@@ -117,7 +122,7 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
               />
             </div>
 
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-6">
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-6 sm:flex-1">
               {personal.heroStats.map(stat => (
                 <div key={stat.label} className="flex flex-col-reverse justify-end gap-1">
                   <dt className="text-[0.8125rem] leading-snug text-ink-soft">{stat.label}</dt>

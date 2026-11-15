@@ -23,7 +23,7 @@ export default function CaseStudies({ studies }: { studies: CaseStudy[] }) {
             const headline = study.metrics[0]
             const tone = METRIC_TONES[index % METRIC_TONES.length]
             return (
-              <Reveal key={study.slug} index={index}>
+              <Reveal key={study.slug} index={index} className="md:max-lg:[&:last-child:nth-child(odd)]:col-span-2">
                 <article className="group card-lift relative flex h-full flex-col gap-5 rounded-3xl bg-ground p-7 has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-accent">
                   {headline && (
                     <p className="flex flex-wrap items-center gap-x-3 gap-y-2">
