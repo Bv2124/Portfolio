@@ -40,3 +40,6 @@ next-env.d.ts
 /playwright-report/
 /test-results/
 /.lighthouseci/
+
+# full-size originals of site photos (the optimised copies live in public/)
+/docs/redesign/originals/
