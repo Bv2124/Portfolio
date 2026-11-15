@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { VISUALS } from './visuals'
 import Reveal from '@/components/motion/Reveal'
 import type { CaseStudy } from '@/lib/schema'
@@ -15,12 +15,12 @@ function Block({ id, title, reveal = true, children }: {
 }) {
   const body = (
     <>
-      <h2 id={`${id}-heading`} className="text-2xl font-bold text-slate-100">{title}</h2>
+      <h2 id={`${id}-heading`} className="text-[1.75rem] font-semibold leading-tight tracking-[-0.02em] text-ink">{title}</h2>
       <div className="mt-5">{children}</div>
     </>
   )
   return (
-    <section aria-labelledby={`${id}-heading`} className="mt-14">
+    <section aria-labelledby={`${id}-heading`} className="mt-16">
       {reveal ? <Reveal>{body}</Reveal> : body}
     </section>
   )
@@ -30,7 +30,7 @@ function Paragraphs({ items }: { items: string[] }) {
   return (
     <div className="max-w-3xl space-y-4">
       {items.map((text, i) => (
-        <p key={i} className="text-[15px] leading-relaxed text-slate-400">{text}</p>
+        <p key={i} className="text-[1.0625rem] leading-relaxed text-ink-soft">{text}</p>
       ))}
     </div>
   )
@@ -38,11 +38,11 @@ function Paragraphs({ items }: { items: string[] }) {
 
 function Bullets({ items }: { items: string[] }) {
   return (
-    <ul className="max-w-3xl space-y-2.5">
+    <ul className="max-w-3xl space-y-3">
       {items.map((text, i) => (
-        <li key={i} className="flex items-start gap-2.5">
-          <CheckCircle2 size={15} aria-hidden="true" className="mt-0.5 shrink-0 text-emerald-400" />
-          <span className="text-[15px] leading-relaxed text-slate-400">{text}</span>
+        <li key={i} className="flex items-start gap-3">
+          <span aria-hidden="true" className="mt-[0.65rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+          <span className="text-[1.0625rem] leading-relaxed text-ink-soft">{text}</span>
         </li>
       ))}
     </ul>
@@ -58,12 +58,14 @@ interface BodyProps {
   sourceUrl: string | null
 }
 
+const NAV_CARD = 'card-lift group block rounded-3xl bg-surface p-6'
+
 export default function CaseStudyBody({ study, related, prev, next, sourceUrl }: BodyProps) {
   const Visual = VISUALS[study.visual]
 
   return (
     <>
-      <p className="max-w-3xl text-[15px] leading-relaxed text-slate-300">{study.context}</p>
+      <p className="max-w-3xl text-[1.0625rem] leading-relaxed text-ink">{study.context}</p>
 
       <div className="mt-10">
         <Visual />
@@ -76,16 +78,16 @@ export default function CaseStudyBody({ study, related, prev, next, sourceUrl }:
       <Block id="approach" title="The approach" reveal={false}>
         <ol className="max-w-3xl space-y-4">
           {study.approach.map((step, i) => (
-            <Reveal as="li" key={step.title} index={i} className="flex gap-4 rounded-xl border border-slate-800/80 bg-slate-900/60 p-5">
+            <Reveal as="li" key={step.title} index={i} className="flex gap-4 rounded-3xl bg-surface p-6">
               <span
                 aria-hidden="true"
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-blue-500/30 bg-blue-500/10 font-mono text-sm text-blue-300"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-tint text-base font-bold text-ink"
               >
                 {i + 1}
               </span>
               <div>
-                <h3 className="font-semibold text-slate-100">{step.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-slate-400">{step.text}</p>
+                <h3 className="text-lg font-semibold leading-snug text-ink">{step.title}</h3>
+                <p className="mt-1 text-base leading-relaxed text-ink-soft">{step.text}</p>
               </div>
             </Reveal>
           ))}
@@ -119,12 +121,12 @@ export default function CaseStudyBody({ study, related, prev, next, sourceUrl }:
       )}
 
       {related.length > 0 && (
-        <p className="mt-14 max-w-3xl text-sm text-slate-400">
+        <p className="mt-16 max-w-3xl text-base text-ink-soft">
           Same platform:{' '}
           {related.map((rel, i) => (
             <span key={rel.slug}>
               {i > 0 && ', '}
-              <Link href={`/case-studies/${rel.slug}/`} className="text-blue-300 underline underline-offset-4 hover:text-blue-200">
+              <Link href={`/case-studies/${rel.slug}/`} className="font-semibold text-accent-ink underline underline-offset-4">
                 {rel.title}
               </Link>
             </span>
@@ -133,13 +135,13 @@ export default function CaseStudyBody({ study, related, prev, next, sourceUrl }:
       )}
 
       {sourceUrl && (
-        <p className="mt-6 max-w-3xl text-sm text-slate-400">
+        <p className="mt-6 max-w-3xl text-base text-ink-soft">
           This page is generated from{' '}
           <a
             href={sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-300 underline underline-offset-4 hover:text-blue-200"
+            className="font-semibold text-accent-ink underline underline-offset-4"
           >
             a validated JSON file in the site&apos;s repository
           </a>
@@ -147,27 +149,21 @@ export default function CaseStudyBody({ study, related, prev, next, sourceUrl }:
         </p>
       )}
 
-      <nav aria-label="More case studies" className="mt-14 grid gap-4 border-t border-slate-800 pt-8 sm:grid-cols-2">
+      <nav aria-label="More case studies" className="mt-16 grid gap-4 sm:grid-cols-2">
         {prev ? (
-          <Link
-            href={`/case-studies/${prev.slug}/`}
-            className="group rounded-xl border border-slate-800/80 bg-slate-900/60 p-5 transition-colors hover:border-slate-700"
-          >
-            <span className="inline-flex items-center gap-1.5 font-mono text-xs text-muted">
-              <ArrowLeft size={12} aria-hidden="true" /> Previous
+          <Link href={`/case-studies/${prev.slug}/`} className={NAV_CARD}>
+            <span className="meta inline-flex items-center gap-1.5">
+              <ArrowLeft size={14} aria-hidden="true" /> Previous
             </span>
-            <span className="mt-2 block text-sm font-semibold text-slate-100">{prev.title}</span>
+            <span className="mt-2 block text-lg font-semibold leading-snug text-ink">{prev.title}</span>
           </Link>
         ) : <span aria-hidden="true" />}
         {next && (
-          <Link
-            href={`/case-studies/${next.slug}/`}
-            className="group rounded-xl border border-slate-800/80 bg-slate-900/60 p-5 text-left transition-colors hover:border-slate-700 sm:text-right"
-          >
-            <span className="inline-flex items-center gap-1.5 font-mono text-xs text-muted">
-              Next <ArrowRight size={12} aria-hidden="true" />
+          <Link href={`/case-studies/${next.slug}/`} className={`${NAV_CARD} text-left sm:text-right`}>
+            <span className="meta inline-flex items-center gap-1.5">
+              Next <ArrowRight size={14} aria-hidden="true" />
             </span>
-            <span className="mt-2 block text-sm font-semibold text-slate-100">{next.title}</span>
+            <span className="mt-2 block text-lg font-semibold leading-snug text-ink">{next.title}</span>
           </Link>
         )}
       </nav>

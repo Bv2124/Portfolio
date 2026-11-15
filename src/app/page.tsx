@@ -56,7 +56,7 @@ const personJsonLd = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-ground text-ink">
       <JsonLd data={personJsonLd} />
       <ScrollProgressBar />
       <Navbar personal={navPersonal} />

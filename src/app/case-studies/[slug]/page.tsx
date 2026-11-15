@@ -83,13 +83,13 @@ export default async function CaseStudyPage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-ground text-ink">
       <JsonLd data={jsonLd} />
       <ScrollProgressBar />
       <Navbar personal={navPersonal} />
 
-      <main id="main" tabIndex={-1} className="px-4 sm:px-6 lg:px-8 pb-24">
-        <article className="max-w-4xl mx-auto">
+      <main id="main" tabIndex={-1} className="pb-24">
+        <article className="container-page">
           <CaseStudyHero study={study} job={job} />
           <CaseStudyBody
             study={study}

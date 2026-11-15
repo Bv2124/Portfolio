@@ -51,14 +51,14 @@ export default function PlayOnView({ children }: { children: ReactNode }) {
     <div ref={ref} data-play={state}>
       {children}
       {/* The row keeps its height before the button appears, so nothing shifts after hydration. */}
-      <div className="mt-3 flex min-h-10 justify-end">
+      <div className="mt-3 flex min-h-11 justify-end">
         {canReplay && (
           <button
             type="button"
             onClick={replay}
-            className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-slate-800 px-3 text-xs font-mono text-slate-400 transition-colors hover:border-slate-600 hover:text-slate-200"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-ground px-4 text-sm font-medium text-ink-soft transition-colors hover:bg-tint hover:text-ink"
           >
-            <RotateCcw size={12} aria-hidden="true" /> Replay animation
+            <RotateCcw size={14} aria-hidden="true" /> Replay animation
           </button>
         )}
       </div>
