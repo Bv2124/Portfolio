@@ -172,6 +172,19 @@ describe('schema rejects broken content, naming the path', () => {
       path: 'profile.outsideWork.photo.src',
     },
     {
+      name: 'a project screenshot that is not a /projects/<slug>.jpg path',
+      mutate: c => {
+        const withShot = c.projects.find(p => 'screenshot' in p)!
+        ;(withShot as { screenshot: { src: string } }).screenshot.src = '/img/shot.png'
+      },
+      path: 'projects.0.screenshot.src',
+    },
+    {
+      name: 'a screenshot on a project with no live site',
+      mutate: c => { (c.projects[0] as { live: string | null }).live = null },
+      path: 'projects.0.screenshot',
+    },
+    {
       name: 'a case study with no approach steps',
       mutate: c => { c.caseStudies[0]!.approach = [] },
       path: 'caseStudies.0.approach',
@@ -205,6 +218,13 @@ describe('images referenced by the content exist under public/', () => {
 
   it('has the portrait used in the hero and the structured data', () => {
     expect(exists('/profile.jpg')).toBe(true)
+  })
+
+  it('has a screenshot for every project that has one, and every live project has one', () => {
+    for (const project of content.projects) {
+      if (project.screenshot) expect(exists(project.screenshot.src), project.screenshot.src).toBe(true)
+      if (project.live) expect(project.screenshot, `${project.slug} has a live site but no screenshot`).toBeDefined()
+    }
   })
 
   it('has the outside-work photo', () => {

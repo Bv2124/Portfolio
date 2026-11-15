@@ -74,7 +74,8 @@ for (const study of studies) {
         await page.getByRole('navigation', { name: 'Primary' }).locator('a[href="/#projects"]').click()
       }
       await expect(page).toHaveURL(/\/#projects$/)
-      await expect(page.locator('section#projects')).toBeInViewport({ ratio: 0.1 })
+      // The heading, not a share of the section: on a phone the project cards make it several screens tall.
+      await expect(page.locator('section#projects h2')).toBeInViewport()
     })
 
     test('the back link returns to the case studies section', async ({ page }) => {

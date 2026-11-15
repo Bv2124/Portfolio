@@ -1,5 +1,105 @@
 [
   {
+    "slug": "vaasi",
+    "title": "Vaasi",
+    "type": "Personal Projects",
+    "description": "Online bookstore where users can buy a single book or a curated collection.",
+    "tech": [
+      "Next.js",
+      "Django"
+    ],
+    "highlights": [
+      "Buy a single book or a curated collection",
+      "Next.js frontend, Django backend"
+    ],
+    "github": null,
+    "live": "https://vaasi.vercel.app/",
+    "screenshot": {
+      "src": "/projects/vaasi.jpg",
+      "alt": "Vaasi home page: the headline “Your books. On every device.” beside a featured book cover"
+    }
+  },
+  {
+    "slug": "akam-psychiatric-care-center",
+    "title": "Akam Psychiatric Care Center",
+    "type": "Personal Projects",
+    "description": "Dynamic site where the admin updates projects, staff details and content through Google Sheets, with no code changes.",
+    "tech": [
+      "Next.js",
+      "Google Sheets API"
+    ],
+    "highlights": [
+      "Content managed in Google Sheets",
+      "Updates without code changes"
+    ],
+    "github": null,
+    "live": "https://akam-2124.vercel.app/",
+    "screenshot": {
+      "src": "/projects/akam-psychiatric-care-center.jpg",
+      "alt": "Akam Psychiatric Rehabilitation Centre home page: a welcome headline beside cards for compassionate care, a safe environment and an expert team"
+    }
+  },
+  {
+    "slug": "computer-park",
+    "title": "Computer Park",
+    "type": "Personal Projects",
+    "description": "Business website for a corporate-gifting and printing company, built to expand its customer reach and structured to grow into e-commerce.",
+    "tech": [
+      "Next.js"
+    ],
+    "highlights": [
+      "Corporate gifting & printing business site",
+      "Structured to grow into e-commerce"
+    ],
+    "github": null,
+    "live": "https://computerpark.vercel.app/",
+    "screenshot": {
+      "src": "/projects/computer-park.jpg",
+      "alt": "Computer Park home page: the headline “Creative Printing & Personalised Gifts” with four headline numbers beneath it"
+    }
+  },
+  {
+    "slug": "write4u",
+    "title": "Write4U",
+    "type": "Personal Projects",
+    "description": "Turns typed text into realistic handwritten pages, with PDF tools to merge files, remove pages, resize, and convert images to PDF. It is frontend-only: files are never uploaded, work is kept in the browser, and there is no login.",
+    "tech": [
+      "Next.js",
+      "TypeScript"
+    ],
+    "highlights": [
+      "Text to handwriting, downloadable as PDF or PNG",
+      "PDF tools: merge, remove pages, resize, images to PDF",
+      "Runs entirely in the browser: no uploads, no login"
+    ],
+    "github": null,
+    "live": "https://write4u.vercel.app/",
+    "screenshot": {
+      "src": "/projects/write4u.jpg",
+      "alt": "Write4U home page: a text box on the left and the same text as handwriting on the right"
+    }
+  },
+  {
+    "slug": "full-stack-core-concepts",
+    "title": "Full-Stack Core Concepts",
+    "type": "Personal Projects",
+    "description": "Day-by-day interview preparation course covering full-stack concepts: each day explains the concept first, then shows it in JavaScript and in Python.",
+    "tech": [
+      "Next.js"
+    ],
+    "highlights": [
+      "69 daily lessons across 12 weeks",
+      "Every concept shown in JavaScript and Python",
+      "416 interview questions across 21 topics"
+    ],
+    "github": null,
+    "live": "https://fsccbybv2124.vercel.app/",
+    "screenshot": {
+      "src": "/projects/full-stack-core-concepts.jpg",
+      "alt": "Full-Stack Core Concepts home page: a 69-day study plan laid out in weekly rows"
+    }
+  },
+  {
     "slug": "support-worker-allocation-platform",
     "title": "Support-Worker Allocation Platform",
     "type": "Web Platforms",
@@ -128,85 +228,5 @@
     ],
     "github": null,
     "live": null
-  },
-  {
-    "slug": "vaasi",
-    "title": "Vaasi",
-    "type": "Personal Projects",
-    "description": "Online bookstore where users can buy a single book or a curated collection.",
-    "tech": [
-      "Next.js",
-      "Django"
-    ],
-    "highlights": [
-      "Buy a single book or a curated collection",
-      "Next.js frontend, Django backend"
-    ],
-    "github": null,
-    "live": "https://vaasi.vercel.app/"
-  },
-  {
-    "slug": "akam-psychiatric-care-center",
-    "title": "Akam Psychiatric Care Center",
-    "type": "Personal Projects",
-    "description": "Dynamic site where the admin updates projects, staff details and content through Google Sheets, with no code changes.",
-    "tech": [
-      "Next.js",
-      "Google Sheets API"
-    ],
-    "highlights": [
-      "Content managed in Google Sheets",
-      "Updates without code changes"
-    ],
-    "github": null,
-    "live": "https://akam-2124.vercel.app/"
-  },
-  {
-    "slug": "computer-park",
-    "title": "Computer Park",
-    "type": "Personal Projects",
-    "description": "Business website for a corporate-gifting and printing company, built to expand its customer reach and structured to grow into e-commerce.",
-    "tech": [
-      "Next.js"
-    ],
-    "highlights": [
-      "Corporate gifting & printing business site",
-      "Structured to grow into e-commerce"
-    ],
-    "github": null,
-    "live": "https://computerpark.vercel.app/"
-  },
-  {
-    "slug": "write4u",
-    "title": "Write4U",
-    "type": "Personal Projects",
-    "description": "Turns typed text into realistic handwritten pages, with PDF tools to merge files, remove pages, resize, and convert images to PDF. It is frontend-only: files are never uploaded, work is kept in the browser, and there is no login.",
-    "tech": [
-      "Next.js",
-      "TypeScript"
-    ],
-    "highlights": [
-      "Text to handwriting, downloadable as PDF or PNG",
-      "PDF tools: merge, remove pages, resize, images to PDF",
-      "Runs entirely in the browser: no uploads, no login"
-    ],
-    "github": null,
-    "live": "https://write4u.vercel.app/"
-  },
-  {
-    "slug": "full-stack-core-concepts",
-    "title": "Full-Stack Core Concepts",
-    "type": "Personal Projects",
-    "description": "Day-by-day interview preparation course covering full-stack concepts: each day explains the concept first, then shows it in JavaScript and in Python.",
-    "tech": [
-      "Next.js"
-    ],
-    "highlights": [
-      "69 daily lessons across 12 weeks",
-      "Every concept shown in JavaScript and Python",
-      "416 interview questions across 21 topics"
-    ],
-    "github": null,
-    "live": "https://fsccbybv2124.vercel.app/"
   }
 ]

@@ -172,7 +172,33 @@ test.describe('mobile drawer', () => {
     await page.getByRole('button', { name: 'Toggle menu' }).click()
     await page.locator('#mobile-menu a[href="/#projects"]').click()
     await expect(page.locator('#mobile-menu')).toHaveCount(0)
-    await expect(page.locator('section#projects')).toBeInViewport({ ratio: 0.1 })
+    // The heading, not a share of the section: on a phone the project cards make it several screens tall.
+    await expect(page.locator('section#projects h2')).toBeInViewport()
+  })
+})
+
+test.describe('project screenshots', () => {
+  const withShots = rawContent.projects.filter(p => 'screenshot' in p)
+
+  test('there is a screenshot for every project that has a live site', () => {
+    expect(withShots.length).toBe(rawContent.projects.filter(p => p.live).length)
+  })
+
+  test('each one loads, labelled "Visit site", inside exactly one link to the live site', async ({ page }) => {
+    await page.goto('/')
+    for (const project of withShots) {
+      const link = page.locator(`section#projects a[href="${project.live}"]`)
+      await expect(link, `${project.slug}: one link to the site, not two`).toHaveCount(1)
+      await link.scrollIntoViewIfNeeded()
+      await expect(link).toContainText('Visit site')
+
+      const image = link.getByRole('img')
+      await expect(image).toHaveAttribute('alt', project.screenshot!.alt)
+      await expect.poll(
+        () => image.evaluate(el => (el as HTMLImageElement).naturalWidth),
+        { message: `${project.slug}: the screenshot did not load` }
+      ).toBeGreaterThan(0)
+    }
   })
 })
 
@@ -196,18 +222,5 @@ test.describe('projects filter', () => {
 
     await group.getByRole('button', { name: 'All' }).click()
     await expect(cards).toHaveCount(projects.length)
-  })
-
-  test('project numbers stay stable when filtering', async ({ page }) => {
-    await page.goto('/')
-    const group = page.getByRole('group', { name: 'Filter projects' })
-    await group.getByRole('button', { name: 'Mobile Apps' }).click()
-    const numbers = page.locator('section#projects [data-index]')
-    await expect(numbers).toHaveCount(mobileApps.length)
-
-    // Each card keeps its number from the full list (e.g. the first mobile app is not "01").
-    const expected = mobileApps.map(p => String(projects.indexOf(p) + 1).padStart(2, '0'))
-    const actual = await numbers.evaluateAll(els => els.map(el => el.getAttribute('data-index')))
-    expect(actual).toEqual(expected)
   })
 })

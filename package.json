@@ -14,7 +14,8 @@
     "verify": "npm run lint && npm run typecheck && npm test && npm run build && npm run budget && npm run test:e2e",
     "budget": "node scripts/check-budget.mjs",
     "og": "node scripts/og-image.mjs",
-    "screenshots": "node scripts/screenshots.mjs"
+    "screenshots": "node scripts/screenshots.mjs",
+    "shots:projects": "node scripts/project-shots.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.71.0",

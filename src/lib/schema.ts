@@ -118,6 +118,14 @@ export const ProjectSchema = z.strictObject({
   highlights: z.array(nonEmpty).min(1),
   github: z.url().nullable(),
   live: z.url().nullable(),
+  // A screenshot of the live site's home page (see scripts/project-shots.mjs). Only a project
+  // with a live site can have one. `alt` says what is visible, not "screenshot of".
+  screenshot: z
+    .strictObject({
+      src: z.string().regex(/^\/projects\/[a-z0-9-]+\.jpg$/, 'Expected /projects/<slug>.jpg'),
+      alt: nonEmpty,
+    })
+    .optional(),
   // Slugs of the case studies that go deeper on this project.
   caseStudies: z.array(slug).optional(),
 })
@@ -199,6 +207,13 @@ export const ContentSchema = z
       })
     })
     c.projects.forEach((project, i) => {
+      if (project.screenshot && !project.live) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['projects', i, 'screenshot'],
+          message: 'A screenshot needs a live site to link to',
+        })
+      }
       project.caseStudies?.forEach((ref, j) => {
         if (!studySlugs.includes(ref)) {
           ctx.addIssue({
