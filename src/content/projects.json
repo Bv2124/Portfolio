@@ -3,14 +3,15 @@
     "slug": "vaasi",
     "title": "Vaasi",
     "type": "Personal Projects",
-    "description": "Online bookstore where users can buy a single book or a curated collection.",
+    "description": "Online bookstore: buy a single book or a curated collection once, then read it or listen to it in the browser on any device.",
     "tech": [
       "Next.js",
       "Django"
     ],
     "highlights": [
-      "Buy a single book or a curated collection",
-      "Next.js frontend, Django backend"
+      "Built-in PDF reader and audiobook player",
+      "Bookmarks, highlights and notes saved to the account",
+      "Reading and listening resume where you stopped"
     ],
     "github": null,
     "live": "https://vaasi.vercel.app/",
@@ -23,14 +24,14 @@
     "slug": "akam-psychiatric-care-center",
     "title": "Akam Psychiatric Care Center",
     "type": "Personal Projects",
-    "description": "Dynamic site where the admin updates projects, staff details and content through Google Sheets, with no code changes.",
+    "description": "Website for a psychiatric care centre whose admin edits the content in Google Sheets instead of in code.",
     "tech": [
       "Next.js",
       "Google Sheets API"
     ],
     "highlights": [
-      "Content managed in Google Sheets",
-      "Updates without code changes"
+      "Projects, staff details and page text are read from Google Sheets",
+      "The admin publishes changes without touching code"
     ],
     "github": null,
     "live": "https://akam-2124.vercel.app/",
@@ -43,13 +44,14 @@
     "slug": "computer-park",
     "title": "Computer Park",
     "type": "Personal Projects",
-    "description": "Business website for a corporate-gifting and printing company, built to expand its customer reach and structured to grow into e-commerce.",
+    "description": "Business website for a corporate-gifting and printing company in Coimbatore, built to expand its customer reach and structured to grow into e-commerce.",
     "tech": [
       "Next.js"
     ],
     "highlights": [
-      "Corporate gifting & printing business site",
-      "Structured to grow into e-commerce"
+      "Catalogue of 100+ print products in six service categories",
+      "Quote requests are sent straight to WhatsApp",
+      "Opening hours, map directions and customer reviews on one page"
     ],
     "github": null,
     "live": "https://computerpark.vercel.app/",

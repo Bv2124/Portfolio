@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { staggerDelay } from '@/lib/motion'
 
 interface RevealProps {
-  as?: 'div' | 'li' | 'article' | 'p'
+  as?: 'div' | 'li' | 'article' | 'p' | 'figure'
   // Position in a list, for a capped 60ms stagger.
   index?: number
   from?: 'below' | 'left'

@@ -5,11 +5,27 @@
   "seoDescription": "Designed a SQLite + AsyncStorage sync layer with custom retry queues and exponential backoff, lifting sync success in low-connectivity areas from ~30% to ~80%.",
   "employer": "Nanosoft Engineers Pvt Ltd",
   "context": "A suite of 4+ production React Native apps used by 2,000+ field technicians, often working in low-connectivity areas.",
-  "stack": ["React Native", "TypeScript", "Redux Toolkit", "SQLite", "AsyncStorage"],
+  "stack": [
+    "React Native",
+    "TypeScript",
+    "Redux Toolkit",
+    "SQLite",
+    "AsyncStorage"
+  ],
   "metrics": [
-    { "value": "~30% → ~80%", "label": "Sync success in low-connectivity areas", "srText": "sync success in low-connectivity areas rose from about 30% to about 80%" },
-    { "value": "4+", "label": "Offline-first apps" },
-    { "value": "2,000+", "label": "Field technicians" }
+    {
+      "value": "~30% → ~80%",
+      "label": "Sync success in low-connectivity areas",
+      "srText": "sync success in low-connectivity areas rose from about 30% to about 80%"
+    },
+    {
+      "value": "4+",
+      "label": "Offline-first apps"
+    },
+    {
+      "value": "2,000+",
+      "label": "Field technicians"
+    }
   ],
   "challenge": [
     "Field technicians work in low-connectivity areas, where only about 30% of syncs succeeded. The apps had to keep working offline and reliably catch up whenever a connection returned."
@@ -22,10 +38,6 @@
     {
       "title": "Retry with exponential backoff",
       "text": "Built custom retry queues with exponential backoff so that failed syncs are retried."
-    },
-    {
-      "title": "Manage state across the suite",
-      "text": "Used Redux Toolkit to manage state across the app suite."
     }
   ],
   "outcome": [

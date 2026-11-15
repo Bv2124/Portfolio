@@ -64,7 +64,17 @@ export const WhyItemSchema = z.strictObject({
 export const OutsideWorkSchema = z.strictObject({
   text: nonEmpty,
   interests: z.array(nonEmpty).min(1),
-  photo: z.strictObject({ src: z.string().startsWith('/'), alt: nonEmpty }).optional(),
+  // A JPEG under public/: its WebP copies are found by name (see src/lib/images.ts).
+  photo: z.strictObject({ src: z.string().regex(/^\/[a-z0-9/-]+\.jpg$/, 'Expected a .jpg path under public/'), alt: nonEmpty }).optional(),
+})
+
+// A short intro video shown in the About section. It only plays when the visitor presses play.
+// `description` says what is in it, for people who cannot see or hear it.
+export const IntroVideoSchema = z.strictObject({
+  src: z.string().regex(/^\/[a-z0-9/-]+\.mp4$/, 'Expected an .mp4 path under public/'),
+  poster: z.string().regex(/^\/[a-z0-9/-]+\.jpg$/, 'Expected a .jpg path under public/'),
+  title: nonEmpty,
+  description: nonEmpty,
 })
 
 export const ProfileSchema = z.strictObject({
@@ -72,6 +82,7 @@ export const ProfileSchema = z.strictObject({
   roles: z.array(nonEmpty).min(1),
   about: AboutSchema,
   whyHireMe: z.array(WhyItemSchema).min(1),
+  introVideo: IntroVideoSchema.optional(),
   outsideWork: OutsideWorkSchema.optional(),
 })
 
@@ -279,6 +290,7 @@ export type HeroStat = z.infer<typeof HeroStatSchema>
 export type About = z.infer<typeof AboutSchema>
 export type WhyItem = z.infer<typeof WhyItemSchema>
 export type OutsideWork = z.infer<typeof OutsideWorkSchema>
+export type IntroVideo = z.infer<typeof IntroVideoSchema>
 export type Job = z.infer<typeof JobSchema>
 export type SkillItem = z.infer<typeof SkillItemSchema>
 export type SkillGroup = z.infer<typeof SkillGroupSchema>

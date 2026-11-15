@@ -49,7 +49,7 @@ test.describe('home page (server HTML)', () => {
     const text = html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ')
     for (const fact of [
       'bv2124.dev@gmail.com',
-      'Full-Stack Engineer',
+      'Full-Stack & Mobile Engineer',
       '150+ production issues',
       '~14,000 to production',
       '300+ clinicians',
@@ -63,7 +63,7 @@ test.describe('home page (server HTML)', () => {
 
   test('résumé download link carries a recruiter-friendly file name', async ({ request }) => {
     const html = await renderedMarkup(request, '/')
-    expect(html).toContain('download="Vigneshwaran_B_Full-Stack_Engineer_Resume.pdf"')
+    expect(html).toContain('download="Vigneshwaran_B_Full-Stack_and_Mobile_Engineer_Resume.pdf"')
   })
 
   test('does not hide any content with inline opacity:0', async ({ request }) => {
@@ -83,7 +83,7 @@ test.describe('home page (server HTML)', () => {
       '@id': `${SITE}/#person`,
       name: 'Vigneshwaran Balasubramanian',
       alternateName: 'Vigneshwaran B',
-      jobTitle: 'Full-Stack Engineer',
+      jobTitle: 'Full-Stack & Mobile Engineer',
       image: `${SITE}/profile.jpg`,
     })
     expect(person?.sameAs).toEqual(expect.arrayContaining([expect.stringContaining('github.com/Bv2124')]))

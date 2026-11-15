@@ -4,7 +4,7 @@
     "shortName": "Vigneshwaran B",
     "firstName": "Vigneshwaran",
     "lastName": "Balasubramanian",
-    "title": "Full-Stack Engineer",
+    "title": "Full-Stack & Mobile Engineer",
     "location": "Coimbatore, Tamil Nadu, India",
     "address": { "locality": "Coimbatore", "region": "Tamil Nadu", "countryCode": "IN" },
     "email": "bv2124.dev@gmail.com",
@@ -15,9 +15,9 @@
     "sourceRepo": null,
     "resume": "/VIGNESHWARAN.pdf",
     "heroBio": "I build healthcare and care-sector platforms with React, Next.js, Django, Node.js and PostgreSQL. Today I support a live platform used by 50+ organizations, owning features from requirements to production deployment. Before that, I shipped 4+ offline-first React Native apps for 2,000+ field technicians.",
-    "seoDescription": "Full-Stack Engineer building healthcare and care-sector platforms with React, Next.js, Django, Node.js and PostgreSQL.",
-    "footerBio": "Full-Stack Engineer building healthcare and care-sector platforms, owning features from requirements to production deployment.",
-    "contactIntro": "Hiring for a full-stack role? I'm open to remote, hybrid or on-site work and experienced across India–Australia time zones. Let's talk.",
+    "seoDescription": "Full-Stack & Mobile Engineer building care-sector web platforms with React, Next.js, Django and PostgreSQL, and offline-first React Native apps.",
+    "footerBio": "Full-Stack & Mobile Engineer building care-sector web platforms and offline-first mobile apps, owning features from requirements to production deployment.",
+    "contactIntro": "Hiring for a full-stack or mobile role? I'm open to remote, hybrid or on-site work and experienced across India–Australia time zones. Let's talk.",
     "careerStart": "2023-05",
     "openToWork": true,
     "availability": "Open to remote, hybrid or on-site roles",
@@ -40,7 +40,6 @@
   },
 
   "roles": [
-    "Full-Stack Engineer",
     "Frontend · React & Next.js",
     "Backend · Django, Node.js & PostgreSQL",
     "Data migrations · Salesforce → Django",
@@ -49,7 +48,7 @@
 
   "about": {
     "paragraphs": [
-      "I'm a **Full-Stack Engineer** with **{{years}}+ years of experience**. Today I build healthcare and care-sector platforms with **React, Next.js, Django, Node.js and PostgreSQL**, owning features from requirements to production deployment.",
+      "I'm a **Full-Stack & Mobile Engineer** with **{{years}}+ years of experience**. Today I build healthcare and care-sector platforms with **React, Next.js, Django, Node.js and PostgreSQL**, owning features from requirements to production deployment.",
       "At **Intergy Consulting** (Australia, remote) I maintain and extend a live support-worker allocation platform used by **50+ organizations, 300+ clinicians and 2,000+ users**. I took ownership of the inherited codebase after a one-month handover, have independently resolved **150+ production issues**, and work directly with Australian stakeholders every day.",
       "I removed the platform's dependency on **Salesforce** by rebuilding its core service-validation logic in Django and PostgreSQL, and led the scripted migration of **~14,000 production records** through a dry-run comparison script and 5+ validation stages, with **zero data loss**.",
       "Before that, at **Nanosoft Engineers**, I shipped **4+ offline-first React Native apps** for **2,000+ field technicians** and raised sync success in low-connectivity areas from **~30% to ~80%**. I've also mentored 2 junior developers through regular code reviews."
@@ -90,6 +89,13 @@
       "description": "Mentored 2 junior developers, including regular code reviews of their work."
     }
   ],
+
+  "introVideo": {
+    "src": "/intro.mp4",
+    "poster": "/intro-poster.jpg",
+    "title": "A 30-second intro",
+    "description": "An animated summary of this site: the three case studies with their headline numbers (the Salesforce migration, taking over a live platform, and offline-first sync), then how I work."
+  },
 
   "outsideWork": {
     "text": "Away from the keyboard I'm usually out on my bike, or watching a film.",

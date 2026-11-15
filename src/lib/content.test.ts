@@ -1,4 +1,5 @@
-import { existsSync } from 'node:fs'
+import { existsSync, statSync } from 'node:fs'
+import { IMAGE_WIDTHS, webpVariant } from './images'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { rawContent } from '@/content'
@@ -227,9 +228,36 @@ describe('images referenced by the content exist under public/', () => {
     }
   })
 
+  it('has the intro video and its poster, small enough to ship', () => {
+    const video = content.profile.introVideo
+    if (!video) return
+    expect(exists(video.src), video.src).toBe(true)
+    expect(exists(video.poster), video.poster).toBe(true)
+    // The original recording is several times this; re-encode it before adding (see docs/content.md).
+    expect(statSync(join(process.cwd(), 'public', video.src)).size).toBeLessThan(2_000_000)
+  })
+
   it('has the outside-work photo', () => {
     const photo = content.profile.outsideWork?.photo
     if (photo) expect(exists(photo.src), photo.src).toBe(true)
+  })
+
+  // Pages load the WebP copies first (npm run images writes them); the JPEG is only the fallback.
+  it('has the WebP copies of every photo and screenshot, at every width the pages ask for', () => {
+    const used: Array<[string, readonly number[]]> = [
+      ['/profile.jpg', IMAGE_WIDTHS.portrait],
+      ...content.projects.flatMap(p => (p.screenshot ? [[p.screenshot.src, IMAGE_WIDTHS.screenshot] as [string, readonly number[]]] : [])),
+    ]
+    const photo = content.profile.outsideWork?.photo
+    if (photo) used.push([photo.src, IMAGE_WIDTHS.outsideWork])
+
+    for (const [src, widths] of used) {
+      for (const width of widths) {
+        const file = webpVariant(src, width)
+        expect(file).not.toBe(src)
+        expect(exists(file), `${file} is missing: run npm run images`).toBe(true)
+      }
+    }
   })
 })
 
@@ -252,7 +280,7 @@ describe('case study selectors', () => {
   })
 
   it('derives the résumé download name from the profile', () => {
-    expect(resumeDownloadName).toBe('Vigneshwaran_B_Full-Stack_Engineer_Resume.pdf')
+    expect(resumeDownloadName).toBe('Vigneshwaran_B_Full-Stack_and_Mobile_Engineer_Resume.pdf')
     expect(Object.keys(navPersonal).sort()).toEqual(['firstName', 'name', 'resume', 'resumeDownloadName'])
   })
 
@@ -357,7 +385,7 @@ describe('key résumé facts are present, with their qualifiers', () => {
 
   const required: Array<[string, RegExp]> = [
     ['email', /bv2124\.dev@gmail\.com/],
-    ['headline title', /Full-Stack Engineer/],
+    ['headline title', /Full-Stack & Mobile Engineer/],
     ['150+ production issues', /150\+ production issues/],
     ['~14,000 production records', /~14,000/],
     ['~8,000 staging records', /~8,000/],

@@ -5,12 +5,30 @@
   "seoDescription": "Rebuilt core service-validation logic in Django and PostgreSQL, then migrated ~14,000 production records off Salesforce with zero data loss.",
   "employer": "Intergy Consulting",
   "context": "A live care-sector platform used by 50+ organizations, 300+ clinicians and 2,000+ users, matching support workers to clients by skill, location and availability. Its live operations depended on Salesforce.",
-  "stack": ["Django", "PostgreSQL", "Salesforce"],
+  "stack": [
+    "Django",
+    "PostgreSQL",
+    "Salesforce"
+  ],
   "metrics": [
-    { "value": "~14K", "label": "Production records migrated", "srText": "approximately 14,000 production records migrated" },
-    { "value": "~8K", "label": "Staging records migrated", "srText": "approximately 8,000 staging records migrated" },
-    { "value": "5+", "label": "Validation stages" },
-    { "value": "Zero", "label": "Data loss" }
+    {
+      "value": "~14K",
+      "label": "Production records migrated",
+      "srText": "approximately 14,000 production records migrated"
+    },
+    {
+      "value": "~8K",
+      "label": "Staging records migrated",
+      "srText": "approximately 8,000 staging records migrated"
+    },
+    {
+      "value": "5+",
+      "label": "Validation stages"
+    },
+    {
+      "value": "Zero",
+      "label": "Data loss"
+    }
   ],
   "challenge": [
     "The platform's live operations depended on Salesforce. Moving them onto the in-house Django and PostgreSQL system meant rebuilding the core service-validation logic and moving live data across without duplicating or losing a record.",
@@ -20,10 +38,6 @@
     {
       "title": "Rebuild the core service-validation logic",
       "text": "Rebuilt the core service-validation logic from scratch in the in-house Django and PostgreSQL system, so live operations no longer depended on Salesforce."
-    },
-    {
-      "title": "Plan it with the client's Salesforce developer",
-      "text": "Planned and executed the migration in partnership with the client's Salesforce developer."
     },
     {
       "title": "Dry-run every migration first",
@@ -42,6 +56,8 @@
     "Live operations now run on the in-house Django and PostgreSQL system, with no dependency on Salesforce.",
     "~14,000 production records migrated with zero data loss."
   ],
-  "related": ["production-ownership"],
+  "related": [
+    "production-ownership"
+  ],
   "visual": "pipeline"
 }

@@ -1,8 +1,9 @@
 import type { CSSProperties } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Download } from 'lucide-react'
 import { LiveYears } from '@/components/ui/Live'
+import Photo from '@/components/ui/Photo'
+import { IMAGE_WIDTHS } from '@/lib/images'
 import { BUILD_NOW } from '@/lib/build-time'
 import { yearsSince } from '@/lib/experience'
 import type { HeroStat, Personal } from '@/lib/schema'
@@ -32,7 +33,7 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
     return stat.value
   }
 
-  // "Hi, I'm Vigneshwaran. I'm a full-stack engineer." One word per mask, each sliding up in turn.
+  // "Hi, I'm Vigneshwaran. I'm a full-stack & mobile engineer." One word per mask, each sliding up in turn.
   const titleWords = personal.title.toLowerCase().split(' ')
   const words = [
     { text: 'Hi,', name: false, breakAfter: false },
@@ -62,7 +63,7 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
 
         {/* The heading spans the full width so it sits on two lines at full size. Each word slides up
             from behind a mask (transform only; the text is always in the HTML). */}
-        <h1 className="mt-6 text-[clamp(2.5rem,6vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-ink">
+        <h1 className="mt-6 text-[clamp(2.25rem,5.6vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-ink">
           {words.map((word, i) => (
             <span key={i}>
               {i > 0 && (words[i - 1]?.breakAfter ? <br /> : ' ')}
@@ -111,11 +112,12 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
             style={step(4)}
           >
             <div className="aspect-[5/4] overflow-hidden rounded-[20px] bg-tint sm:w-[46%] sm:shrink-0 lg:w-auto">
-              <Image
+              <Photo
                 src="/profile.jpg"
                 width={800}
                 height={800}
-                sizes="(min-width: 1024px) 400px, (min-width: 640px) 448px, 90vw"
+                widths={IMAGE_WIDTHS.portrait}
+                sizes="(min-width: 1024px) 400px, (min-width: 640px) 320px, 90vw"
                 priority
                 alt={`${personal.firstName} standing on a beach, arms crossed`}
                 className="h-full w-full object-cover object-[30%_30%]"

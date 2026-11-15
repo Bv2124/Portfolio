@@ -177,6 +177,29 @@ test.describe('mobile drawer', () => {
   })
 })
 
+test('the intro video waits for the visitor: a poster with a play button, and no download before play', async ({ page }) => {
+  const { introVideo } = rawContent.profile
+  const requested: string[] = []
+  page.on('request', r => { if (r.url().endsWith('.mp4')) requested.push(r.url()) })
+  await page.goto('/')
+
+  // Before play: no media element at all, just a link showing the poster frame.
+  const play = page.getByRole('link', { name: `Play video: ${introVideo.title}` })
+  await play.scrollIntoViewIfNeeded()
+  await expect(page.locator('section#about video')).toHaveCount(0)
+  await expect(play).toHaveAttribute('href', introVideo.src)
+  await expect.poll(() => play.locator('img').evaluate(el => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0)
+  await expect(page.locator('section#about figcaption')).toContainText(introVideo.title)
+  expect(requested, 'the video file must not download before play is pressed').toEqual([])
+
+  // After play: the video replaces the poster, with the browser's own controls, and has focus.
+  await play.click()
+  const video = page.locator('section#about video')
+  await expect(video).toBeVisible()
+  await expect(video).toHaveAttribute('controls', '')
+  await expect(video).toBeFocused()
+})
+
 test.describe('project screenshots', () => {
   const withShots = rawContent.projects.filter(p => 'screenshot' in p)
 
@@ -210,7 +233,8 @@ test.describe('projects filter', () => {
   test('filters cards and reports the pressed state', async ({ page }) => {
     await page.goto('/')
     const group = page.getByRole('group', { name: 'Filter projects' })
-    const cards = page.locator('section#projects h3')
+    // Filtered-out cards stay in the page but are not displayed.
+    const cards = page.locator('section#projects h3:visible')
     await expect(cards).toHaveCount(projects.length)
 
     const mobile = group.getByRole('button', { name: 'Mobile Apps' })

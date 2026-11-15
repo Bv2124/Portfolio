@@ -71,9 +71,21 @@ number.
   a unit test fails if a referenced file is missing.
 - Before adding a photo, resize it and strip its metadata (GPS location, camera details): re-encode
   it, don't just rename it. Keep each file well under 250 kB. Keep full-size originals out of
-  `public/` (the git-ignored `docs/redesign/originals/` is a good place).
+  `public/` (the git-ignored `docs/redesign/originals/` is where the current ones are).
+- Pages load WebP copies of every photo and screenshot (`profile-400.webp`, `profile-800.webp`
+  and so on), with the JPEG as the fallback. After adding or replacing a JPEG, run
+  `npm run images`; a unit test fails if a copy is missing.
+- The browser-tab icon is `public/icon.svg` (with `src/app/favicon.ico` for old browsers) and the
+  phone home-screen icon is `public/apple-icon.png`.
+- The intro video in the About section is `public/intro.mp4` with its poster frame
+  `public/intro-poster.jpg`, named in `profile.json` under `introVideo`. The page shows the poster with a play
+  button, and the video is only downloaded when the visitor presses it. Re-encode a new recording before adding it (720p, 30 fps, under 2 MB; a
+  unit test enforces the size), for example:
+  `ffmpeg -i original.mp4 -map_metadata -1 -vf fps=30 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart public/intro.mp4`
+  and take the poster from a late frame: `ffmpeg -ss 29 -i original.mp4 -frames:v 1 -q:v 4 public/intro-poster.jpg`.
+  Update `description` if what the video shows changes: it is what screen-reader users get.
 - Project screenshots live in `public/projects/<slug>.jpg` and are produced by
-  `npm run shots:projects`. Always open every image afterwards: a slow site can be caught
+  `npm run shots:projects` (which also writes their WebP copies). Always open every image afterwards: a slow site can be caught
   mid-load, and Write4U shows a splash screen the script has to wait out. A project can only have a
   screenshot if it has a `live` URL, and the `alt` says what is visible, not "screenshot of".
 
@@ -83,3 +95,10 @@ number.
 - `npm run og` rebuilds `public/og/default.png` (the link-preview image) from `profile.json`.
 - `npm run build && npm run screenshots` rebuilds the README screenshots in `docs/screenshots/`.
 - Replace `public/VIGNESHWARAN.pdf` to update the downloadable résumé (the URL stays the same).
+
+## Visitor analytics (optional)
+
+The site can load Vercel Web Analytics, which counts visits without cookies. It is off by default.
+To turn it on: enable Web Analytics for the project in the Vercel dashboard, add the environment
+variable `NEXT_PUBLIC_VERCEL_ANALYTICS=1` to the project, and redeploy. Do both: with the variable
+set but analytics disabled in Vercel, the script address returns a 404.

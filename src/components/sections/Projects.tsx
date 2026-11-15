@@ -1,13 +1,11 @@
-'use client'
-
-import { useMemo, useState } from 'react'
-import { flushSync } from 'react-dom'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ExternalLink, Lock, ArrowUpRight } from 'lucide-react'
 import { Github } from '@/components/ui/BrandIcons'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/motion/Reveal'
+import Photo from '@/components/ui/Photo'
+import ProjectFilter from './ProjectFilter'
+import { IMAGE_WIDTHS } from '@/lib/images'
 import type { ProjectWithLinks } from '@/lib/content'
 
 interface ProjectsProps {
@@ -32,11 +30,12 @@ function ProjectCard({ project }: { project: ProjectWithLinks }) {
           rel="noopener noreferrer"
           className="group relative block aspect-[16/10] overflow-hidden border-b border-line bg-tint"
         >
-          <Image
+          <Photo
             src={screenshot.src}
             alt={screenshot.alt}
             width={1280}
             height={800}
+            widths={IMAGE_WIDTHS.screenshot}
             sizes="(min-width: 1160px) 560px, (min-width: 768px) 46vw, 100vw"
             className="h-full w-full object-cover object-top"
           />
@@ -108,75 +107,20 @@ function ProjectCard({ project }: { project: ProjectWithLinks }) {
 }
 
 export default function Projects({ projects, githubUrl }: ProjectsProps) {
-  // Filter tabs are derived from the data: "All" + each distinct type present.
-  const types = useMemo(
-    () => ['All', ...Array.from(new Set(projects.map(p => p.type)))],
-    [projects]
-  )
-  const [filter, setFilter] = useState('All')
-
-  const visible = filter === 'All' ? projects : projects.filter(p => p.type === filter)
-
-  // Filtering animates with the browser's View Transitions API: every card and the filter pill
-  // carry a view-transition-name, so the browser morphs them to their new positions and fades
-  // cards in and out. No animation library needed; browsers without support (or users who
-  // prefer reduced motion) simply switch instantly.
-  const changeFilter = (type: string) => {
-    if (type === filter) return
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce || typeof document.startViewTransition !== 'function') {
-      setFilter(type)
-      return
-    }
-    document.startViewTransition(() => {
-      flushSync(() => setFilter(type))
-    })
-  }
+  // Filter tabs are derived from the data: each distinct type present, in order of appearance.
+  const typeNames = [...new Set(projects.map(p => p.type))]
+  const types = typeNames.map(name => ({ name, count: projects.filter(p => p.type === name).length }))
 
   return (
     <section id="projects" aria-labelledby="projects-heading" className="section-pad bg-surface">
       <div className="container-page">
         <SectionHeading id="projects" intro="Work from my jobs, and sites I built myself." />
 
-        {/* Filter tabs: a rounded track; the dark pill glides between buttons as part of the view transition. */}
-        {types.length > 2 && (
-          <div role="group" aria-label="Filter projects" className="mb-10 inline-flex max-w-full flex-wrap gap-1 rounded-3xl bg-ground p-1 sm:rounded-full">
-            {types.map(type => {
-              const active = filter === type
-              return (
-                <button
-                  key={type}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => changeFilter(type)}
-                  className={`relative min-h-11 rounded-full px-5 text-[0.9375rem] font-medium transition-colors duration-200 ${
-                    active ? 'text-white' : 'text-ink-soft hover:text-ink'
-                  }`}
-                >
-                  {active && (
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-0 rounded-full bg-ink"
-                      style={{ viewTransitionName: 'project-filter-pill' }}
-                    />
-                  )}
-                  <span className="relative">{type}</span>
-                </button>
-              )
-            })}
-          </div>
-        )}
-
-        <p role="status" className="sr-only">
-          {filter === 'All'
-            ? `Showing all ${projects.length} projects`
-            : `Showing ${visible.length} of ${projects.length} projects: ${filter}`}
-        </p>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {visible.map((project, index) => (
+        <ProjectFilter types={types} total={projects.length}>
+          {projects.map((project, index) => (
             <div
               key={project.slug}
+              data-project-type={project.type}
               className="project-card"
               style={{ viewTransitionName: `project-${project.slug}` }}
             >
@@ -185,7 +129,7 @@ export default function Projects({ projects, githubUrl }: ProjectsProps) {
               </Reveal>
             </div>
           ))}
-        </div>
+        </ProjectFilter>
 
         <div className="mt-12 text-center">
           <a

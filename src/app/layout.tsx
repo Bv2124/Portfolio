@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   description: personal.seoDescription,
   keywords: [...getSkillKeywords(), personal.title, personal.location].join(', '),
   authors: [{ name: personal.name }],
+  // Static files in public/. (favicon.ico in this folder is picked up by Next on its own.)
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180' }],
+  },
   // Pages that set their own `openGraph` replace this object, so they spread siteOpenGraph.
   openGraph: { ...siteOpenGraph, title: pageTitle, description: personal.seoDescription },
   // No title here: each page's Twitter card fills in its own from its Open Graph data.
@@ -44,6 +49,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
         {children}
         <RevealRoot />
+        {/* Vercel Web Analytics (no cookies). Off unless NEXT_PUBLIC_VERCEL_ANALYTICS=1 is set
+            for the build, because the script only exists once analytics is enabled in Vercel. */}
+        {process.env.NEXT_PUBLIC_VERCEL_ANALYTICS === '1' && (
+          <script defer src="/_vercel/insights/script.js" />
+        )}
       </body>
     </html>
   )

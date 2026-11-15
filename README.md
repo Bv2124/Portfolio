@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Bv2124/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Bv2124/Portfolio/actions/workflows/ci.yml)
 
-Personal site of a Full-Stack Engineer: **<https://bv2124.vercel.app>**
+Personal site of a Full-Stack & Mobile Engineer: **<https://bv2124.vercel.app>**
 
 A statically exported Next.js site whose every fact comes from validated content files, tested
 end to end on desktop and mobile, accessible by default, and animated without hiding anything
@@ -42,9 +42,9 @@ Measured on the production build (`out/`):
 | Metric | Home | Case study |
 |---|---|---|
 | Lighthouse (desktop): performance / accessibility / best practices / SEO | 98–100 / 100 / 100 / 100 | 99–100 / 100 / 100 / 100 |
-| First-load JavaScript | 120 kB | 113 kB |
-| LCP, real Chrome, 4× CPU + slow 4G (median of 7, `npm run lcp`) | ≈ 3.6 s | — |
-| Unit tests / end-to-end tests | 112 / 207 (desktop, mobile and a Safari smoke run) | |
+| First-load JavaScript | 113 kB | 113 kB |
+| LCP, real Chrome, 4× CPU + slow 4G (median of 7, `npm run lcp`) | ≈ 3.1 s | — |
+| Unit tests / end-to-end tests | 114 / 210 (desktop, mobile and a Safari smoke run) | |
 
 The LCP figure comes from `npm run lcp` (Pixel 7 profile, 4× CPU slowdown, 1.6 Mbps, 150 ms RTT).
 It depends on the machine's CPU, so use it to compare before and after a change on the same
@@ -103,6 +103,7 @@ npm run verify                    # everything CI runs
 | `npm run og` | Regenerate the link-preview image from the content |
 | `npm run screenshots` | Regenerate the screenshots above from the build |
 | `npm run shots:projects` | Re-capture each personal project's live home page into `public/projects/` (needs network) |
+| `npm run images` | Rewrite the WebP copies of the photos and screenshots (two widths each) |
 | `npm run lcp` | Measure LCP of the build under mobile throttling (median of 7 runs) |
 
 ## Project structure
@@ -121,7 +122,7 @@ src/
   lib/              schema, content selectors, date helpers, icons, section registry
 e2e/                Playwright specs
 public/             résumé PDF, portrait, project screenshots, link-preview image
-docs/               ADRs, content guide, README screenshots, the redesign brief
+docs/               ADRs, content guide, README screenshots
 scripts/            OG image, screenshot, project-screenshot, size-budget and LCP scripts
 ```
 

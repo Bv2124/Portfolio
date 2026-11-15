@@ -1,22 +1,25 @@
-import Image from 'next/image'
 import SectionHeading from '@/components/ui/SectionHeading'
 import BoldText from '@/components/ui/BoldText'
 import Reveal from '@/components/motion/Reveal'
+import Photo from '@/components/ui/Photo'
+import IntroVideoPlayer from '@/components/ui/IntroVideoPlayer'
+import { IMAGE_WIDTHS } from '@/lib/images'
 import { LiveYears } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import { yearsSince } from '@/lib/experience'
-import type { About as AboutData, OutsideWork, Personal } from '@/lib/schema'
+import type { About as AboutData, IntroVideo, OutsideWork, Personal } from '@/lib/schema'
 
 interface AboutProps {
   personal: Personal
   about: AboutData
+  introVideo?: IntroVideo
   outsideWork?: OutsideWork
 }
 
 // This section sits on the white band, so its cards use the ground colour as their fill.
 const CARD = 'rounded-3xl bg-ground p-7'
 
-export default function About({ personal, about, outsideWork }: AboutProps) {
+export default function About({ personal, about, introVideo, outsideWork }: AboutProps) {
   const tokens = {
     years: <LiveYears start={personal.careerStart} fallback={yearsSince(personal.careerStart, BUILD_NOW)} />,
   }
@@ -39,6 +42,25 @@ export default function About({ personal, about, outsideWork }: AboutProps) {
           </Reveal>
 
           <div className="space-y-6">
+            {/* The intro video: a poster with a play button. Nothing of the video is downloaded
+                until the visitor presses play. */}
+            {introVideo && (
+              <Reveal as="figure" index={1} className="overflow-hidden rounded-3xl bg-ground">
+                <IntroVideoPlayer
+                  src={introVideo.src}
+                  poster={introVideo.poster}
+                  title={introVideo.title}
+                  describedBy="intro-video-description"
+                />
+                <figcaption className="p-7">
+                  <h3 className="text-lg font-semibold text-ink">{introVideo.title}</h3>
+                  <p id="intro-video-description" className="mt-2 text-base leading-relaxed text-ink-soft">
+                    {introVideo.description}
+                  </p>
+                </figcaption>
+              </Reveal>
+            )}
+
             <Reveal index={1} className={CARD}>
               <h3 className="text-lg font-semibold text-ink">Key achievements</h3>
               <ul className="mt-5 space-y-4">
@@ -67,11 +89,12 @@ export default function About({ personal, about, outsideWork }: AboutProps) {
               <Reveal index={3} className="overflow-hidden rounded-3xl bg-ground">
                 {outsideWork.photo && (
                   <div className="aspect-[4/3] overflow-hidden">
-                    <Image
+                    <Photo
                       src={outsideWork.photo.src}
                       alt={outsideWork.photo.alt}
                       width={1200}
                       height={1200}
+                      widths={IMAGE_WIDTHS.outsideWork}
                       sizes="(min-width: 1024px) 480px, (min-width: 640px) 600px, 100vw"
                       className="h-full w-full object-cover object-[50%_65%]"
                     />

@@ -60,7 +60,9 @@ const { personal } = content.profile
 export const siteTitle = `${personal.name} — ${personal.title}`
 
 // File name browsers save the résumé as (the file in public/ keeps its stable URL).
-export const resumeDownloadName = `${personal.shortName} ${personal.title} Resume`.replace(/\s+/g, '_') + '.pdf'
+// "&" is spelled out: it is legal in a file name but awkward in shells and some mail clients.
+export const resumeDownloadName =
+  `${personal.shortName} ${personal.title} Resume`.replace(/&/g, 'and').replace(/\s+/g, '_') + '.pdf'
 
 // The only personal fields the (client-side) navbar needs. Passing the whole `personal` object
 // to a client component would serialise all of it into every page's payload.
