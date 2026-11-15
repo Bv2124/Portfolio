@@ -22,7 +22,7 @@ test.describe('home page case studies', () => {
 
   test('the hero call to action jumps to the case studies', async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('link', { name: /View Case Studies/ }).click()
+    await page.getByRole('link', { name: /See case studies/ }).click()
     await expect(page.locator('section#case-studies')).toBeInViewport({ ratio: 0.1 })
   })
 

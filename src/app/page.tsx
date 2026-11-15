@@ -34,6 +34,7 @@ const personJsonLd = {
       jobTitle: personal.title,
       url: `${SITE_URL}/`,
       email: personal.email,
+      image: `${SITE_URL}/profile.jpg`,
       address: {
         '@type': 'PostalAddress',
         addressLocality: personal.address.locality,

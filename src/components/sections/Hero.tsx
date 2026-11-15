@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, ChevronDown, Download } from 'lucide-react'
+import { ArrowRight, Download } from 'lucide-react'
 import { LiveYears } from '@/components/ui/Live'
 import { BUILD_NOW } from '@/lib/build-time'
 import { yearsSince } from '@/lib/experience'
@@ -31,91 +32,102 @@ export default function Hero({ personal, resumeDownloadName, roles }: HeroProps)
     return stat.value
   }
 
+  // "Hi, I'm Vigneshwaran. I'm a full-stack engineer." One word per mask, each sliding up in turn.
+  const titleWords = personal.title.toLowerCase().split(' ')
+  const words = [
+    { text: 'Hi,', name: false, breakAfter: false },
+    { text: "I'm", name: false, breakAfter: false },
+    { text: `${personal.firstName}.`, name: true, breakAfter: true },
+    { text: "I'm", name: false, breakAfter: false },
+    { text: 'a', name: false, breakAfter: false },
+    ...titleWords.map((word, i) => ({
+      text: i === titleWords.length - 1 ? `${word}.` : word,
+      name: false,
+      breakAfter: false,
+    })),
+  ]
+
   return (
-    <section className="relative min-h-svh flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="relative max-w-6xl mx-auto w-full pt-24 pb-16">
-
-        <p aria-hidden="true" className="hero-in font-mono text-sm text-muted mb-5" style={step(0)}>
-          <span className="text-blue-400">$</span> hello --world
-        </p>
-
+    <section className="pb-16 pt-28 md:pb-24 md:pt-36">
+      <div className="container-page">
         {personal.openToWork && (
-          <div
-            className="hero-in inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-2xl sm:rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono"
-            style={step(1)}
+          <p
+            className="hero-in inline-flex items-center gap-2.5 rounded-full bg-surface px-4 py-2 text-sm font-medium"
+            style={step(0)}
           >
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-            </span>
+            <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-accent" />
             {personal.availability}
-          </div>
+          </p>
         )}
 
-        {/* Each word slides up from behind a mask (transform only; the text is always in the HTML). */}
-        <h1 className="text-[clamp(2.25rem,10vw,4.5rem)] font-bold text-slate-100 mb-6 leading-tight">
-          <span className="hero-mask">
-            <span className="hero-word" style={{ '--d': '0ms' } as CSSProperties}>{personal.firstName}</span>
-          </span>{' '}
-          <span className="hero-mask">
-            <span
-              className="hero-word text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-400"
-              style={{ '--d': '90ms' } as CSSProperties}
-            >
-              {personal.lastName}
+        {/* The heading spans the full width so it sits on two lines at full size. Each word slides up
+            from behind a mask (transform only; the text is always in the HTML). */}
+        <h1 className="mt-6 text-[clamp(2.5rem,6vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-ink">
+          {words.map((word, i) => (
+            <span key={i}>
+              {i > 0 && (words[i - 1]?.breakAfter ? <br /> : ' ')}
+              <span className="hero-mask">
+                <span
+                  className={`hero-word ${word.name ? 'text-accent-ink' : ''}`}
+                  style={{ '--d': `${i * 60}ms` } as CSSProperties}
+                >
+                  {word.text}
+                </span>
+              </span>
             </span>
-          </span>
+          ))}
         </h1>
 
-        <ul aria-label="Roles" className="hero-in mb-8 flex flex-wrap gap-2" style={step(3)}>
-          {roles.map(role => (
-            <li key={role} className="chip">{role}</li>
-          ))}
-        </ul>
+        <div className="mt-10 flex flex-wrap items-start gap-x-14 gap-y-12">
+          <div className="flex min-w-0 flex-[3_1_30rem] flex-col items-start gap-6">
+            {/* Transform-only entrance: the bio is a likely LCP element, so it is never transparent. */}
+            <p className="hero-rise lead" style={step(3)}>
+              {personal.heroBio}
+            </p>
 
-        <p className="hero-rise text-slate-400 text-base sm:text-lg max-w-2xl mb-10 leading-relaxed" style={step(4)}>
-          {personal.heroBio}
-        </p>
+            <ul aria-label="Roles" className="hero-in flex flex-wrap gap-2" style={step(4)}>
+              {roles.map(role => (
+                <li key={role} className="chip bg-surface">{role}</li>
+              ))}
+            </ul>
 
-        {/* CTAs */}
-        <div className="hero-in flex flex-col sm:flex-row sm:flex-wrap gap-4 mb-16" style={step(5)}>
-          <Link
-            href="/#case-studies"
-            className="group flex items-center justify-center gap-2 min-h-11 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-[background-color,box-shadow,transform] duration-300 shadow-lg shadow-blue-600/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 text-sm"
-          >
-            View Case Studies
-            <ArrowRight size={15} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <a
-            href={personal.resume}
-            download={resumeDownloadName}
-            className="group flex items-center justify-center gap-2 min-h-11 border border-slate-700 hover:border-blue-500/50 text-slate-300 hover:text-blue-400 px-6 py-3 rounded-lg font-semibold transition-[border-color,color,transform] duration-300 hover:-translate-y-0.5 text-sm"
-          >
-            <Download size={15} aria-hidden="true" className="group-hover:-translate-y-0.5 transition-transform duration-300" />
-            Download Resume
-          </a>
-        </div>
-
-        {/* Stats */}
-        <div className="hero-in grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl" style={step(6)}>
-          {personal.heroStats.map(stat => (
-            <div key={stat.label} className="h-full p-4 bg-slate-900/70 rounded-xl border border-slate-800/80 text-center">
-              <div className="text-2xl font-bold text-blue-400 font-mono">{renderStat(stat)}</div>
-              <div className="text-xs text-muted mt-1 leading-tight">{stat.label}</div>
+            <div className="hero-in flex flex-wrap gap-3" style={step(5)}>
+              <Link href="/#case-studies" className="btn btn-primary">
+                See case studies
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+              <a href={personal.resume} download={resumeDownloadName} className="btn btn-secondary">
+                <Download size={18} aria-hidden="true" />
+                Download résumé
+              </a>
             </div>
-          ))}
+          </div>
+
+          {/* The portrait, then the four headline numbers. Transform-only entrance, as the photo may be the LCP element. */}
+          <div className="hero-rise flex w-full max-w-md flex-[2_1_20rem] flex-col gap-6 rounded-[28px] bg-surface p-7" style={step(4)}>
+            <div className="aspect-[5/4] overflow-hidden rounded-[20px] bg-tint">
+              <Image
+                src="/profile.jpg"
+                width={800}
+                height={800}
+                sizes="(min-width: 1024px) 400px, (min-width: 640px) 448px, 90vw"
+                priority
+                alt={`${personal.firstName} standing on a beach, arms crossed`}
+                className="h-full w-full object-cover object-[30%_30%]"
+              />
+            </div>
+
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-6">
+              {personal.heroStats.map(stat => (
+                <div key={stat.label} className="flex flex-col-reverse justify-end gap-1">
+                  <dt className="text-[0.8125rem] leading-snug text-ink-soft">{stat.label}</dt>
+                  <dd className="text-3xl font-bold tabular-nums tracking-[-0.02em] text-ink">{renderStat(stat)}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </div>
-
-      {/* Scroll hint (hidden on short screens where it would overlap the stats) */}
-      <a
-        href="#about"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex [@media(max-height:960px)]:hidden flex-col items-center gap-1.5 text-muted hover:text-slate-300 transition-colors"
-        aria-label="Scroll to about section"
-      >
-        <span className="text-xs font-mono">scroll</span>
-        <ChevronDown size={18} aria-hidden="true" className="motion-safe:animate-bounce" />
-      </a>
     </section>
   )
 }

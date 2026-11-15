@@ -110,7 +110,10 @@ main:focus { outline: none; }
 .hero-mask {
   display: inline-block;
   overflow: clip;
-  padding-bottom: .08em;
+  /* Room below the baseline so descenders (g, y, commas) are not clipped by the tight
+     line-height; the negative margin gives it back so the line height is unchanged. */
+  padding-bottom: .16em;
+  margin-bottom: -.16em;
   vertical-align: bottom;
 }
 .hero-word { display: inline-block; }

@@ -84,6 +84,7 @@ test.describe('home page (server HTML)', () => {
       name: 'Vigneshwaran Balasubramanian',
       alternateName: 'Vigneshwaran B',
       jobTitle: 'Full-Stack Engineer',
+      image: `${SITE}/profile.jpg`,
     })
     expect(person?.sameAs).toEqual(expect.arrayContaining([expect.stringContaining('github.com/Bv2124')]))
   })
@@ -146,6 +147,12 @@ test.describe('crawler files', () => {
     const text = await res.text()
     expect(text).toMatch(/Allow:\s*\//)
     expect(text).toContain(`Sitemap: ${SITE}/sitemap.xml`)
+  })
+
+  test('the portrait used in the structured data exists and is a JPEG', async ({ request }) => {
+    const res = await request.get('/profile.jpg')
+    expect(res.status()).toBe(200)
+    expect(res.headers()['content-type']).toContain('image/jpeg')
   })
 
   test('the social preview image exists and is a PNG', async ({ request }) => {
