@@ -6,7 +6,7 @@ to update the portfolio. Unknown or misspelled fields are rejected, not ignored.
 
 | File | What it holds |
 |---|---|
-| `profile.json` | Name (`shortName` feeds page titles and the résumé file name), contact details and `address` (for search engines), hero text and stats, about, specialty banner, "why work with me" |
+| `profile.json` | Name (`shortName` feeds page titles and the résumé file name), contact details and `address` (for search engines), hero text and stats, about, "why work with me" |
 | `experience.json` | Jobs, newest first: dates as `YYYY-MM`, `end: null` for the current role |
 | `skills.json` | Skill groups as on the résumé. `core: true` highlights an item; `note` keeps a qualifier |
 | `projects.json` | Projects, with optional `live` URL and `caseStudies` links |

@@ -1,14 +1,13 @@
 import SectionHeading from '@/components/ui/SectionHeading'
 import Reveal from '@/components/motion/Reveal'
 import { getIcon } from '@/lib/icons'
-import type { SkillGroup, Specialty } from '@/lib/schema'
+import type { SkillGroup } from '@/lib/schema'
 
 interface SkillsProps {
   groups: SkillGroup[]
-  specialty: Specialty
 }
 
-export default function Skills({ groups, specialty }: SkillsProps) {
+export default function Skills({ groups }: SkillsProps) {
   return (
     <section id="skills" aria-labelledby="skills-heading" className="py-24 px-4 sm:px-6 lg:px-8 section-alt">
       <div className="max-w-6xl mx-auto">
@@ -58,16 +57,6 @@ export default function Skills({ groups, specialty }: SkillsProps) {
             )
           })}
         </div>
-
-        {/* Specialty banner */}
-        <Reveal className="mt-12 relative rounded-2xl overflow-hidden">
-          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-blue-600/90 to-violet-600/90" />
-          <div aria-hidden="true" className="absolute inset-0 grid-bg opacity-10" />
-          <div className="relative p-8 text-center">
-            <h3 className="text-xl font-bold text-white mb-3">{specialty.title}</h3>
-            <p className="text-white/90 max-w-2xl mx-auto text-sm leading-relaxed">{specialty.text}</p>
-          </div>
-        </Reveal>
       </div>
     </section>
   )

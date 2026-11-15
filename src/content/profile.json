@@ -52,7 +52,7 @@
       "I'm a **Full-Stack Engineer** with **{{years}}+ years of experience**. Today I build healthcare and care-sector platforms with **React, Next.js, Django, Node.js and PostgreSQL**, owning features from requirements to production deployment.",
       "At **Intergy Consulting** (Australia, remote) I maintain and extend a live support-worker allocation platform used by **50+ organizations, 300+ clinicians and 2,000+ users**. I took ownership of the inherited codebase after a one-month handover, have independently resolved **150+ production issues**, and work directly with Australian stakeholders every day.",
       "I removed the platform's dependency on **Salesforce** by rebuilding its core service-validation logic in Django and PostgreSQL, and led the scripted migration of **~14,000 production records** through a dry-run comparison script and 5+ validation stages, with **zero data loss**.",
-      "Before that, at **Nanosoft Engineers**, I shipped **4+ offline-first React Native apps** for **2,000+ field technicians** and raised sync success in low-connectivity areas from **~30% to ~80%**. My **Master of Social Work (Medical & Psychiatry)** gives me real understanding of the clinicians and clients who use healthcare software, and I've mentored 2 junior developers through regular code reviews."
+      "Before that, at **Nanosoft Engineers**, I shipped **4+ offline-first React Native apps** for **2,000+ field technicians** and raised sync success in low-connectivity areas from **~30% to ~80%**. I've also mentored 2 junior developers through regular code reviews."
     ],
     "achievements": [
       { "text": "Resolved 150+ production issues on an inherited live platform", "color": "blue" },
@@ -61,11 +61,6 @@
       { "text": "Raised offline sync success in low-connectivity areas from ~30% to ~80%", "color": "orange" },
       { "text": "Led 15+ Android and iOS store releases; cut image payloads 60% and UI latency 30%", "color": "blue" }
     ]
-  },
-
-  "specialty": {
-    "title": "Healthcare software, informed by social work",
-    "text": "My Master of Social Work (Medical & Psychiatry) gives me real understanding of the clinicians and clients who use healthcare software. I bring that to the care-sector platforms I build and support, and to daily requirements conversations with Australian stakeholders."
   },
 
   "whyHireMe": [
@@ -78,11 +73,6 @@
       "iconName": "GitMerge",
       "title": "Migration Discipline",
       "description": "Dry-run comparison and 5+ validation stages to block duplicates: ~14,000 production records moved off Salesforce with zero data loss."
-    },
-    {
-      "iconName": "HeartPulse",
-      "title": "Healthcare Insight",
-      "description": "Master of Social Work (Medical & Psychiatry): real understanding of the clinicians and clients who use healthcare software."
     },
     {
       "iconName": "Users",

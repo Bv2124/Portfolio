@@ -14,7 +14,7 @@ import Contact from '@/components/sections/Contact'
 import JsonLd from '@/components/ui/JsonLd'
 
 const { profile, experience, skills, education } = content
-const { personal, roles, about, specialty, whyHireMe } = profile
+const { personal, roles, about, whyHireMe } = profile
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -65,7 +65,7 @@ export default function Home() {
         <About personal={personal} about={about} />
         <Experience experience={experience} />
         <CaseStudies studies={getCaseStudies()} />
-        <Skills groups={skills.groups} specialty={specialty} />
+        <Skills groups={skills.groups} />
         <Projects projects={getProjects()} githubUrl={personal.github} />
         <Education education={education} />
         <Contact personal={personal} whyHireMe={whyHireMe} />

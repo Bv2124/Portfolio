@@ -284,6 +284,28 @@ describe('retired and unsupported claims stay out of the content', () => {
   })
 })
 
+// The social-work degree is listed under Education and nowhere else: not in the bio, the
+// banners or the "why work with me" list.
+describe('the social-work degree appears only in Education', () => {
+  const { education, projects, ...rest } = rawContent
+  // "Akam Psychiatric Care Center" is the real name of one of the owner's own sites, so that
+  // one project is exempt. Every other project, and all the rest of the content, is checked.
+  const otherProjects = projects.filter(p => p.slug !== 'akam-psychiatric-care-center')
+
+  it('is absent from everything except education', () => {
+    expect(JSON.stringify({ ...rest, projects: otherProjects })).not.toMatch(/social work|\bMSW\b|psychiatr/i)
+  })
+
+  it('is not mentioned in the description of the exempt project either', () => {
+    const akam = projects.find(p => p.slug === 'akam-psychiatric-care-center')!
+    expect(akam.description).not.toMatch(/social work|\bMSW\b/i)
+  })
+
+  it('is still listed as a qualification', () => {
+    expect(JSON.stringify(education)).toContain('Master of Social Work')
+  })
+})
+
 describe('key résumé facts are present, with their qualifiers', () => {
   const text = JSON.stringify(rawContent)
 

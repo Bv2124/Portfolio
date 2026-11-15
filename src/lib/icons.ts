@@ -1,13 +1,13 @@
 // Single source of truth mapping content `iconName` strings to lucide components.
 // Add a new icon here and it becomes available to the content (the schema reads these keys).
 import {
-  Braces, Cloud, Database, GitMerge, HeartPulse, Layers, Monitor, Plug,
+  Braces, Cloud, Database, GitMerge, Layers, Monitor, Plug,
   Server, Smartphone, TestTube2, UserCheck, Users, Wrench,
   type LucideIcon,
 } from 'lucide-react'
 
 export const ICONS = {
-  Braces, Cloud, Database, GitMerge, HeartPulse, Layers, Monitor, Plug,
+  Braces, Cloud, Database, GitMerge, Layers, Monitor, Plug,
   Server, Smartphone, TestTube2, UserCheck, Users, Wrench,
 } satisfies Record<string, LucideIcon>
 

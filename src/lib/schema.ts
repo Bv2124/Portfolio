@@ -55,8 +55,6 @@ export const AboutSchema = z.strictObject({
   achievements: z.array(AchievementSchema).min(1),
 })
 
-export const SpecialtySchema = z.strictObject({ title: nonEmpty, text: nonEmpty })
-
 export const WhyItemSchema = z.strictObject({
   iconName,
   title: nonEmpty,
@@ -67,7 +65,6 @@ export const ProfileSchema = z.strictObject({
   personal: PersonalSchema,
   roles: z.array(nonEmpty).min(1),
   about: AboutSchema,
-  specialty: SpecialtySchema,
   whyHireMe: z.array(WhyItemSchema).min(1),
 })
 
@@ -257,7 +254,6 @@ export type Content = z.infer<typeof ContentSchema>
 export type Personal = z.infer<typeof PersonalSchema>
 export type HeroStat = z.infer<typeof HeroStatSchema>
 export type About = z.infer<typeof AboutSchema>
-export type Specialty = z.infer<typeof SpecialtySchema>
 export type WhyItem = z.infer<typeof WhyItemSchema>
 export type Job = z.infer<typeof JobSchema>
 export type SkillItem = z.infer<typeof SkillItemSchema>
