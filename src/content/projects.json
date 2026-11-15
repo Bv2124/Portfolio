@@ -175,5 +175,38 @@
     ],
     "github": null,
     "live": "https://computerpark.vercel.app/"
+  },
+  {
+    "slug": "write4u",
+    "title": "Write4U",
+    "type": "Personal Projects",
+    "description": "Turns typed text into realistic handwritten pages, with PDF tools to merge files, remove pages, resize, and convert images to PDF. It is frontend-only: files are never uploaded, work is kept in the browser, and there is no login.",
+    "tech": [
+      "Next.js",
+      "TypeScript"
+    ],
+    "highlights": [
+      "Text to handwriting, downloadable as PDF or PNG",
+      "PDF tools: merge, remove pages, resize, images to PDF",
+      "Runs entirely in the browser: no uploads, no login"
+    ],
+    "github": null,
+    "live": "https://write4u.vercel.app/"
+  },
+  {
+    "slug": "full-stack-core-concepts",
+    "title": "Full-Stack Core Concepts",
+    "type": "Personal Projects",
+    "description": "Day-by-day interview preparation course covering full-stack concepts: each day explains the concept first, then shows it in JavaScript and in Python.",
+    "tech": [
+      "Next.js"
+    ],
+    "highlights": [
+      "69 daily lessons across 12 weeks",
+      "Every concept shown in JavaScript and Python",
+      "416 interview questions across 21 topics"
+    ],
+    "github": null,
+    "live": "https://fsccbybv2124.vercel.app/"
   }
 ]

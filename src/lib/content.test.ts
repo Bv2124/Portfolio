@@ -308,6 +308,9 @@ describe('key résumé facts are present, with their qualifiers', () => {
     ['Vaasi live site', /vaasi\.vercel\.app/],
     ['Akam live site', /akam-2124\.vercel\.app/],
     ['Computer Park live site', /computerpark\.vercel\.app/],
+    ['Write4U live site', /write4u\.vercel\.app/],
+    ['Write4U keeps its "never uploaded" claim', /files are never uploaded/],
+    ['Full-Stack Core Concepts live site', /fsccbybv2124\.vercel\.app/],
   ]
 
   it.each(required)('%s', (_label, pattern) => {

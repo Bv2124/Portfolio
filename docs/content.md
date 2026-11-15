@@ -6,7 +6,7 @@ to update the portfolio. Unknown or misspelled fields are rejected, not ignored.
 
 | File | What it holds |
 |---|---|
-| `profile.json` | Name, contact details, hero text and stats, about, specialty banner, "why work with me" |
+| `profile.json` | Name (`shortName` feeds page titles and the résumé file name), contact details and `address` (for search engines), hero text and stats, about, specialty banner, "why work with me" |
 | `experience.json` | Jobs, newest first: dates as `YYYY-MM`, `end: null` for the current role |
 | `skills.json` | Skill groups as on the résumé. `core: true` highlights an item; `note` keeps a qualifier |
 | `projects.json` | Projects, with optional `live` URL and `caseStudies` links |
@@ -30,6 +30,10 @@ These keep the site and the résumé saying the same thing. Several are enforced
 4. Use "healthcare and care-sector". Only the stakeholders are "Australian".
 5. Client work stays anonymous: no end-client or product names, screenshots or code.
 6. Never put Tailwind classes in JSON. Use the tokens the schema accepts.
+
+7. Lists never repeat a value (a technology, a highlight, a metric label). The build rejects it.
+8. Personal projects describe what the live site shows. Check the numbers against the site before
+   changing them.
 
 When a claim is retired, add it to the deny-list in `content.test.ts` so it can't creep back.
 

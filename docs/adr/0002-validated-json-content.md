@@ -24,6 +24,8 @@ Next's bundled React 19, which no longer checks PropTypes. In practice nothing w
 - Cross-references are validated too: case-study employers must exist in the experience list,
   related studies and project links must point at real slugs, and every `visual` must have a
   registered component.
+- Objects are strict: an unknown or misspelled field is an error, never silently dropped. Lists
+  whose values identify their items (technologies, highlights, metric labels) must not repeat.
 - JSON stores tokens, never CSS classes. Components map tokens to literal Tailwind classes.
 
 Tests in `src/lib/content.test.ts`:
