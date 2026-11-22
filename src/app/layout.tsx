@@ -1,13 +1,21 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
-import { DM_Sans } from 'next/font/google'
+import localFont from 'next/font/local'
 import { SITE_URL, getProfile, getSkillKeywords, siteOpenGraph, siteTitle } from '@/lib/content'
 import RevealRoot from '@/components/motion/RevealRoot'
 
-// Self-hosted at build time by next/font, so the page never loads a font from another origin
-// (the Content-Security-Policy in vercel.json would block it).
-const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], display: 'swap' })
+// DM Sans (variable weight axis, Latin subset), kept in the repository and served from this site.
+// Fetching it from Google Fonts at build time made builds depend on Google's response format,
+// and a change there broke the build. Licence: SIL OFL 1.1 (fonts/OFL.txt).
+// Same origin, so the Content-Security-Policy in vercel.json allows it.
+const dmSans = localFont({
+  src: './fonts/dm-sans-latin-wght.woff2',
+  weight: '400 700',
+  style: 'normal',
+  display: 'swap',
+  fallback: ['system-ui', 'Segoe UI', 'Arial', 'sans-serif'],
+})
 
 const { personal } = getProfile()
 const pageTitle = siteTitle

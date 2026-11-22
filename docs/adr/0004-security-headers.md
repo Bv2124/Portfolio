@@ -18,7 +18,7 @@ is too strict blanks the production site while every local check stays green.
 
 | Header | Value | Why |
 |---|---|---|
-| `Content-Security-Policy` | everything from `'self'`; `object-src 'none'`; `base-uri 'self'`; `frame-ancestors 'none'` | The site loads nothing from another origin (fonts are self-hosted by `next/font`), so nothing else is allowed |
+| `Content-Security-Policy` | everything from `'self'`; `object-src 'none'`; `base-uri 'self'`; `frame-ancestors 'none'` | The site loads nothing from another origin (the font file is in the repository and served from the site), so nothing else is allowed |
 | `X-Frame-Options` | `DENY` | Same as `frame-ancestors`, for older browsers |
 | `X-Content-Type-Options` | `nosniff` | Files are only ever treated as their declared type |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Outbound links reveal the origin, not the page |

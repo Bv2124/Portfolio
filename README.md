@@ -23,7 +23,7 @@ from crawlers, screen readers or people who prefer reduced motion.
   URL with `npm run shots:projects` and checked in, so the card is the hook and the image is the link.
 - **Design tokens, not raw colours.** The palette is a set of semantic tokens (CSS variables exposed
   to Tailwind by name) and Tailwind's default palette is removed, so a stray `bg-slate-900` can't
-  ship. Light theme, one typeface (DM Sans, self-hosted at build time).
+  ship. Light theme, one typeface (DM Sans, stored in the repository and served from the site itself, so the build never depends on Google Fonts).
 - **Motion without the usual costs.** CSS-first animation, View Transitions for the project
   filter, and no animation library. Nothing is hidden in the server HTML; reduced motion and
   no-JS are tested modes.
