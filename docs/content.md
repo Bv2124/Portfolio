@@ -82,7 +82,7 @@ number.
   button, and the video is only downloaded when the visitor presses it. Re-encode a new recording before adding it (720p, 30 fps, under 2 MB; a
   unit test enforces the size), for example:
   `ffmpeg -i original.mp4 -map_metadata -1 -vf fps=30 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart public/intro.mp4`
-  and take the poster from a late frame: `ffmpeg -ss 29 -i original.mp4 -frames:v 1 -q:v 4 public/intro-poster.jpg`.
+  and take the poster from a late frame: `ffmpeg -sseof -1 -i original.mp4 -frames:v 1 -q:v 4 public/intro-poster.jpg`.
   Update `description` if what the video shows changes: it is what screen-reader users get.
 - Project screenshots live in `public/projects/<slug>.jpg` and are produced by
   `npm run shots:projects` (which also writes their WebP copies). Always open every image afterwards: a slow site can be caught

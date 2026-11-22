@@ -93,8 +93,8 @@
   "introVideo": {
     "src": "/intro.mp4",
     "poster": "/intro-poster.jpg",
-    "title": "A 30-second intro",
-    "description": "An animated summary of this site: the three case studies with their headline numbers (the Salesforce migration, taking over a live platform, and offline-first sync), then how I work."
+    "title": "A 37-second intro",
+    "description": "An animated summary of this site: the three case studies with their headline numbers (the Salesforce migration, taking over a live platform, and offline-first sync), how I picked up each new stack, and how I write code."
   },
 
   "outsideWork": {
